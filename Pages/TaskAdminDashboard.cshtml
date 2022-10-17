@@ -1,0 +1,455 @@
+﻿@page
+@model TaskModel
+@{
+
+    ViewData["Title"] = "Home page";
+
+}
+
+<body class="hold-transition sidebar-mini">
+
+    <section class="col-lg-12 connectedSortable">
+        <!-- Custom tabs (Charts with tabs)-->
+        <div class="card">
+            <div class="card-header border-0" style="text-align: center;">
+                <span style=" font-size: 22px; font-family: ui-monospace ; ">Welcome Admin, Everything Is Ready For You</span>
+
+                <button onclick="fillUser()" data-toggle="modal" data-target="#taskmodel" style="text-align: end;" type="button" class="btn btn-success">Create Task</button>
+
+            </div>
+
+        </div>
+        <div class="modal fade" id="taskmodel" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header" style="background-color:darkslategrey">
+                        <h5 style="color:white;color:white">Create Task </h5>
+                        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <span>Select Team Member</span><br />
+                                    <select class="form-control select2" id="username" style="width: 100%; height:30%"></select>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <span>Starting Date </span><br />
+                                            <input type="datetime-local" id="startingdate" class="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <span>Deadline Date </span><br />
+                                            <input type="datetime-local" id="endingdate" class="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <span>Task Description </span><br />
+                                            <textarea style="height:100px" class="form-control" type="text" id="description" placeholder="Enter Task Description"></textarea>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-md-10">
+                                        <div class="form-group">
+                                            <span>Attach File</span> &nbsp;&nbsp;
+                                            <form enctype="multipart/form-data">
+                                                <input type="file" id="File" class="form-control" placeholder="File" multiple aria-label="File browser example">
+                                            </form>
+                                            @*<input id='browse' type='file' readonly class="form-control">*@
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" onclick="sendTask()" data-dismiss="modal">Send Task</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content">
+        <div class="container-fluid">
+            <!-- Info boxes -->
+            <div class="row">
+                <div class="col-12 col-sm-6 col-md-3">
+                    <div class="info-box">
+                        <span class="info-box-icon bg-info elevation-1"><i class="fas fa-tasks"></i></span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">Total Task</span>
+                            <span class="info-box-number">
+                                10
+                                <small>%</small>
+                            </span>
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                    <!-- /.info-box -->
+                </div>
+                <!-- /.col -->
+                <div class="col-12 col-sm-6 col-md-3">
+                    <div class="info-box mb-3">
+                        <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-tasks"></i></span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">Daily Task</span>
+                            <span class="info-box-number">41,410</span>
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                    <!-- /.info-box -->
+                </div>
+                <!-- /.col -->
+                <!-- fix for small devices only -->
+                <div class="clearfix hidden-md-up"></div>
+
+                <div class="col-12 col-sm-6 col-md-3">
+                    <div class="info-box mb-3">
+                        <span class="info-box-icon bg-success elevation-1"><i class="fas fa-tasks"></i></span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">Completed Task</span>
+                            <span class="info-box-number">760</span>
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                    <!-- /.info-box -->
+                </div>
+                <!-- /.col -->
+                <div class="col-12 col-sm-6 col-md-3">
+                    <div class="info-box mb-3">
+                        <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-tasks"></i></span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">Pending Task</span>
+                            <span class="info-box-number">2,000</span>
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                    <!-- /.info-box -->
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+
+            
+            <!-- /.row -->
+            <!-- Main row -->
+            <div class="row">
+                <!-- Left col -->
+                <div class="col-md-8">
+                  
+                    <div class="card ">
+                        <div class="card-header border-transparent">
+                            <h3 class="card-title">Task List</h3>
+
+                            <div class="card-tools">
+                              @*  <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                                <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                    <i class="fas fa-times"></i>
+                                </button>*@
+                            </div>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body p-0">
+                            <div class="table-responsive">
+                                <table id="listTable" class="table table-bordered table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th style="font-family: 'sans-serif'; font-weight: normal; ">Sr.</th>
+                                            <th style="font-family: 'sans-serif'; font-weight: normal; ">Member Name</th>
+                                            <th style="font-family: 'sans-serif'; font-weight: normal; ">Completed Task</th>
+                                            <th style="font-family: 'sans-serif'; font-weight: normal; ">Pending Task</th>
+                                            <th style="font-family: 'sans-serif'; font-weight: normal; ">Performance Ratio</th>
+                                            <th style="font-family: 'sans-serif'; font-weight: normal; ">View Task</th>
+                                           
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                            <!-- /.table-responsive -->
+                        </div>
+                        <!-- /.card-body -->
+                        <div class="card-footer clearfix">
+                            <a href="javascript:void(0)" class="btn btn-sm btn-info float-left">Place New Order</a>
+                            <a href="javascript:void(0)" class="btn btn-sm btn-secondary float-right">View All Orders</a>
+                        </div>
+                        <!-- /.card-footer -->
+                    </div>
+                  </div>
+                        <div class="col-md-4">
+                            <!-- DIRECT CHAT -->
+                            <div class="card direct-chat direct-chat-warning">
+                                <div class="card-header">
+                                    <h3 class="card-title">Direct Chat</h3>
+
+                                    <div class="card-tools">
+                                        <span title="3 New Messages" class="badge badge-warning">3</span>
+                                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-tool" title="Contacts" data-widget="chat-pane-toggle">
+                                            <i class="fas fa-comments"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <!-- /.card-header -->
+                                <div class="card-body">
+                                    <!-- Conversations are loaded here -->
+                                    <div class="direct-chat-messages">
+                                        <!-- Message. Default to the left -->
+                                        <div class="direct-chat-msg">
+                                            <div class="direct-chat-infos clearfix">
+                                                <span class="direct-chat-name float-left">Alexander Pierce</span>
+                                                <span class="direct-chat-timestamp float-right">23 Jan 2:00 pm</span>
+                                            </div>
+                                            <!-- /.direct-chat-infos -->
+                                            <img class="direct-chat-img" src="dist/img/user1-128x128.jpg" alt="message user image">
+                                            <!-- /.direct-chat-img -->
+                                            <div class="direct-chat-text">
+                                                Is this template really for free? That's unbelievable!
+                                            </div>
+                                            <!-- /.direct-chat-text -->
+                                        </div>
+                                        <!-- /.direct-chat-msg -->
+                                        <!-- Message to the right -->
+                                        <div class="direct-chat-msg right">
+                                            <div class="direct-chat-infos clearfix">
+                                                <span class="direct-chat-name float-right">Sarah Bullock</span>
+                                                <span class="direct-chat-timestamp float-left">23 Jan 2:05 pm</span>
+                                            </div>
+                                            <!-- /.direct-chat-infos -->
+                                            <img class="direct-chat-img" src="dist/img/user3-128x128.jpg" alt="message user image">
+                                            <!-- /.direct-chat-img -->
+                                            <div class="direct-chat-text">
+                                                You better believe it!
+                                            </div>
+                                            <!-- /.direct-chat-text -->
+                                        </div>
+                                        <!-- /.direct-chat-msg -->
+                                        <!-- Message. Default to the left -->
+                                        <div class="direct-chat-msg">
+                                            <div class="direct-chat-infos clearfix">
+                                                <span class="direct-chat-name float-left">Alexander Pierce</span>
+                                                <span class="direct-chat-timestamp float-right">23 Jan 5:37 pm</span>
+                                            </div>
+                                            <!-- /.direct-chat-infos -->
+                                            <img class="direct-chat-img" src="dist/img/user1-128x128.jpg" alt="message user image">
+                                            <!-- /.direct-chat-img -->
+                                            <div class="direct-chat-text">
+                                                Working with AdminLTE on a great new app! Wanna join?
+                                            </div>
+                                            <!-- /.direct-chat-text -->
+                                        </div>
+                                        <!-- /.direct-chat-msg -->
+                                        <!-- Message to the right -->
+                                        <div class="direct-chat-msg right">
+                                            <div class="direct-chat-infos clearfix">
+                                                <span class="direct-chat-name float-right">Sarah Bullock</span>
+                                                <span class="direct-chat-timestamp float-left">23 Jan 6:10 pm</span>
+                                            </div>
+                                            <!-- /.direct-chat-infos -->
+                                            <img class="direct-chat-img" src="dist/img/user3-128x128.jpg" alt="message user image">
+                                            <!-- /.direct-chat-img -->
+                                            <div class="direct-chat-text">
+                                                I would love to.
+                                            </div>
+                                           
+                                        </div>
+                                      
+
+                                    </div>
+                                  
+                                    <div class="direct-chat-contacts">
+                                        <ul class="contacts-list">
+                                            <li>
+                                                <a href="#">
+                                                    <img class="contacts-list-img" src="dist/img/user1-128x128.jpg" alt="User Avatar">
+
+                                                    <div class="contacts-list-info">
+                                                        <span class="contacts-list-name">
+                                                            Count Dracula
+                                                            <small class="contacts-list-date float-right">2/28/2015</small>
+                                                        </span>
+                                                        <span class="contacts-list-msg">How have you been? I was...</span>
+                                                    </div>
+                                                    <!-- /.contacts-list-info -->
+                                                </a>
+                                            </li>
+                                            <!-- End Contact Item -->
+                                            <li>
+                                                <a href="#">
+                                                    <img class="contacts-list-img" src="dist/img/user7-128x128.jpg" alt="User Avatar">
+
+                                                    <div class="contacts-list-info">
+                                                        <span class="contacts-list-name">
+                                                            Sarah Doe
+                                                            <small class="contacts-list-date float-right">2/23/2015</small>
+                                                        </span>
+                                                        <span class="contacts-list-msg">I will be waiting for...</span>
+                                                    </div>
+                                                    <!-- /.contacts-list-info -->
+                                                </a>
+                                            </li>
+                                            <!-- End Contact Item -->
+                                            <li>
+                                                <a href="#">
+                                                    <img class="contacts-list-img" src="dist/img/user3-128x128.jpg" alt="User Avatar">
+
+                                                    <div class="contacts-list-info">
+                                                        <span class="contacts-list-name">
+                                                            Nadia Jolie
+                                                            <small class="contacts-list-date float-right">2/20/2015</small>
+                                                        </span>
+                                                        <span class="contacts-list-msg">I'll call you back at...</span>
+                                                    </div>
+                                                    <!-- /.contacts-list-info -->
+                                                </a>
+                                            </li>
+                                            <!-- End Contact Item -->
+                                            <li>
+                                                <a href="#">
+                                                    <img class="contacts-list-img" src="dist/img/user5-128x128.jpg" alt="User Avatar">
+
+                                                    <div class="contacts-list-info">
+                                                        <span class="contacts-list-name">
+                                                            Nora S. Vans
+                                                            <small class="contacts-list-date float-right">2/10/2015</small>
+                                                        </span>
+                                                        <span class="contacts-list-msg">Where is your new...</span>
+                                                    </div>
+                                                    <!-- /.contacts-list-info -->
+                                                </a>
+                                            </li>
+                                            <!-- End Contact Item -->
+                                            <li>
+                                                <a href="#">
+                                                    <img class="contacts-list-img" src="dist/img/user6-128x128.jpg" alt="User Avatar">
+
+                                                    <div class="contacts-list-info">
+                                                        <span class="contacts-list-name">
+                                                            John K.
+                                                            <small class="contacts-list-date float-right">1/27/2015</small>
+                                                        </span>
+                                                        <span class="contacts-list-msg">Can I take a look at...</span>
+                                                    </div>
+                                                    <!-- /.contacts-list-info -->
+                                                </a>
+                                            </li>
+                                            <!-- End Contact Item -->
+                                            <li>
+                                                <a href="#">
+                                                    <img class="contacts-list-img" src="dist/img/user8-128x128.jpg" alt="User Avatar">
+
+                                                    <div class="contacts-list-info">
+                                                        <span class="contacts-list-name">
+                                                            Kenneth M.
+                                                            <small class="contacts-list-date float-right">1/4/2015</small>
+                                                        </span>
+                                                        <span class="contacts-list-msg">Never mind I found...</span>
+                                                    </div>
+                                                    <!-- /.contacts-list-info -->
+                                                </a>
+                                            </li>
+                                            <!-- End Contact Item -->
+                                        </ul>
+                                        <!-- /.contacts-list -->
+                                    </div>
+                                    
+                                </div>
+                               
+                                <div class="card-footer">
+                                    <form action="#" method="post">
+                                        <div class="input-group">
+                                            <input type="text" name="message" placeholder="Type Message ..." class="form-control">
+                                            <span class="input-group-append">
+                                                <button type="button" class="btn btn-warning">Send</button>
+                                            </span>
+                                        </div>
+                                    </form>
+                                </div>
+                                <!-- /.card-footer-->
+                            </div>
+                            <!--/.direct-chat -->
+                        </div>
+                  
+             
+                <!-- /.col -->
+
+                
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+        </div><!--/. container-fluid -->
+    </section>
+
+
+
+
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+    @section Scripts{
+
+        <script src="~/js/Additems.js"></script>
+        <script src="~/js/TaskDashbaord.js"></script>
+
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="../../plugins/pdfmake/pdfmake.min.js"></script>
+        <script src="../../plugins/pdfmake/vfs_fonts.js"></script>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
+        <script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+        <script src="../../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+        <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+        <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
+        <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
+
+
+
+
+        <link href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css " rel="stylesheet" type="text/css" />
+        <link href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css" />
+        <script src="../plugins/select2/js/select2.full.min.js"></script>
+    }
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+
+    <style>
+        .select2-container .select2-selection--single {
+            height: 34px !important;
+        }
+
+        .select2-container--default .select2-selection--single {
+            border: 1px solid #ccc !important;
+            border-radius: 0px !important;
+        }
+
+        .special {
+            cursor: pointer;
+        }
+    </style>
+</body>
+

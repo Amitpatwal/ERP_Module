@@ -1,0 +1,369 @@
+﻿@page
+@model UserManagmentModel
+@{
+    Layout = null;
+}<!-- Content Wrapper. Contains page content -->
+<!-- Begin Page Content -->
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>ERP SYSTEM</title>
+    <!-- Custom fonts for this template-->
+    <link href="~/lib/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+          rel="stylesheet">
+    <!-- Custom styles for this template-->
+    <link href="~/css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="~/css/login.css" rel="stylesheet">
+    <link href="~/css/selectcompany.css" rel="stylesheet" />
+
+
+    <style>
+        .collapsible {
+            background-color: #777;
+            color: white;
+            cursor: pointer;
+            padding: 18px;
+            width: 100%;
+            border: none;
+            text-align: left;
+            outline: none;
+            font-size: 15px;
+        }
+
+            .active, .collapsible:hover {
+                background-color: #555;
+            }
+
+            .collapsible:after {
+                content: '\002B';
+                color: white;
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+
+        .active:after {
+            content: "\2212";
+        }
+
+        .content {
+            padding: 0 18px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.2s ease-out;
+            background-color: #f1f1f1;
+        }
+    </style>
+
+</head>
+
+<body style="background-color:white">
+
+    <nav class="main-header navbar navbar-expand navbar-white navbar-light" id="navbar" style="background-color:blueviolet">
+
+        <img src="../imgs/inventory.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style=" clip-path: circle(); height:60px">
+        <span></span>
+        &nbsp;&nbsp;&nbsp;
+        <h3 style="font-family: Garamond ;color:white">Right Management</h3>
+        <!-- Right navbar links -->
+    </nav>
+
+
+
+    <div class="card-body" style=" margin: auto;width:40%">
+
+        <div class="row-md-6">
+
+
+
+            <div style="width:100%">
+                <div class="input-group">
+                    <label>Choose Role</label>
+                    <select class="form-control" onchange="fillcomplete()" id="rolelist" style="width: 100%;">
+                    </select>
+                </div>
+            </div>
+            <br />
+            <button class="collapsible">Item Master</button>
+            <div class="content">
+                <ul>
+                    <li><input id="imview" type="checkbox" /> View</li>
+                    <li><input id="imwrite" type="checkbox" /> Create</li>
+                    <li><input id="imupdate" type="checkbox" /> Update</li>
+                    <li><input id="impdelete" type="checkbox" /> Delete</li>
+                </ul>
+            </div>
+            <button class="collapsible">Opening Stock</button>
+            <div class="content">
+                <ul>
+                    <li><input id="opsview" type="checkbox" /> View</li>
+                    <li><input id="opswrite" type="checkbox" /> Create</li>
+                    <li><input id="opsupdate" type="checkbox" /> Update</li>
+                    <li><input id="opsdelete" type="checkbox" /> Delete</li>
+                </ul>
+            </div>
+            <button class="collapsible">Customer Data</button>
+            <div class="content">
+                <ul>
+                    <li><input id="cdview" type="checkbox" /> View</li>
+                    <li><input id="cdcreate" type="checkbox" /> Create</li>
+                    <li><input id="cdupdate" type="checkbox" /> Update</li>
+                    <li><input id="cddelete" type="checkbox" /> Delete</li>
+                </ul>
+            </div>
+            <button class="collapsible">Sales Quotation</button>
+            <div class="content">
+                <ul>
+                    <li><input id="sqview" type="checkbox" /> View</li>
+                    <li><input id="sqcreate" type="checkbox" /> Create</li>
+                    <li><input id="squpdate" type="checkbox" /> Update</li>
+                    <li><input id="sqdelete" type="checkbox" /> Delete</li>
+                </ul>
+            </div>
+
+            <button class="collapsible">Performa Invoice</button>
+            <div class="content">
+                <ul>
+                    <li><input id="piview" type="checkbox" /> View</li>
+                    <li><input id="picreate" type="checkbox" /> Create</li>
+                    <li><input id="piupdate" type="checkbox" /> Update</li>
+                    <li><input id="pidelete" type="checkbox" /> Delete</li>
+                </ul>
+            </div>
+
+            <button class="collapsible">Dispatched Order</button>
+            <div class="content">
+                <ul>
+                    <li><input id="doview" type="checkbox" /> View</li>
+                    <li><input id="docreate" type="checkbox" /> Create</li>
+                    <li><input id="doupdate" type="checkbox" /> Update</li>
+                    <li><input id="dodelete" type="checkbox" /> Delete</li>
+                    <li><input id="dochecker" type="checkbox" /> Checker</li>
+                    <li><input id="finalprintDoChecker" type="checkbox" /> Final Print</li>
+                </ul>
+            </div>
+            <button class="collapsible">Dispatched Planning</button>
+            <div class="content">
+                <ul>
+                    <li><input id="dpview" type="checkbox" /> View</li>
+                    <li><input id="dpcreate" type="checkbox" /> Create</li>
+                    <li><input id="dpupdate" type="checkbox" /> Update</li>
+                    <li><input id="dpdelete" type="checkbox" /> Delete</li>
+                </ul>
+            </div>
+            <button class="collapsible">Purchase Order</button>
+            <div class="content">
+                <ul>
+                    <li><input id="poview" type="checkbox" /> View</li>
+                    <li><input id="pocreate" type="checkbox" /> Create</li>
+                    <li><input id="poupdate" type="checkbox" /> Update</li>
+                    <li><input id="podelete" type="checkbox" /> Delete</li>
+                </ul>
+            </div>
+            <button class="collapsible">Purchase Items</button>
+            <div class="content">
+                <ul>
+                    <li><input id="puiview" type="checkbox" /> View</li>
+                    <li><input id="puicreate" type="checkbox" /> Create</li>
+                    <li><input id="puiupdate" type="checkbox" /> Update</li>
+                    <li><input id="puidelete" type="checkbox" /> Delete</li>
+                    <li><input id="puichecker" type="checkbox" /> Checker</li>
+                </ul>
+            </div>
+            <button class="collapsible">Sale Order</button>
+            <div class="content">
+                <ul>
+                    <li><input id="soview" type="checkbox" /> View</li>
+                    <li><input id="socreate" type="checkbox" /> Create</li>
+                    <li><input id="soupdate" type="checkbox" /> Update</li>
+                    <li><input id="sodelete" type="checkbox" /> Delete</li>
+                </ul>
+            </div>
+            <button class="collapsible">Voucher</button>
+            <div class="content">
+                <ul>
+                    <li><input id="Voucherview" type="checkbox" /> View</li>
+                </ul>
+            </div>
+            <button class="collapsible">Sale</button>
+            <div class="content">
+                <ul>
+                    <li><input id="saleview" type="checkbox" /> View</li>
+                    <li><input id="salecreate" type="checkbox" /> Create</li>
+                    <li><input id="saleupdate" type="checkbox" /> Update</li>
+                    <li><input id="saledelete" type="checkbox" /> Delete</li>
+                </ul>
+            </div>
+
+            <button class="collapsible">Purchase</button>
+            <div class="content">
+                <ul>
+                    <li><input id="purchaseview" type="checkbox" /> View</li>
+                    <li><input id="purchasecreate" type="checkbox" /> Create</li>
+                    <li><input id="purchaseupdate" type="checkbox" /> Update</li>
+                    <li><input id="purchasedelete" type="checkbox" /> Delete</li>
+                </ul>
+            </div>
+
+            <button class="collapsible">Debit Note</button>
+            <div class="content">
+                <ul>
+                    <li><input id="debitview" type="checkbox" /> View</li>
+                    <li><input id="debitcreate" type="checkbox" /> Create</li>
+                    <li><input id="debitupdate" type="checkbox" /> Update</li>
+                    <li><input id="debitdelete" type="checkbox" /> Delete</li>
+                </ul>
+            </div>
+
+            <button class="collapsible">Credit Note</button>
+            <div class="content">
+                <ul>
+                    <li><input id="creditview" type="checkbox" /> View</li>
+                    <li><input id="creditcreate" type="checkbox" /> Create</li>
+                    <li><input id="creditupdate" type="checkbox" /> Update</li>
+                    <li><input id="creditdelete" type="checkbox" /> Delete</li>
+                </ul>
+            </div>
+
+            <button class="collapsible">Payment/Receipt </button>
+            <div class="content">
+                <ul>
+                    <li><input id="paymentreceiptview" type="checkbox" /> Payment/Receipt View</li>
+                    <li><input id="receiptview" type="checkbox" />Receipt View</li>
+                    <li><input id="receiptcreate" type="checkbox" />Receipt Create</li>
+                    <li><input id="receiptupdate" type="checkbox" />Receipt Update</li>
+                    <li><input id="receiptdelete" type="checkbox" />Receipt Delete</li>
+                    <li><input id="paymentView" type="checkbox" />Payment View</li>
+                    <li><input id="paymentcreate" type="checkbox" />Payment Create</li>
+                    <li><input id="paymentupdate" type="checkbox" />Payment Update</li>
+                    <li><input id="paymentdelete" type="checkbox" />Payment Delete</li>
+                </ul>
+            </div>
+
+
+            <button class="collapsible">Tash DashBoard</button>
+            <div class="content">
+                <ul>
+                    <li><input id="adminView" type="checkbox" /> Other Dashboard</li>
+
+                </ul>
+            </div>
+            <button class="collapsible">Company Setting</button>
+            <div class="content">
+                <ul>
+                    <li><input id="csetting" type="checkbox" />View/Modify</li>
+                </ul>
+            </div>
+            <button class="collapsible">User Management</button>
+            <div class="content">
+                <ul>
+                    <li><input id="usmanagement" type="checkbox" />View/Modify</li>
+                </ul>
+            </div>
+            <button class="collapsible">Reports</button>
+            <div class="content">
+                <ul>
+                    <li><input id="ViewReport" type="checkbox" /> View</li>
+                </ul>
+            </div>
+
+            <button class="collapsible">OpeningBalance</button>
+            <div class="content">
+                <ul>
+                    <li><input id="Viewob" type="checkbox" /> View</li>
+                </ul>
+            </div>
+
+
+            <button class="collapsible">MaterialShifting</button>
+            <div class="content">
+                <ul>
+                    <li><input id="msView" type="checkbox" /> View</li>
+                    <li><input id="mscreate" type="checkbox" /> Create</li>
+                    <li><input id="msupdate" type="checkbox" /> Update</li>
+                    <li><input id="msdelete" type="checkbox" /> Delete</li>
+                </ul>
+            </div>
+
+
+            <button class="collapsible">General Entry</button>
+            <div class="content">
+                <ul>
+                    <li><input id="geView" type="checkbox" /> View</li>
+                    <li><input id="gecreate" type="checkbox" /> Create</li>
+                    <li><input id="geupdate" type="checkbox" /> Update</li>
+                    <li><input id="gedelete" type="checkbox" /> Delete</li>
+                </ul>
+            </div>
+
+            <button class="collapsible">Physical Stock</button>
+            <div class="content">
+                <ul>
+                    <li><input id="psView" type="checkbox" /> View</li>
+                    <li><input id="pscreate" type="checkbox" /> Create</li>
+                    <li><input id="psupdate" type="checkbox" /> Update</li>
+                    <li><input id="psdelete" type="checkbox" /> Delete</li>
+                </ul>
+            </div>
+
+
+            <br />
+            <button style="border:double" id="savepermision" onclick="savepermission()">Save  </button>
+
+
+        </div>
+
+    </div>
+
+
+    <script>
+        var coll = document.getElementsByClassName("collapsible");
+        var i;
+
+        for (i = 0; i < coll.length; i++) {
+            coll[i].addEventListener("click", function () {
+                this.classList.toggle("active");
+                var content = this.nextElementSibling;
+                if (content.style.maxHeight) {
+                    content.style.maxHeight = null;
+                } else {
+                    content.style.maxHeight = content.scrollHeight + "px";
+                }
+            });
+        }
+    </script>
+
+
+    <script src="~/lib/jquery/jquery.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="~/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- Core plugin JavaScript-->
+    <script src="~/lib/jquery-easing/jquery.easing.min.js"></script>
+    <!-- Custom scripts for all pages-->
+    <script src="~/js/sb-admin-2.min.js"></script>
+    <script src="~/js/RightDistribution.js"></script>
+
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- DataTables  & Plugins -->
+    <script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="../../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="../../plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="../../plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="../../plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+    <script src="../../plugins/jszip/jszip.min.js"></script>
+    <script src="../../plugins/pdfmake/pdfmake.min.js"></script>
+    <script src="../../plugins/pdfmake/vfs_fonts.js"></script>
+    <script src="../../plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+    <script src="../../plugins/datatables-buttons/js/buttons.print.min.js"></script>
+    <script src="../../plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+    <script src="https://nightly.datatables.net/js/jquery.dataTables.js"></script>
+    <link href="https://nightly.datatables.net/css/jquery.dataTables.css" rel="stylesheet" type="text/css" />
+
+
+</body>
+
+

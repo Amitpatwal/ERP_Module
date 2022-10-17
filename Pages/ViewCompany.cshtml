@@ -1,0 +1,152 @@
+﻿@page
+@model SelectComapnyModel
+@{
+    Layout = null;
+}<!-- Content Wrapper. Contains page content -->
+<!-- Begin Page Content -->
+
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>ERP SYSTEM</title>
+    <!-- Custom fonts for this template-->
+    <link href="~/lib/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+          rel="stylesheet">
+    <!-- Custom styles for this template-->
+    <link href="~/css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="~/css/login.css" rel="stylesheet">
+    <link href="~/css/selectcompany.css" rel="stylesheet" />
+
+
+</head>
+
+<body style="background-color:white">
+
+    <nav class="main-header navbar navbar-expand navbar-white navbar-light" id="navbar" style="background-color:blueviolet">
+
+        <img src="../imgs/inventory.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style=" clip-path: circle(); height:60px">
+        <span></span>
+        <h3 style="font-family: Garamond ;color:white">Company Profile</h3>
+
+        <!-- Right navbar links -->
+        <ul class="navbar-nav ml-auto">
+
+
+            <!-- Messages Dropdown Menu -->
+            <li class="nav-item dropdown">
+
+                <a class="btn btn-primary btn-sm" onclick="addCompany()">
+                    <i class="fas fa-piggy-bank">
+                    </i>
+                    Bank Details
+                </a>&nbsp;&nbsp;&nbsp;
+                <a class="btn btn-danger btn-sm" onclick="addCompany()">
+                    <i class="fas fa-building">
+                    </i>
+                    Create Company
+                </a>
+
+
+
+            </li>
+
+
+        </ul>
+    </nav>
+
+    <div align="center">
+        <br />
+        <table id="companylist" class="styled-table" style=" margin: auto;width:90%">
+            <thead>
+                <tr style="background-color:blueviolet">
+                    <th style="color:white ;">Company Name</th>
+                    <th style="color:white">Financial Year.</th>
+                    <th style="color:white">E-Mail.</th>
+                    <th style="color:white">Phone No.</th>
+                    <th style="color:white">GST</th>
+                    <th style="color:white">PAN</th>
+                    <th style="color:white">ADDRESS</th>
+                    <th style="color:white">Action</th>
+                </tr>
+            </thead>
+
+
+            @* <tr  >
+                    <td> <a href="../Dashboard">Pipe & Sections Pvt. Ltd. </a></td>
+                    <td>2021-22</td>
+                </tr>
+                <tr>
+                    <td>Shree Behariji Stainless Pvt. Ltd.</td>
+                    <td>2021-22</td>
+                </tr>
+
+                <tr>
+                    <td>SBS DigitalInfotech</td>
+                    <td>2021-22</td>
+                </tr>*@
+
+
+
+        </table>
+    </div>
+
+    <script src="~/lib/jquery/jquery.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="~/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- Core plugin JavaScript-->
+    <script src="~/lib/jquery-easing/jquery.easing.min.js"></script>
+    <!-- Custom scripts for all pages-->
+    <script src="~/js/sb-admin-2.min.js"></script>
+    <script src="~/js/ViewCompany.js"></script>
+
+    <script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="../../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="../../plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="../../plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="../../plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+
+    <script src="../../plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+    <script src="../../plugins/datatables-buttons/js/buttons.print.min.js"></script>
+    <script src="../../plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+    <style>
+        .textOnInput {
+            position: relative;
+        }
+
+            .textOnInput label {
+                position: absolute;
+                top: -15px;
+                left: 23px;
+                padding: 2px;
+                z-index: 1;
+            }
+
+                .textOnInput label:after {
+                    content: " ";
+                    background-color: #fff;
+                    width: 100%;
+                    height: 13px;
+                    position: absolute;
+                    left: 0;
+                    bottom: 0;
+                    z-index: -1;
+                }
+
+        label {
+            font-size: 16px;
+            display: inline-block;
+            margin-bottom: .5rem;
+            color: orangered;
+        }
+
+        .form-control {
+            box-shadow: none !important;
+        }
+    </style>
+</body>
+
+

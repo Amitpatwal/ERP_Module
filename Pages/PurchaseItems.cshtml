@@ -1,0 +1,838 @@
+﻿@page
+@model PurchaseItemModel
+@{
+
+    ViewData["Title"] = "Home page";
+
+}
+<!-- Content Wrapper. Contains page content -->
+<!-- Begin Page Content -->
+<body class="hold-transition sidebar-mini">
+    <label hidden id="prnodigit"></label>
+    <label hidden id="tempprnumber"></label>
+    <label hidden id="tempsave">Save</label>
+
+    <nav class="navbar navbar-expand-sm  navbar-dark" style="background-color: #FBFBFD; position: sticky; top: 0; z-index: 3;">
+        <ul class="navbar-nav">
+            <li class="nav-item active">
+                <a style="font-size:40px" onclick="goback()"><i class="fa fa-arrow-circle-left special"></i></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" style="color:black">Inward Items</a>
+            </li>
+        </ul>
+
+        <ul class="navbar-nav ml-auto">
+
+
+            <li class="nav-item">
+                
+                <span id="createdby"></span>
+
+            </li>
+            &nbsp; &nbsp;
+
+            <li class="nav-item">
+                <a data-toggle="modal" data-target="#SearchModel" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" style="color:black ;background-color:white;">
+                    <i onclick="SearchOperations()" class="fa fa-search " id="searchbutton" style="font-size:24px"></i>
+                    <span>Search</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" style="color:black ;background-color:white;">
+                    <i onclick="jumptoPrevious()" class="fa fa-arrow-left " id="previousone" style="font-size:24px"></i>
+                </a>
+                <a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" style="color:black ;background-color:white;">
+                    <span>Jump to</span>
+                </a>
+                <a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" style="color:black ;background-color:white;">
+                    <i onclick="jumptoNext()" class="fa fa-arrow-right " id="nextone" style="font-size:24px"></i>
+                </a>
+            </li>
+            &nbsp;
+
+            <li class="nav-item">
+                <a data-toggle="modal" data-target="#exampleModal15" onclick="attachments()" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" style="color:black ;background-color:white;">
+                    <i class="fa fa-paperclip" style="font-size:24px"></i>
+                    &nbsp;&nbsp;
+                    Attachments
+                    &nbsp;&nbsp;
+                    <span class="badge badge-danger navbar-badge" id="attachmentsno"></span>
+                </a>
+            </li>
+            <li class="nav-item" id="clearbt" style="display:none">
+                <a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" onclick="clearall()" style="color:black;background-color:white;">
+                    <i class="fa fa-close " style="font-size:24px"></i>
+                    &nbsp;&nbsp;
+                    Clear
+                </a>
+            </li>
+
+            <li class="nav-item" id="printbt" style="display:none">
+                &nbsp;
+                <a id="printbutton" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" style="color:black ;background-color:white;">
+                    <span class="fa fa-print " style="font-size:24px"></span>
+                    &nbsp;&nbsp;
+                    Print
+                </a>
+
+            </li>
+
+            <li class="nav-item" id="printpreview" style="display:none">
+                &nbsp;
+                <a onclick="printPreview()" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" style="color:black ;background-color:white;">
+                    <span class="fa fa-print " style="font-size:24px"></span>
+                    &nbsp;&nbsp;
+                    Print Preview
+                </a>
+
+            </li>
+
+            <li class="nav-item" id="permanantbt" style="display:none">
+                &nbsp;
+                <a onclick="permanentsave()" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" style="color:black ;background-color:white;">
+                    <span class="fa fa-save " style="font-size:24px"></span>
+                    &nbsp;&nbsp;
+                    <span id="savePR">Save</span>
+                </a>
+
+            </li>
+
+
+            <li class="nav-item" id="approved" style="display:none">
+                &nbsp;
+                <a onclick="approved()" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" style="color:white ;background-color:green; ">
+                    <span class="fa fa-check " style="font-size:24px"></span>
+                    &nbsp;&nbsp;
+                    <span>Approved</span>
+                </a>
+
+            </li>
+
+            <li class="nav-item" id="rejected" style="display:none">
+                &nbsp;
+                <a data-toggle="modal" data-target="#rejectedReason" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" style="color:white ;background-color:red; ">
+                    <span class="fa fa-close " style="font-size:24px"></span>
+                    &nbsp;&nbsp;
+                    <span>Rejected</span>
+                </a>
+
+            </li>
+
+
+
+        </ul>
+    </nav>
+
+    <div class="modal fade" id="SearchModel" role="dialog" aria-labelledby="SearchModel" aria-hidden="true" style="padding-right: 0px !important;">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color:darkslategrey">
+                    <h5 style="color:white">Search Operation </h5>
+                    <button style="color:white" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div class="input-group">
+                                <div class="content">
+                                    <ul class="nav nav-pills nav-sidebar flex-column"  onchange="viewperiod()">
+                                        <li class="nav-item"><input id="partynamecheck" groupname="group1" type="checkbox" checked /> Supplier Name</li>
+                                        <li class="nav-item"><input id="PONO" groupname="group1" type="checkbox" /> P.O. Number</li>
+                                        <li class="nav-item"><input id="invoice" groupname="group1" type="checkbox" /> Invoice Number</li>
+                                        <li class="nav-item"><input id="heatnoCheck" groupname="group1" type="checkbox" /> Heat Number</li>
+                                        <li class="nav-item"><input id="periodcheck" groupname="group1" type="checkbox" /> Period</li>
+                                        <li class="nav-item"><input id="vechilecheck" groupname="group1" type="checkbox" /> Vechile</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-7">
+                            <div class="input-group">
+                                <div class="form-group" id="SearchDiv" style="width:1200px">
+                                    <input type="text" placeholder="Search.." class="form-control" name="search" id="SearchRecordInput" style="max-width:2200px"><br />
+                                    <button onclick="searchingReport()" style="background-color:lightblue" class="form-control" data-toggle="modal" data-target="#SearchModel"><i class="fa fa-search"></i></button>
+                                </div>
+
+                                <div id="periodDiv" class="row" style="display:none">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <span>From </span><br />
+                                            <input type="date" id="fromdate" class="form-control" />
+                                        </div>
+                                        <div class="form-group">
+                                            <span>to </span><br />
+                                            <input type="date" id="todate" class="form-control" />
+                                        </div>
+                                        <div class="form-group">
+                                            <button onclick="searchingReport()" style="background-color:lightblue" class="form-control" data-toggle="modal" data-target="#SearchModel"><i class="fa fa-search"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <aside class="main-sidebar sidebar-dark-primary elevation-4" id="searchReportDiv" style="background-color:white;width:500px;display:none">
+        <div class="sidebar">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color:darkslategrey">
+                    <span style="color:white">Search List</span>
+                    <button style="color:white" type="button" onclick="hideSearchReport()" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="tab-pane" id="searchPanel">
+                    <section class="content">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card">
+                                    <table id="searchList" class="table table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th></th>
+                                                <th>Date</th>
+                                                <th>P.R. No.</th>
+                                                <th>Comapny Name</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+            </div>
+        </div>
+
+    </aside>
+
+    <div class="modal fade" id="rejectedReason" role="dialog" aria-labelledby="exampleModalLabel3" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color:darkslategrey">
+                    <h5 style="color:white">Reason </h5>
+                    <button style="color:white" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <input type="text" style="width:40px;border:none;" hidden readonly id="itemid">
+                        <div class="col-md-10">
+                            <div class="input-group">
+                                <span id="reasonlabel">Reason</span>&nbsp;&nbsp;
+                                <input id="reasonText" type="text" class="form-control" />
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="input-group">
+                                <a data-toggle="modal" onclick="rejected()" data-target="#rejectedReason" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" style="color:black ;background-color:white;">
+                                    <i class="fa fa-check"
+                                       style="font-size:24px"></i>
+                                    Submit
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <form id="viewDiv">
+        <section class="content">
+            <div class="container-fluid">
+                <div class="card card-default">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <span>P.R  No.</span>
+                                            <input id="prnumber" type="text" readonly class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <span>P.R Date  </span>
+                                            <input type="datetime-local" class="form-control" id="prdate" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <span>P.O  No.</span>
+                                            <input id="ponumber" type="text" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <span>P.O Date  </span>
+                                            <input type="date" class="form-control" id="podate" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <span id="invoicelabel">Purchase Invoice No.</span>
+                                            <input id="invoiceno" type="text" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <span>Purchase Invoice Date  </span>
+                                            <input type="date" class="form-control" placeholder="Remarks" id="invoicedate" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <span id="supplierlabel">Supplier Name</span>
+                                            <select class="form-control" id="suppliername" style="width: 100%;">
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+
+        @*------------------------Item List-------------------------*@
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <div class="col-md-2" id="addbtn">
+                                <a onclick="dataitem(0)" data-toggle="modal" data-target="#exampleModal" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" style="color:black ;background-color:white;">
+                                    <span class="fa fa-cubes " style="font-size:24px"></span>
+                                    Add New Item
+                                </a>
+                            </div>
+                            <br />
+
+
+                            <table id="ItemTable" class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th style="font-family: 'sans-serif'; font-weight: normal;text-align:center; width:20%">Description </th>
+                                        <th style="font-family: 'sans-serif'; font-weight: normal; text-align: center; ">Brand</th>
+                                        <th style="font-family: 'sans-serif'; font-weight: normal; text-align: center;  width: 12%">Godown Location</th>
+                                        <th style="font-family: 'sans-serif'; font-weight: normal; text-align: center; ">Qty</th>
+                                        <th style="font-family: 'sans-serif'; font-weight: normal; text-align: center; ">Weight</th>
+                                        <th style="font-family: 'sans-serif'; font-weight: normal; text-align: center; ">Heat No/Batch No.</th>
+                                        <th style="font-family: 'sans-serif'; font-weight: normal; text-align: center; width: 10%">Unloaded By</th>
+                                        <th style="font-family: 'sans-serif'; font-weight: normal; text-align: center; width: 10%">Amount</th>
+                                        <th style="font-family: 'sans-serif'; font-weight: normal; text-align: center; " id="actionbt">Action</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="exampleModal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            
+            <div class="modal-dialog modal-lg" role="document">
+                <form id="viewModel">
+                    <div class="modal-content">
+                        <div class="modal-header" style="background-color:darkslategrey">
+                            <h5 style="color:white">Add New Item</h5>
+
+                            <button style="color:white" type="button" class="close" data-dismiss="modal" tabindex="-1" aria-label="Close">
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <input type="text" style="width:40px;border:none;" hidden readonly id="itemid">
+                                <div class="col-md-6">
+                                    <div class="input-group">
+                                        <span id="namecolor">Item Name *</span><br />
+                                        <select class="form-control" id="txtName" onkeypress="clearData()" onchange="getsize('purchase')" style="width: 100%;">
+                                        </select>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="input-group">
+                                        <span>Item Size</span>
+                                        <select class="form-control" id="txtSize" onchange="getclass('purchase')" style="width: 100%;">
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="input-group">
+                                        <span>Class/Thk</span>
+                                        <select class="form-control" id="txtClass" onchange="checkalternateunit()" style="width: 100%;">
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="input-group">
+                                        <span>Brand</span>
+                                        <select class="form-control" id="txtMake" onchange="currentstock()" style="width: 100%;">
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="input-group">
+                                        <span id="wharehouselabel">Warehouse</span>
+                                        <select class="form-control" id="txtWarehouse" onchange="currentstock()" style="width: 100%;">
+                                        </select>
+                                    </div>
+                                </div>
+                                <br />
+                                <div class="col-md-12" style="background-color:white ;width:250px;height:20px"></div>
+                                <div class="col-md-12" style="background-color:black ;width:250px;height:2px"></div>
+                                <div class="col-md-12" style="background-color:white ;width:250px;height:20px"></div>
+                                <div class="col-md-12"><center><span><u> Received Material</u></span></center></div>
+
+                                <div class="col-md-12" style="background-color:white ;width:250px;height:20px"></div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <span>Quantity</span>
+                                        <div class="row">
+                                            <input type="number" id="quantity" class="form-control" placeholder="0.00" onkeyup="calcy('Purchase')" onkeypress="nextfocus(event,'altquantity')" style="width:70%" />
+                                            <input type="text" id="quantityunit" disabled class="form-control" placeholder="mtr" style="width:30%" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3" id="altqtyy" style="display:none;">
+                                    <div class="form-group">
+                                        <span>Alt Quantity</span>
+                                        <div class="row">
+                                            <input type="number" id="altquantity" class="form-control" placeholder="0.00" onkeyup="OnvalueChange()" onkeypress="nextfocus(event,'weight')" style="width:70%" />
+                                            <input type="text" id="altquantityunit" disabled class="form-control" placeholder="nos" style="width:30%" />
+                                            <input type="text" id="altvalue" hidden />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3" id="itemweight" style="display:none">
+                                    <div class="form-group">
+                                        <span>Item Weight</span>
+                                        <div class="row">
+                                            <input type="number" id="weight" class="form-control" placeholder="0.00" onkeyup="OnvalueChange()" onkeypress="nextfocus(event,'unloadedby')" style="width:70%" />
+                                            <input type="number" id="weightt" hidden class="form-control" placeholder="0.00" onkeypress="nextfocus(event,'unloadedby')" style="width:70%" />
+                                            <input type="text" id="weightunit" disabled class="form-control" value="KG" style="width:30%" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <span>Unloaded By</span>
+                                        <select class="form-control" id="unloadedby" onkeypress="nextfocus(event,'saveebutton1')" style="width: 100%;">
+                                            <option>None</option>
+                                            <option>Crane</option>
+                                            <option>Manual</option>
+                                            <option>Crane & Manual</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <span>Heat No /Batch No</span>
+                                        <input id="heatno" type="text" onkeyup="this.value = this.value.toUpperCase();" class="form-control" />
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <span>Price (Primary.)</span>
+                                        <div class="row">
+                                            <input id="pricePRIN" type="text" disabled class="form-control" style="width:60%" />
+                                            <input id="pricePR" type="text" disabled class="form-control" style="width:30%" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3" style="display:none" id="scPriceDiv">
+                                    <div class="form-group">
+                                        <span>Price (Secondary)</span>
+                                        <div class="row">
+                                            <input id="priceSecIN" type="text" disabled class="form-control" style="width:60%" />
+                                            <input id="priceSec" type="text" disabled class="form-control" style="width:30%" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3" style="display:none" id="weightPriceDIv">
+                                    <div class="form-group">
+                                        <span> Price (Weight)</span>
+                                        <div class="row">
+                                            <input id="priceThIN" type="text" disabled class="form-control" style="width:60%" />
+                                            <input id="priceTh" type="text" disabled class="form-control" style="width:30%" />
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <span>Total Amount</span>
+                                        <div class="row">
+                                            <span type="text" style="width:20%" class="form-control">₹</span>
+                                            <input id="totalAmount" type="number" class="form-control" onkeyup="OnvalueChange()" style="width:80%" />
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="modal-footer" id="modelfotter">
+                            <div style="position: absolute; left: 0px;">
+                                <span>Current Balance :</span>
+                                <span id="current"></span>
+                            </div>
+                            <div>
+                                <button type="button" class="btn btn-primary" onclick="addprdetails()" id="saveebutton1">Save</button>
+                                <button id="resetitemm" type="button" class="btn btn-danger" onclick="dataitem(0)">Reset</button>
+                            </div>
+                           
+                        </div>
+                    </div>
+                </form>
+                    </div>
+           
+                </div>
+
+        <section class="content">
+            <div class="container-fluid">
+                <div class="card card-default">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <span>Unloading Details  </span>
+                            </div>
+                            <div class="col-md-4">
+                                <span>Contractor</span>
+                                <select class="form-control" id="contractor">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <br />
+                                    <span>Crane Unloading</span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="form-group date">
+                                    <span>Weight (kG)</span>
+                                    <input type="number" disabled class="form-control" id="craneweightkg" placeholder="0.00" />
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group date">
+                                    <span>Weight (MT)</span>
+                                    <input type="number" disabled class="form-control" id="craneweightmt" placeholder="0.00" />
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group date">
+                                    <span>Charge(P.M/T)</span>
+                                    <input type="number" class="form-control" id="cranecharge" onkeyup="calcCrane()" placeholder="0.00" />
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group date">
+                                    <span>Amount</span>
+                                    <input type="number" class="form-control" id="craneuloadingtotal" onkeyup="calcCraneAmount()" placeholder="0.00" />
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <br />
+                                    <span>Manual Unloading</span>
+
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="form-group date">
+                                    <span>Weight (KG)</span>
+                                    <input type="number" disabled class="form-control" id="manualweightkg" placeholder="0.00" />
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group date">
+                                    <span>Weight (MT)</span>
+                                    <input type="number" disabled class="form-control" id="manualweightmt" placeholder="0.00" />
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group date">
+                                    <span>Charge(P.M/T)</span>
+                                    <input type="number" class="form-control" id="manualunloadingcharge" onkeyup="calcManual()" placeholder="0.00" />
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group date">
+                                    <span>Amount</span>
+                                    <input type="number" class="form-control" id="manulunloadingamount" onkeyup="calcManualAmount()" placeholder="0.00" />
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="content">
+            <div class="container-fluid">
+                <div class="card card-default">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <span>Transport Details  </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <span>Transport</span>
+                                    <select class="form-control" id="transportname" style="width:100%;">
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group date">
+                                    <span>Driver name</span>
+                                    <input type="text" class="form-control" id="drivername" />
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group date">
+                                    <span>Driver Licenses</span>
+                                    <input type="text" class="form-control" id="driverlicenses" />
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group date">
+                                    <span>Vechile No</span>
+                                    <input type="text" class="form-control" id="vechileno" />
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group date">
+                                    <span>MObile No</span>
+                                    <input type="number" class="form-control" id="drivermobile" />
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group date">
+                                    <span>Unloading Incharge</span>
+                                    <input type="text" class="form-control" id="unloadingincharge" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="content">
+            <div class="container-fluid">
+                <div class="card card-default">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <div class="form-group date">
+                                    <span>Freight Type</span>
+                                    <select class="form-control" id="freighttype" onchange="fillSuppliersdetails();" style="width:100%;">
+                                        <option value="To Pay">To Pay</option>
+                                        <option value="To Be Billed">To Be Billed</option>
+                                        <option value="F.O.R">F.O.R</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="form-group date">
+                                    <span>Freight Charge</span>
+                                    <input type="number" class="form-control" id="freightcharge" placeholder="0.00" />
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="form-group date">
+                                    <span>Note</span>
+                                    <input type="text" class="form-control" id="note" placeholder="Remarks" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group ">
+                                    <span>Forwarding Upto Transport Amount</span>
+                                    <input type="text" class="form-control" id="futa" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group ">
+                                    <span>GR NO</span>
+                                    <input type="text" class="form-control" id="grno" />
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </form>
+
+    <div class="modal fade" id="exampleModal15" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" style="max-width: 65%;" role="document">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color:darkslategrey">
+                    <span style="color:white">Attachments</span>
+                    <button style="color:white" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="tab-content">
+
+                                <div class="active tab-pane">
+                                    <section class="content">
+                                        <div class="container-fluid">
+                                            <div class="row">
+                                                <div class="col-12">
+
+
+                                                    <div class="card-body">
+                                                        <div class="row">
+                                                            <div class="col-md-10">
+                                                                <div class="form-group">
+                                                                    <span>File Location:</span> &nbsp;&nbsp;
+                                                                    <form enctype="multipart/form-data">
+                                                                        <input type="file" id="document_attachment_doc" class="form-control" placeholder="File" multiple aria-label="File browser example">
+                                                                    </form>
+                                                                    @*<input id='browse' type='file' readonly class="form-control">*@
+                                                                </div>
+                                                            </div>
+
+
+
+                                                            <div id="previewDiv" class="col-md-12" style="height:400px; width:100%; border-radius:10px; background-color:silver;display:none">
+                                                                <div class="form-group">
+                                                                    <button style="border-radius:10px" id="x" onclick="closemodel()">
+                                                                        X
+                                                                    </button>
+                                                                    <img id="blah" src="#" alt="your image" style="display: none; height: 400px; border-radius: 10px; width: 100%" />
+                                                                </div>
+
+                                                            </div>
+
+
+
+
+                                                            <div class="col-md-2">
+                                                                <div class="form-group">
+                                                                    <br />
+                                                                    <button type="button" class="btn btn-success" onclick="uploadFile()">Upload</button>
+                                                                </div>
+
+                                                            </div>
+
+                                                            <hr style="border-top: 3px solid #bbb;">
+
+                                                            <div class="col-md-12">
+                                                                <table id="attachmentsTable" class="table table-bordered table-hover ">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th style="font-family: 'sans-serif'; font-weight: normal; text-align: center; width:10px">Sr. No</th>
+                                                                            <th style="font-family: 'sans-serif'; font-weight: normal; width:250px">File Name</th>
+                                                                            <th style="font-family: 'sans-serif'; font-weight: normal; text-align: center; width:20px">Action</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                </table>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </section>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <link href="https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../../plugins/select2/css/select2.min.css">
+    <link rel="stylesheet" href="~/plugins/daterangepicker/daterangepicker.css">
+    <link rel="stylesheet" href="~/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+    <link href="~/js/Plugin/jquery-customselect.css" rel="stylesheet" />
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+    <link href="~/css/attachments.css" rel="stylesheet" />
+
+
+    @section Scripts{
+        <script src="~/js/Additems.js"></script>
+        <script src="~/js/PurchaseItems.js"></script>
+        <link href="~/css/jquery-customselect-1.9.1.css" rel="stylesheet" />
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="~/js/Plugin/jquery-customselect.js"></script>
+        <script src="../plugins/select2/js/select2.full.min.js"></script>
+
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+
+        <script src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap.min.js"></script>
+        <script>
+            document.title = "Purchase Received Material";
+        </script>
+
+    }
+
+
+
+</body>

@@ -1,0 +1,737 @@
+﻿@page
+@model POModel
+@{
+
+    ViewData["Title"] = "Home page";
+
+}
+
+<body>
+    <div>
+        <br />
+        <div class="container-fluid">
+            <div class="row">
+                @*---------------Sale Order Reports-------------*@
+                <div class="col-12 col-sm-6 col-md-2 ">
+                    <div class="info-box mb-3 special" onclick="SaleOrderDatatable()">
+                        <span class="info-box-icon bg-info elevation-1" style="width:60px"><i class="fa fa-file-text-o"></i></span>
+                        <div class="info-box-content">
+                            <span class="info-box-text">Sale Order List (<b id="saleorderlabel">0</b>) </span>
+                            @* <span class="info-box-number" id="saleorderlabel">0</span>*@
+                            <a class="small-box-footer">More <i class="fas fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                @*---------------Daily Planning Report-------------*@
+                <div class="col-12 col-sm-6 col-md-2 ">
+                    <div class="info-box mb-3 special" onclick="DailyPlanningReport()">
+                        <span class="info-box-icon success elevation-1" style="width:60px;background-color:magenta"><i style="color:white" class="fa fa-bar-chart-o"></i></span>
+                        <div class="info-box-content">
+                            <span class="info-box-text">Daily Report (<b id="dailyplanningnumber">0 </b>)</span>
+                            @*<span class="info-box-number" id="dailyplanningnumber">0</span>*@
+                            <a class="small-box-footer">More <i class="fas fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                @*---------------Waiting For Despatch-------------*@
+                <div class="col-12 col-sm-6 col-md-2">
+                    <div class="info-box mb-3 special" onclick="WaitingDespatchReport()">
+                        <span class="info-box-icon success elevation-1" style="width:60px ; background-color:brown"><i style="color:white" class="fas fa-shopping-cart"></i></span>
+                        <div class="info-box-content">
+                            <span class="info-box-text">Waiting  Despatch  (<b id="waitinglabel">0 </b>)</span>
+                            @*<span class="info-box-number" id="waitinglabel">0</span> &nbsp;&nbsp;&nbsp;*@
+                            <a class="small-box-footer">More  <i class="fas fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                @*---------------Pending Material-------------*@
+                <div class="col-12 col-sm-6 col-md-2">
+                    <div class="info-box mb-3 special" onclick="PendingMaterialOrder()">
+                        <span class="info-box-icon bg-success elevation-1" style="width:60px"><i class="fas fa-stopwatch"></i></span>
+                        <div class="info-box-content">
+                            <span class="info-box-text">Pending Material  (<b id="pendinglabel">0 </b>)</span>
+
+                            @* <span class="info-box-number" id="pendinglabel">0</span> *@
+                            <a class="small-box-footer">More  <i class="fas fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                @*---------------Cancelled Order-------------*@
+                <div class="col-12 col-sm-6 col-md-2">
+                    <div class="info-box mb-3 special" onclick="cancelOrder()">
+                        <span class="info-box-icon bg-danger elevation-1" style="width:60px"><i class="fa fa-close"></i></span>
+                        <div class="info-box-content">
+                            <span class="info-box-text">Cancelled (<b id="cancelLabel">0 </b>) </span>
+                            @*  <span class="info-box-number" id="">0</span>*@
+                            <a class="small-box-footer">More  <i class="fas fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                @*---------------Hold Order-------------*@
+                <div class="col-12 col-sm-6 col-md-2">
+                    <div class="info-box mb-3 special" onclick="holdorder()">
+                        <span class="info-box-icon bg-warning elevation-1" style="width:60px"><i class="fa fa-pause"></i></span>
+                        <div class="info-box-content">
+                            <span class="info-box-text">Hold Order (<b id="holdlabel">0 </b>)</span>
+                            @*  <span class="info-box-number" id="holdlabel"></span>*@
+                            <a class="small-box-footer">More<i class="fas fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @*---------------Title-------------*@
+        <nav class="navbar navbar-expand-sm  navbar-dark" id="TitleColor" style="background-color: #17a2b8; ">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" style="color:white " id="TitleID">Sales Order Reports</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item" id="datediv" style="display:none;width:250px;float:left">
+                    <div class="row">
+                        <a id="printbutton" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" style="color:black ;background-color:white;">
+                            <input type="date" id="DailyDate" />
+                        </a>
+                        <a onclick="DailyPlanningReportview()" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" style="color:black ;background-color:white;">
+                            <i class="fas fa-bars" style="font-size:18px;padding:5px"></i>
+                            &nbsp;&nbsp;
+                            <span>View</span>
+                        </a>
+                    </div>
+                </li>
+                <li class="nav-item" id="createbutton1">
+                    <a data-toggle="modal" data-target="#searchmodel" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" style="color: black; background-color: white; ">
+                        <i class="fas fa-bars" style="font-size:18px;padding:5px"></i>
+                        <span>Search</span>
+                    </a>
+                </li>
+
+            </ul>
+        </nav>
+
+
+
+        @*-------------------Sale Order List--------------------*@
+        <section class="content">
+            <div class="container-fluid" id="SaleOrderDiv">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <table id="SaleOrderlistTable" class="table table-bordered table-hover">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th></th>
+                                            <th style="font-family: 'sans-serif'; font-weight: normal;">S.O No.</th>
+                                            <th style="font-family: 'sans-serif'; font-weight: normal;">SO Date</th>
+                                            <th style="font-family: 'sans-serif'; font-weight: normal;">Customer Name</th>
+                                            <th style="font-family: 'sans-serif'; font-weight: normal;">P.O. No </th>
+                                            <th style="font-family: 'sans-serif'; font-weight: normal;">Amount </th>
+
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        @*-------------------Daily/Waiting/Cancelled/Hold List--------------------*@
+        <section class="content">
+            <div class="container-fluid" id="MultipleDiv" style="display:none">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <table id="DailylistTable" class="table table-bordered table-hover" style="width: 2000px">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th></th>
+                                            <th style="font-family: 'sans-serif'; font-weight: normal;">DP Date</th>
+                                            <th style="font-family: 'sans-serif'; font-weight: normal;">S.O No.</th>
+                                            <th style="font-family: 'sans-serif'; font-weight: normal;">P.O. No </th>
+                                            <th style="font-family: 'sans-serif'; font-weight: normal;">Cutomer Name</th>
+                                            <th style="font-family: 'sans-serif'; font-weight: normal;">Delivery Address</th>
+                                            <th style="font-family: 'sans-serif'; font-weight: normal;">Supplier Name</th>
+                                            <th style="font-family: 'sans-serif'; font-weight: normal;">Material Source</th>
+                                            <th style="font-family: 'sans-serif'; font-weight: normal;">Organizer</th>
+                                            <th style="font-family: 'sans-serif'; font-weight: normal;">Amount </th>
+                                            <th style="font-family: 'sans-serif'; font-weight: normal;">Remarks</th>
+
+
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                            <th colspan="8"></th>
+                                            <th style="text-align:right">Total</th>
+                                            <th></th>
+                                            <th></th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <section class="content">
+            <div class="container-fluid" id="holddiv" style="display:none">
+                <div class="modal-body">
+                    <div class="card">
+
+                        <div class="card-header p-2">
+                            <ul class="nav nav-pills">
+                                <li class="nav-item"><a class="nav-link active" href="#activity" onclick="holdorder()"  data-toggle="tab">Hold Ordered List</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#timeline" onclick="HoldmaterialListt()" data-toggle="tab">Material List</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="card-body">
+                            <div class="tab-content">
+                                <div class="active tab-pane" id="activity">
+                                    <section class="content">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <table id="HoldTablelist" class="table table-bordered table-hover" style="width: 2000px">
+                                                    <thead class="thead-dark">
+                                                        <tr>
+                                                            <th style="font-family: 'sans-serif'; font-weight: normal;"></th>
+                                                            <th style="font-family: 'sans-serif'; font-weight: normal;">Action</th>
+                                                            <th style="font-family: 'sans-serif'; font-weight: normal;">DOD</th>
+                                                            <th style="font-family: 'sans-serif'; font-weight: normal;">P.O Date</th>
+                                                            <th style="font-family: 'sans-serif'; font-weight: normal;">P.O No</th>
+                                                            <th style="font-family: 'sans-serif'; font-weight: normal;">Customer Name</th>
+                                                            <th style="font-family: 'sans-serif'; font-weight: normal;">Destination</th>
+                                                            <th style="font-family: 'sans-serif'; font-weight: normal;">Supplier Name</th>
+                                                            <th style="font-family: 'sans-serif'; font-weight: normal;">Material Source</th>
+                                                            <th style="font-family: 'sans-serif'; font-weight: normal;">Organizer</th>
+                                                            <th style="font-family: 'sans-serif'; font-weight: normal;">Amount</th>
+                                                            <th style="font-family: 'sans-serif'; font-weight: normal;">Remarks</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tfoot>
+                                                        <tr>
+                                                            <th colspan="10" style="text-align:right">Total Amount:</th>
+                                                            <th></th>
+                                                            <th></th>
+                                                        </tr>
+                                                    </tfoot>
+
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </section>
+                                </div>
+
+                                <div class="tab-pane" id="timeline">
+                                    <section class="content">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="card">
+
+                                                    <table id="HoldMaterialList" class="table table-bordered table-hover">
+                                                        <thead class="thead-dark">
+                                                            <tr>
+                                                                <th></th>
+                                                                <th>Customer Name</th>
+                                                                <th>P.O No</th>
+                                                                <th>Description</th>
+                                                                <th>Quantity</th>
+                                                            </tr>
+                                                        </thead>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </section>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        @*
+            ----------------------Search Datatable------------------------*@
+
+        <section class="content">
+            <div class="container-fluid" id="searchdiv" style="display:none">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <table id="SearchTablelist" class="table table-bordered table-hover" style="width: 2000px">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th style="font-family: 'sans-serif'; font-weight: normal;"></th>
+                                            <th style="font-family: 'sans-serif'; font-weight: normal;">Action</th>
+                                            <th style="font-family: 'sans-serif'; font-weight: normal; ">Status</th>
+                                            <th style="font-family: 'sans-serif'; font-weight: normal;">DOD</th>
+                                            <th style="font-family: 'sans-serif'; font-weight: normal;">P.O Date</th>
+                                            <th style="font-family: 'sans-serif'; font-weight: normal;">S.O NO</th>
+                                            <th style="font-family: 'sans-serif'; font-weight: normal;">P.O No</th>
+                                            <th style="font-family: 'sans-serif'; font-weight: normal;">Customer Name</th>
+                                            <th style="font-family: 'sans-serif'; font-weight: normal;">Destination</th>
+                                            <th style="font-family: 'sans-serif'; font-weight: normal;">Supplier Name</th>
+                                            <th style="font-family: 'sans-serif'; font-weight: normal;">Material Source</th>
+                                            <th style="font-family: 'sans-serif'; font-weight: normal;">Organizer</th>
+                                            <th style="font-family: 'sans-serif'; font-weight: normal;">Remarks</th>
+                                            <th style="font-family: 'sans-serif'; font-weight: normal;">Amount</th>
+
+                                        </tr>
+                                    </thead>
+
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+
+
+        @*-------------------POP UP  Planning Create/Update--------------------*@
+        <div class="modal fade" id="exampleModal2" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header" style="background-color:darkslategrey">
+                        <span style="color:white">Order Planning</span>
+                        <button style="color:white" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <span>Order Planning No:</span>
+                                            <input id="dpnumber" type="text" disabled class="form-control">
+                                            <input id="fromm" type="text" hidden class="form-control">
+                                            <input id="DONO" type="text" hidden class="form-control">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <span> Date</span>
+                                            <input type="datetime-local" id="dpdate" style="width:100%" />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <span>P.O. Number</span>
+                                            <input type="text" class="form-control" disabled id="ponumber" />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <span>S.O. Number</span>
+                                            <input type="text" disabled class="form-control" id="sonumber" />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <span>Customer Name</span>
+                                            <select class="form-control" id="customername" disabled style="width:100%;">
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="input-group">
+                                            <span>Supplier Name</span>
+                                            <select class="form-control" id="suppliername" style="width:100%;">
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <span>Dispachted Location</span>
+                                            <input type="text" class="form-control" id="dispacthedlocation" />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <span>Dispatch Organized By</span>
+                                            <input type="text" class="form-control" id="dispacthedincharge" />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <span>Status</span>
+                                            <select class="form-control" id="status" style="width:100%;" onchange="holdreason()">
+                                                <option>--Select Status--</option>
+                                                <option value="dispatch">Proceed to Despatch</option>
+                                                <option value="hold">Order Hold</option>
+                                                <option value="cancel">Order Cancelled</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6" id="holdd" style="display:none;">
+                                        <div class="form-group">
+                                            <span>Hold Reason</span>
+                                            <select class="form-control" id="holdreason" style="width:100%;">
+                                                <option>--Select Hold Reason--</option>
+                                                <option> Material Awaited</option>
+                                                <option>Further Order Awaited</option>
+                                                <option>Payment Awaited</option>
+                                                <option>Inspection Awaited</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <span>Remarks</span>
+                                            <input type="text" class="form-control" id="remarks" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal16" onclick="attachments()"> <i class="fa fa-paperclip" style="font-size:20px"></i> View Attachments</button>
+                        <button type="button" class="btn btn-primary" onclick="deleteplanning()" id="deletePlanning" style="display:none">Delete</button>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" style="display:none" data-target="#exampleModal15" onclick="materialList()" id="MaterialListt">Material List</button>
+                        <button type="button" class="btn btn-primary" onclick="saveplanning()" id="savePlanning">Save</button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        @*-------------------POP UP  Planning MterialList Despatch/Hold--------------------*@
+        <div class="modal fade" id="exampleModal15" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" style="max-width: 65%;" role="document">
+                <div class="modal-content">
+                    <div class="modal-header" style="background-color:darkslategrey">
+                        <span style="color:white">Item Details</span>
+                        <button style="color:white" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="card">
+
+                            <div class="card-header p-2">
+                                <ul class="nav nav-pills">
+                                    <li class="nav-item"><a class="nav-link active" href="#activity" onclick="materialList()" data-toggle="tab">Material to Despatch</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="#timeline" onclick="HoldmaterialList()" data-toggle="tab">Hold Material</a></li>
+                                </ul>
+                            </div>
+
+                            <div class="card-body">
+                                <div class="tab-content">
+
+                                    <div class="active tab-pane" id="activity">
+                                        <section class="content">
+                                            <div class="container-fluid">
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <div class="card">
+                                                            <div class="card-body">
+                                                                <table id="DispatchList" class="table table-bordered table-hover">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th style="font-family: 'sans-serif'; font-weight: normal;"></th>
+                                                                            <th style="font-family: 'sans-serif'; font-weight: normal;">Item Name</th>
+                                                                            <th style="font-family: 'sans-serif'; font-weight: normal;">Qty</th>
+                                                                            <th style="font-family: 'sans-serif'; font-weight: normal;">Available</th>
+                                                                            <th style="font-family: 'sans-serif'; font-weight: normal;">Balance</th>
+                                                                            <th style="font-family: 'sans-serif'; font-weight: normal;">Action</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </section>
+                                    </div>
+
+                                    <div class="tab-pane" id="timeline">
+                                        <section class="content">
+                                            <div class="container-fluid">
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <div class="card">
+                                                            <div class="card-body">
+                                                                <table id="holdorderList" class="table table-bordered table-hover">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th style="font-family: 'sans-serif'; font-weight: normal;"></th>
+                                                                            <th style="font-family: 'sans-serif'; font-weight: normal;">Item Name</th>
+                                                                            <th style="font-family: 'sans-serif'; font-weight: normal;">Qty</th>
+                                                                            <th style="font-family: 'sans-serif'; font-weight: normal;">Action</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </section>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @*-------------------POP UP  View item details--------------------*@
+        <div class="modal fade" id="exampleModal1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" style="max-width:65%" role="document">
+                <div class="modal-content">
+                    <div class="modal-header" style="background-color:darkslategrey">
+
+                        <span style="color:white">Item Details</span>
+                        <button style="color:white" type="button" class="close" data-dismiss="modal" tabindex="-1" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <span>Customer Name:</span>
+                                            <input id="itemcustomername" type="text" readonly class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <span>P.O. Number</span>
+                                            <input type="text" class="form-control" readonly placeholder="Remarks" id="itemponumber" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <span>Sale Order Number</span>
+                                            <input type="text" class="form-control" readonly placeholder="Remarks" id="itemsonumber" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="card">
+                                            <!-- /.card-header -->
+                                            <div class="card-body">
+                                                <table id="listTable2" class="table table-bordered table-hover">
+                                                    <thead>
+                                                        <tr>
+                                                            <th style="font-family: 'sans-serif'; font-weight: normal;"></th>
+                                                            <th style="font-family: 'sans-serif'; font-weight: normal;">Description</th>
+                                                            <th style="font-family: 'sans-serif'; font-weight: normal;">Req. Qty</th>
+                                                            <th style="font-family: 'sans-serif'; font-weight: normal;">Price </th>
+                                                            <th style="font-family: 'sans-serif'; font-weight: normal;"> Disc </th>
+                                                            <th style="font-family: 'sans-serif'; font-weight: normal;">Disc Price</th>
+                                                            <th style="font-family: 'sans-serif'; font-weight: normal;">Amount</th>
+                                                        </tr>
+                                                    </thead>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <span>Total Amount:</span>
+                        <span id="TotalAmount"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @*  --------------ATTACHMENTS----------*@
+
+        <div class="modal fade" id="exampleModal16" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" style="max-width: 65%;" role="document">
+                <div class="modal-content">
+                    <div class="modal-header" style="background-color:darkslategrey">
+                        <span style="color:white">Attachments</span>
+                        <button style="color:white" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="tab-content">
+
+                                    <div class="active tab-pane">
+                                        <section class="content">
+                                            <div class="container-fluid">
+                                                <div class="row">
+                                                    <div class="col-12">
+
+
+                                                        <div class="card-body">
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <table id="attachmentsTable" class="table table-bordered table-hover ">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th style="font-family: 'sans-serif'; font-weight: normal; text-align: center; width:10px">Sr. No</th>
+                                                                                <th style="font-family: 'sans-serif'; font-weight: normal; width:250px">File Name</th>
+                                                                                <th style="font-family: 'sans-serif'; font-weight: normal; text-align: center; width:20px">Action</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                    </table>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </section>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="modal fade" id="searchmodel" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header" style="background-color:darkslategrey">
+                        <h5 style="color:white;color:white">Advanced Search </h5>
+                        <button style="color:white" type="button" class="close" data-dismiss="modal" tabindex="-1" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <span>Search By </span><br />
+                                            <select id="searchby" class="form-control select2" style="width: 100%;  height:30%">
+                                                <option value="customerName"> Customer Name</option>
+                                                <option value="SONO"> S.O  Number</option>
+                                                <option value="PONO"> P.O  Number</option>
+
+                                            </select>
+                                            <br />
+                                            <input id="serachvalue" type="text" class="form-control">
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" onclick="SearchOperation()" data-dismiss="modal">View Proceed</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+    <link href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css " rel="stylesheet" type="text/css" />
+    <link href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css" />
+    @section Scripts{
+
+        <script src="~/js/Additems.js"></script>
+        <script src="~/js/DispachtedPlanning.js"></script>
+
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="../../plugins/pdfmake/pdfmake.min.js"></script>
+        <script src="../../plugins/pdfmake/vfs_fonts.js"></script>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        @*<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>*@
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
+        <script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+        <script src="../../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+        <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+        <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
+        <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
+
+        <script src="../plugins/select2/js/select2.full.min.js"></script>
+        <script>
+            document.title = "Dispatch Planning";
+        </script>
+    }
+
+    <style>
+        .select2-container .select2-selection--single {
+            height: 34px !important;
+        }
+
+        .select2-container--default .select2-selection--single {
+            border: 1px solid #ccc !important;
+            border-radius: 0px !important;
+        }
+
+        .special {
+            cursor: pointer;
+        }
+
+        .activee {
+            background: gold !important;
+        }
+    </style>
+</body>
+

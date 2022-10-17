@@ -1,0 +1,77 @@
+﻿@page
+@model ItemMasterModel
+@using Microsoft.AspNetCore.Http;
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+
+    ViewData["Title"] = "Home page";
+
+}<!-- Content Wrapper. Contains page content -->
+
+
+<body>
+    <div>
+        <div class="row">
+            <div class="col-md-3">
+
+                <!-- Profile Image -->
+                <div class="card card-primary card-outline">
+                    <div class="card-body box-profile">
+                        <div class="text-center">
+                            <img class="profile-user-img img-fluid img-circle"
+                                 src="../imgs/adduser.png"
+                                 alt="User profile picture">
+                        </div>
+
+
+                        <p class="text-muted text-center" id="username1">@HttpContextAccessor.HttpContext.Session.GetString("username")</p>
+
+
+
+                        <ul class="list-group list-group-unbordered mb-3">
+                            <li class="list-group-item">
+                                <b>E-Mail</b> <a class="float-right" id="emailid">@HttpContextAccessor.HttpContext.Session.GetString("Emailid")</a>
+                            </li>
+                            <li class="list-group-item">
+                                <b>Role Type</b> <a class="float-right" id="roletype1">@HttpContextAccessor.HttpContext.Session.GetString("roletype")</a>
+                            </li>
+                            @*                            <li class="list-group-item">
+                                    <b>Password</b> <a class="float-right" id="password">@HttpContextAccessor.HttpContext.Session.GetString("pass")</a>
+                                </li>*@
+                        </ul>
+                        <input type="text" id="userid" hidden value="@HttpContextAccessor.HttpContext.Session.GetInt32("id")" />
+                        <a href="#" class="btn btn-primary btn-block"><b>Edit Profile</b></a>
+                        <a onclick="updatePass()" class="btn btn-primary btn-block"><b>Update Password</b></a>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+    @section Scripts{
+        <script src="~/js/Profile.js"></script>
+
+
+
+
+        <!-- Select2 -->
+        <script src="../plugins/select2/js/select2.full.min.js"></script>
+        <link rel="stylesheet" href="../../plugins/select2/css/select2.min.css">
+        <script src="../js/ItemMaster.js"></script>
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" />
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+        <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+        <script>
+            document.title = "User Profile";
+        </script>
+    }
+
+
+</body>

@@ -1,0 +1,593 @@
+﻿@page
+@model POModel
+@{
+
+    ViewData["Title"] = "Home page";
+
+}
+<body class="hold-transition sidebar-mini">
+    <div class="container-fluid" style="background-color:white">
+        <br />
+        <div class="container-fluid">
+            <div class="row">
+                <div class="row" style="background-color:white;width:100%">
+                    <div class="col-12 col-sm-6 col-md-3 ">
+                        <div class="info-box special box">
+                            <div class="info-box-content">
+                                <div class="row">
+                                    <span style="height:40px" class="info-box-icon elevation-1"><i style="color:blueviolet" class="fa fa-file-text-o"></i></span>
+                                    &nbsp;&nbsp;
+                                    <div> <span>Sale Summary</span></div>
+                                    &nbsp;&nbsp;
+                                    <a onclick="LoadDatatable()" id="pending" class="small-box-footer"> <i style="height:20%" class="fas fa-arrow-circle-right"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6 col-md-3 ">
+                        <div class="info-box special box">
+                            <div class="info-box-content">
+                                <div class="row">
+                                    <span style="height:40px" class="info-box-icon elevation-1"><i style="color:blueviolet" class="fas fa-address-card"></i></span>
+                                    &nbsp;&nbsp;
+                                    <div> <span>Party Statement</span></div>
+                                    &nbsp;&nbsp;
+                                    <a style="align-content:end" onclick="LoadDatatable()" id="pending" class="small-box-footer"> <i style="height:20%" class="fas fa-arrow-circle-right"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6 col-md-3 ">
+                        <div class="info-box special box">
+                            <div class="info-box-content">
+                                <div class="row">
+                                    <span style="height:40px" class="info-box-icon elevation-1"><i style="color:blueviolet" class="fas fa-chart-line"></i></span>
+                                    &nbsp;&nbsp;
+                                    <div> <span>Profit And Loss Report</span></div>
+                                    &nbsp;&nbsp;
+                                    <a onclick="LoadDatatable()" id="pending" class="small-box-footer"> <i style="height:20%" class="fas fa-arrow-circle-right"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6 col-md-3 ">
+                        <div class="info-box special box">
+                            <div class="info-box-content ">
+                                <div class="row ">
+                                    <span style="height:40px" class="info-box-icon elevation-1"><i style="color:blueviolet" class="fa fa-calendar"></i></span>
+                                    &nbsp;&nbsp;
+                                    <div> <span>Daybook</span></div>
+                                    &nbsp;&nbsp;
+                                    <a onclick="LoadDatatable()" id="pending" class="small-box-footer"> <i style="height:20%" class="fas fa-arrow-circle-right"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                @* //---------------------------------Transections------------------------------------------------*@
+
+
+
+                <div style="background-color:white;width:100%">
+                    <div class="col-12" style="border: groove; background-color: #FBFBFD; border-radius: 5px; height: 45px">
+                        <nav class="navbar navbar-expand-sm  navbar-dark" style="background-color: #FBFBFD; height:40px">
+                            <ul class="navbar-nav">
+                                <li class="nav-item active">
+
+                                    <i style="font-size:20px;padding:8px;color:grey" class="fa fa-file-archive-o"></i>
+                                </li>
+                                <li class="nav-item active">
+                                    <a class="nav-link" style="color:black">Transactions</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+
+
+                    <hr style="height:1px; width:100%;text-align:left;margin-left:0">
+
+                    <div class="col-12">
+                        <section class="content">
+                            <div class="container-fluid">
+                                <!-- SELECT2 EXAMPLE -->
+                                <div class="card card-default">
+                                    <!-- /.card-header -->
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-3 special box" onmouseover="this.style.background='#F5F5F5';" onmouseout="this.style.background='white';" style="border: solid; border-color:lightgrey; border-radius: 5px; height: 55px">
+                                                <nav class="navbar navbar-expand-sm  " height:40px">
+                                                    <ul class="navbar-nav">
+                                                        <li class="nav-item active">
+                                                            <i style="font-size:20px;padding:8px;" class="fa fa-file-archive-o"></i>
+                                                        </li>
+                                                        <li class="nav-item active">
+                                                            <div class="row">
+                                                                <a class="nav-link" style="color:black">GSTR-1 (Sales)</a>
+                                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                <a class="small-box-footer"> <i style="height: 20%; padding: 12px" class="fas fa-arrow-circle-right"></i></a>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </nav>
+                                            </div>
+                                            <div class="col-3 special box" onmouseover="this.style.background='#F5F5F5';" onmouseout="this.style.background='white';" style="border: solid; border-color:lightgrey; border-radius: 5px; height: 55px">
+                                                <nav class="navbar navbar-expand-sm  " style=" height:40px">
+                                                    <ul class="navbar-nav">
+                                                        <li class="nav-item active">
+                                                            <i style="font-size:20px;padding:8px;" class="fa fa-file-archive-o"></i>
+                                                        </li>
+                                                        <li class="nav-item active">
+                                                            <div class="row">
+                                                                <a class="nav-link" style="color:black">GSTR-2 (Purchase)</a>
+                                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                                                                <a class="small-box-footer"> <i style="height:20%;padding: 10px" class="fas fa-arrow-circle-right"></i></a>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+
+                                                </nav>
+                                            </div>
+
+                                            <div onmouseover="this.style.background='#F5F5F5';" onmouseout="this.style.background='white';" class="col-3 special box" style="border: solid; border-color:lightgrey; border-radius: 5px; height: 55px">
+                                                <nav class="navbar navbar-expand-sm  " style="height:40px">
+                                                    <ul class="navbar-nav">
+                                                        <li class="nav-item active">
+
+                                                            <i style="font-size:20px;padding:8px;" class="fa fa-file-archive-o"></i>
+                                                        </li>
+
+                                                        <li class="nav-item active">
+                                                            <div class="row">
+                                                                <a class="nav-link" style="color:black">Bill Wise Profit</a>
+                                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                                                                <a class="small-box-footer"> <i style="height:20%;padding: 12px" class="fas fa-arrow-circle-right"></i></a>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+
+                                                </nav>
+                                            </div>
+
+
+                                            <div onmouseover="this.style.background='#F5F5F5';" onmouseout="this.style.background='white';" class="col-3 special box" style="border: solid; border-color:lightgrey; border-radius: 5px; height: 55px">
+                                                <nav class="navbar navbar-expand-sm  " style=" height:40px">
+                                                    <ul class="navbar-nav">
+                                                        <li class="nav-item active">
+
+                                                            <i style="font-size:20px;padding:8px;" class="fa fa-file-archive-o"></i>
+                                                        </li>
+
+                                                        <li class="nav-item active">
+                                                            <div class="row">
+                                                                <a class="nav-link" style="color:black">Invoice Report</a>
+                                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                                                                <a class="small-box-footer"> <i style="height:20%;padding: 12px" class="fas fa-arrow-circle-right"></i></a>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+
+                                                </nav>
+                                            </div>
+
+
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+
+
+                @* //----------------------------------Items--------------------------------------------------------*@
+
+
+                <div style="background-color:white;width:100%">
+                    <div class="col-12" style="border: groove; background-color: #FBFBFD; border-radius: 5px; height: 45px">
+                        <nav class="navbar navbar-expand-sm  navbar-dark" style="background-color: #FBFBFD; height:40px">
+                            <ul class="navbar-nav">
+                                <li class="nav-item active">
+
+                                    <i style="font-size:20px;padding:8px;color:grey" class="fa fa-cubes"></i>
+                                </li>
+                                <li class="nav-item active">
+                                    <a class="nav-link" style="color:black">Items</a>
+
+                                </li>
+                            </ul>
+
+                        </nav>
+                    </div>
+                    <hr style="height:1px; width:100%;text-align:left;margin-left:0">
+
+                    <div class="col-12">
+                        <!-- Main content -->
+                        <section class="content">
+                            <div class="container-fluid">
+                                <!-- SELECT2 EXAMPLE -->
+                                <div class="card card-default">
+                                    <!-- /.card-header -->
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-3 special box" onmouseover="this.style.background='#F5F5F5';" onmouseout="this.style.background='white';" style="border: solid; border-color:lightgrey; border-radius: 5px; height: 55px">
+                                                <nav class="navbar navbar-expand-sm  " height:40px">
+                                                    <ul class="navbar-nav">
+                                                        <li class="nav-item active">
+                                                            <i style="font-size:20px;padding:8px;" class="fa fa-file-archive-o"></i>
+                                                        </li>
+                                                        <li class="nav-item active">
+                                                            <div class="row">
+                                                                <a href="../StockReport" class="nav-link" style="color:black">Stock Summary</a>
+                                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                <a class="small-box-footer"> <i style="height: 20%; padding: 12px" class="fas fa-arrow-circle-right"></i></a>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+
+                                                </nav>
+                                            </div>
+
+                                            <div class="col-3 special box" onmouseover="this.style.background='#F5F5F5';" onmouseout="this.style.background='white';" style="border: solid; border-color:lightgrey; border-radius: 5px; height: 55px">
+                                                <nav class="navbar navbar-expand-sm  " style=" height:40px">
+                                                    <ul class="navbar-nav">
+                                                        <li class="nav-item active">
+
+                                                            <i style="font-size:20px;padding:8px;" class="fa fa-file-archive-o"></i>
+                                                        </li>
+
+                                                        <li class="nav-item active">
+                                                            <div class="row">
+                                                                <a class="nav-link" style="color:black">Item Sales Summary</a>
+                                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                                                                <a class="small-box-footer"> <i style="height:20%;padding: 9px" class="fas fa-arrow-circle-right"></i></a>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+
+                                                </nav>
+                                            </div>
+
+                                            <div onmouseover="this.style.background='#F5F5F5';" onmouseout="this.style.background='white';" class="col-3 special box" style="border: solid; border-color:lightgrey; border-radius: 5px; height: 55px">
+                                                <nav class="navbar navbar-expand-sm  " style="height:40px">
+                                                    <ul class="navbar-nav">
+                                                        <li class="nav-item active">
+
+                                                            <i style="font-size:20px;padding:8px;" class="fa fa-file-archive-o"></i>
+                                                        </li>
+
+                                                        <li class="nav-item active">
+                                                            <div class="row">
+                                                                <a class="nav-link" style="color:black">Low Stock Summary</a>
+                                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                                                                <a class="small-box-footer"> <i style="height:20%;padding: 12px" class="fas fa-arrow-circle-right"></i></a>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+
+                                                </nav>
+                                            </div>
+
+
+                                            <div onmouseover="this.style.background='#F5F5F5';" onmouseout="this.style.background='white';" class="col-3 special box" style="border: solid; border-color:lightgrey; border-radius: 5px; height: 55px">
+                                                <nav class="navbar navbar-expand-sm  " style=" height:40px">
+                                                    <ul class="navbar-nav">
+                                                        <li class="nav-item active">
+
+                                                            <i style="font-size:20px;padding:8px;" class="fa fa-file-archive-o"></i>
+                                                        </li>
+
+                                                        <li class="nav-item active">
+                                                            <div class="row">
+                                                                <a class="nav-link" style="color:black">Stock Detail Report</a>
+                                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                                                                <a class="small-box-footer"> <i style="height:20%;padding: 12px" class="fas fa-arrow-circle-right"></i></a>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+
+                                                </nav>
+                                            </div>
+
+
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+
+                @* //----------------------------------Parties--------------------------------------------------------*@
+
+
+                <div style="background-color:white;width:100%">
+                    <div class="col-12" style="border: groove; background-color: #FBFBFD; border-radius: 5px; height: 45px">
+                        <nav class="navbar navbar-expand-sm  navbar-dark" style="background-color: #FBFBFD; height:40px">
+                            <ul class="navbar-nav">
+                                <li class="nav-item active">
+
+                                    <i style="font-size:20px;padding:8px;color:grey" class="fas fa-user-friends"></i>
+                                </li>
+                                <li class="nav-item active">
+                                    <a class="nav-link" style="color:black;">Parties</a>
+
+                                </li>
+                            </ul>
+
+                        </nav>
+                    </div>
+                    <hr style="height:1px; width:100%;text-align:left;margin-left:0">
+
+                    <div class="col-12">
+                        <!-- Main content -->
+                        <section class="content">
+                            <div class="container-fluid">
+                                <!-- SELECT2 EXAMPLE -->
+                                <div class="card card-default">
+                                    <!-- /.card-header -->
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-3 special box" onmouseover="this.style.background='#F5F5F5';" onmouseout="this.style.background='white';" style="border: solid; border-color:lightgrey; border-radius: 5px; height: 55px">
+                                                <nav class="navbar navbar-expand-sm  " height:40px">
+                                                    <ul class="navbar-nav">
+                                                        <li class="nav-item active">
+
+                                                            <i style="font-size:20px;padding:8px;" class="fa fa-file-archive-o"></i>
+                                                        </li>
+
+                                                        <li class="nav-item active">
+                                                            <div class="row">
+                                                                <a class="nav-link" style="color:black">Party Wise Outstanding</a>
+
+
+                                                                <a class="small-box-footer"> <i style="height: 20%; padding: 12px" class="fas fa-arrow-circle-right"></i></a>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+
+                                                </nav>
+                                            </div>
+
+                                            <div class="col-3 special box" onmouseover="this.style.background='#F5F5F5';" onmouseout="this.style.background='white';" style="border: solid; border-color:lightgrey; border-radius: 5px; height: 55px">
+                                                <nav class="navbar navbar-expand-sm  " style=" height:40px">
+                                                    <ul class="navbar-nav">
+                                                        <li class="nav-item active">
+
+                                                            <i style="font-size:20px;padding:8px;" class="fa fa-file-archive-o"></i>
+                                                        </li>
+
+                                                        <li class="nav-item active">
+                                                            <div class="row">
+                                                                <a class="nav-link" style="color:black">Party Report By Item</a>
+                                                                &nbsp;&nbsp;&nbsp;&nbsp;
+
+                                                                <a class="small-box-footer"> <i style="height:20%;padding: 10px" class="fas fa-arrow-circle-right"></i></a>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+
+                                                </nav>
+                                            </div>
+
+                                            <div class="col-3 special box" onmouseover="this.style.background='#F5F5F5';" onmouseout="this.style.background='white';" style="border: solid; border-color:lightgrey; border-radius: 5px; height: 55px">
+                                                <nav class="navbar navbar-expand-sm  " height:40px">
+                                                    <ul class="navbar-nav">
+                                                        <li class="nav-item active">
+
+                                                            <i style="font-size:20px;padding:8px;" class="fa fa-truck"></i>
+                                                        </li>
+
+                                                        <li class="nav-item active">
+                                                            <div class="row">
+                                                                <a class="nav-link" style="color:black" href="../TransportReport">Transport Details</a>
+
+
+                                                                <a class="small-box-footer"> <i style="height: 20%; padding: 12px" class="fas fa-arrow-circle-right"></i></a>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+
+                                                </nav>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+
+
+                @* //----------------------------------Loading/Unloading--------------------------------------------------------*@
+
+
+                <div style="background-color:white;width:100%">
+                    <div class="col-12" style="border: groove; background-color: #FBFBFD; border-radius: 5px; height: 45px">
+                        <nav class="navbar navbar-expand-sm  navbar-dark" style="background-color: #FBFBFD; height:40px">
+                            <ul class="navbar-nav">
+                                <li class="nav-item active">
+
+                                    <i style="font-size:20px;padding:8px;color:grey" class="fas fa-user-friends"></i>
+                                </li>
+                                <li class="nav-item active">
+                                    <a class="nav-link" style="color:black;">Loading/Unloading</a>
+
+                                </li>
+                            </ul>
+
+                        </nav>
+                    </div>
+                    <hr style="height:1px; width:100%;text-align:left;margin-left:0">
+
+                    <div class="col-12">
+                        <!-- Main content -->
+                        <section class="content">
+                            <div class="container-fluid">
+                                <!-- SELECT2 EXAMPLE -->
+                                <div class="card card-default">
+                                    <!-- /.card-header -->
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-3 special box" onmouseover="this.style.background='#F5F5F5';" onmouseout="this.style.background='white';" style="border: solid; border-color:lightgrey; border-radius: 5px; height: 55px">
+                                                <nav class="navbar navbar-expand-sm  " height:40px">
+                                                    <ul class="navbar-nav">
+                                                        <li class="nav-item active">
+
+                                                            <i style="font-size:20px;padding:8px;" class="fa fa-file-archive-o"></i>
+                                                        </li>
+
+                                                        <li class="nav-item active">
+                                                            <div class="row">
+                                                                <a href="../LoadingReport" class="nav-link" style="color:black"> Loading/Unloading Report </a>
+
+
+                                                                <a class="small-box-footer"> <i style="height: 20%; padding: 12px" class="fas fa-arrow-circle-right"></i></a>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+
+                                                </nav>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+
+                @* //------------------------------------Sales Report--------------------------------------------------------*@
+
+
+                <div style="background-color:white;width:100%">
+                    <div class="col-12" style="border: groove; background-color: #FBFBFD; border-radius: 5px; height: 45px">
+                        <nav class="navbar navbar-expand-sm  navbar-dark" style="background-color: #FBFBFD; height:40px">
+                            <ul class="navbar-nav">
+                                <li class="nav-item active">
+
+                                    <i style="font-size:20px;padding:8px;color:grey" class="fas fa-user-friends"></i>
+                                </li>
+                                <li class="nav-item active">
+                                    <a class="nav-link" style="color:black;">Sales Report</a>
+
+                                </li>
+                            </ul>
+
+                        </nav>
+                    </div>
+                    <hr style="height:1px; width:100%;text-align:left;margin-left:0">
+
+                    <div class="col-12">
+                        <!-- Main content -->
+                        <section class="content">
+                            <div class="container-fluid">
+                                <!-- SELECT2 EXAMPLE -->
+                                <div class="card card-default">
+                                    <!-- /.card-header -->
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-3 special box" onmouseover="this.style.background='#F5F5F5';" onmouseout="this.style.background='white';" style="border: solid; border-color:lightgrey; border-radius: 5px; height: 55px">
+                                                <nav class="navbar navbar-expand-sm  " height:40px">
+                                                    <ul class="navbar-nav">
+                                                        <li class="nav-item active">
+
+                                                            <i style="font-size:20px;padding:8px;" class="fa fa-file-archive-o"></i>
+                                                        </li>
+
+                                                        <li class="nav-item active">
+                                                            <div class="row">
+                                                                <a href="../LoadingReport" class="nav-link" style="color:black"> Quotation Status </a>
+
+
+                                                                <a class="small-box-footer"> <i style="height: 20%; padding: 12px" class="fas fa-arrow-circle-right"></i></a>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+
+                                                </nav>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        </>
+    </div>
+    @section Scripts{
+        <script src="~/js/DispachtedPlanning.js"></script>
+        <script src="~/js/Additems.js"></script>
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        @*DataTables  & Plugins *@
+        <script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
+        <script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+        <script src="../../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+        <script src="../../plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+        <script src="../../plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+        <script src="../../plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+        <script src="../../plugins/jszip/jszip.min.js"></script>
+        <script src="../../plugins/pdfmake/pdfmake.min.js"></script>
+        <script src="../../plugins/pdfmake/vfs_fonts.js"></script>
+
+        <script src="../plugins/select2/js/select2.full.min.js"></script>
+
+        <script src="../../plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+        <script src="../../plugins/datatables-buttons/js/buttons.print.min.js"></script>
+        <script src="../../plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+        @*<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>*@
+        <script src="https://nightly.datatables.net/js/jquery.dataTables.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+
+
+    }
+
+    <link href="https://nightly.datatables.net/css/jquery.dataTables.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="../../plugins/select2/css/select2.min.css">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+    <style>
+        .select2-container .select2-selection--single {
+            height: 34px !important;
+        }
+
+        .select2-container--default .select2-selection--single {
+            border: 1px solid #ccc !important;
+            border-radius: 0px !important;
+        }
+    </style>
+    <style>
+
+        .special {
+            cursor: pointer;
+        }
+
+
+        .box:hover {
+            box-shadow: 0 0 11px rgba(33,33,33,.2);
+        }
+    </style>
+</body>
+

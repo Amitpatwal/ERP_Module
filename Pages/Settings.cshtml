@@ -1,0 +1,675 @@
+﻿@page
+@model SettingsModel
+
+@{
+    Layout = "~/Pages/Shared/SettingLayout.cshtml";
+}
+
+<body class="hold-transition sidebar-mini">
+    <span hidden id="companyid"></span>
+
+    <!-- /.navbar -->
+    <nav class="navbar navbar-expand-sm  navbar-dark" style="background-color: #FBFBFD;">
+        <!-- Left navbar links -->
+        <ul class="navbar-nav" id="header">
+            <li class="nav-item d-none d-sm-inline-block">
+                <div class="col">
+                    <span style="font-size:20px"> Buisness Settings</span><br />
+                    <span style="font-size:10px">Edit Your Company Settings And Information</span>
+                </div>
+            </li>
+            &nbsp;            &nbsp;            &nbsp;
+            <li class="nav-item d-none d-sm-inline-block">
+                <div class="form-inline">
+                    <div class="input-group" data-widget="sidebar-search">
+                        <a onclick="addBusiness()" style="background-color:coral;color:white" class="form-control form-control-sidebar">Create New Buisness</a>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </nav>
+
+    <nav id="Voucherheader" class="navbar navbar-expand-sm  navbar-dark" style="background-color: #FBFBFD; display:none">
+        <!-- Left navbar links -->
+        <ul class="navbar-nav">
+
+            <li class="nav-item d-none d-sm-inline-block">
+                <div class="col">
+                    <span style="font-size:20px"> Voucher Settings</span><br />
+                    <span style="font-size:10px">Edit Your Voucher Settings And Information</span>
+                </div>
+            </li>
+        </ul>
+    </nav>
+
+    <nav id="Bankheader" class="navbar navbar-expand-sm  navbar-dark" style="background-color: #FBFBFD ;display:none">
+        <!-- Left navbar links -->
+        <ul class="navbar-nav">
+
+            <li class="nav-item d-none d-sm-inline-block">
+                <div class="col">
+                    <span style="font-size:20px"> Bank Settings</span><br />
+                    <span style="font-size:10px">Edit Your Bank Settings And Information</span>
+                </div>
+            </li>
+        </ul>
+    </nav>
+
+
+    <div id="buisnessDiv" style="background-image: url('../imgs/createbuisness.png'); height:100%;">
+        <br />
+        <div class="container-fluid ">
+        </div>
+    </div>
+    @*-------------VOUCHER DIV------------------------*@
+
+
+    <div id="voucherdiv" style="display:none;width:100%">
+        <div class="row">
+            <div class="column" style="width:100%">
+                <section class="content" style="width:50%">
+                    <div class="container-fluid">
+                        <div class="card card-default">
+                            <div class="card-header" style="background-color: #FBFBFD">
+                                <a>Voucher Details</a>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        <div class="form-group">
+                                            <span>Sales Quotation No. </span>
+                                            <input id="quotationVouherno" type="text" class="form-control" placeholder="Enter Voucher No. ">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <br />
+                                            <a onclick="saveVocherNo('quotationVouherno','quotationVocher')" style="background-color:coral    ;color:white" class="form-control form-control-sidebar">
+                                                Save
+                                            </a>
+
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-md-10">
+                                        <div class="form-group">
+                                            <span>Performa Invoice No. </span>
+                                            <input id="performaVoucherno" type="text" class="form-control" placeholder="Enter Voucher No. ">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <br />
+                                            <a onclick="saveVocherNo('performaVoucherno','performaVoucher')" style="background-color:coral    ;color:white" class="form-control form-control-sidebar">   Save</a>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-10">
+                                        <div class="form-group">
+                                            <span>Sales Order No. </span>
+                                            <input id="salesorderVocherno" type="text" class="form-control" placeholder="Enter Voucher No. ">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <br />
+                                            <a onclick="saveVocherNo('salesorderVocherno','saleOrder')" style="background-color:coral    ;color:white" class="form-control form-control-sidebar">   Save</a>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-10">
+                                        <div class="form-group">
+                                            <span>Purchase Order No. </span>
+                                            <input id="purchaseOrderVoucherno" type="text" class="form-control" placeholder="Enter Voucher No. ">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <br />
+                                            <a onclick="saveVocherNo('purchaseOrderVoucherno','purchaseOrderVoucher')" style="background-color:coral    ;color:white" class="form-control form-control-sidebar">   Save</a>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-10">
+                                        <div class="form-group">
+                                            <span>Purchase Reciept No. </span>
+                                            <input id="purchaseRecieptVoucherno" type="text" class="form-control" placeholder="Enter Voucher No. ">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <br />
+                                            <a onclick="saveVocherNo('purchaseRecieptVoucherno','purchaseRecieptVoucher')" style="background-color:coral    ;color:white" class="form-control form-control-sidebar">   Save</a>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-10">
+                                        <div class="form-group">
+                                            <span>Dispachted Planning No. </span>
+                                            <input id="dispachtedPlanningVoucherno" type="text" class="form-control" placeholder="Enter Voucher No. ">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <br />
+                                            <a onclick="saveVocherNo('dispachtedPlanningVoucherno','dispachtedPlanningVoucher')" style="background-color:coral    ;color:white" class="form-control form-control-sidebar">   Save</a>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-10">
+                                        <div class="form-group">
+                                            <span>Loading Order No. </span>
+                                            <input id="loadingOrderVoucherno" type="text" class="form-control" placeholder="Enter Voucher No. ">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <br />
+                                            <a onclick="saveVocherNo('loadingOrderVoucherno','loadingorder')" style="background-color:coral    ;color:white" class="form-control form-control-sidebar">   Save</a>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-10">
+                                        <div class="form-group">
+                                            <span>Dispachted Order No. </span>
+                                            <input id="dispachtedOrderVoucherno" type="text" class="form-control" placeholder="Enter Voucher No. ">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <br />
+                                            <a onclick="saveVocherNo('dispachtedOrderVoucherno','dispachtedorder')" style="background-color:coral    ;color:white" class="form-control form-control-sidebar">   Save</a>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-10">
+                                        <div class="form-group">
+                                            <span> Invoice No.</span>
+                                            <input id="invoiceVoucherno" type="text" class="form-control" placeholder="Enter Voucher No. ">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <br />
+                                            <a onclick="saveVocherNo('invoiceVoucherno','invoiceVoucher')" style="background-color:coral    ;color:white" class="form-control form-control-sidebar">   Save</a>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-10">
+                                        <div class="form-group">
+                                            <span> Sales Voucher No.</span>
+                                            <input id="SalesVoucherno" type="text" class="form-control" placeholder="Enter Voucher No. ">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <br />
+                                            <a onclick="saveVocherNo('SalesVoucherno','SalesVoucher')" style="background-color:coral    ;color:white" class="form-control form-control-sidebar">   Save</a>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-10">
+                                        <div class="form-group">
+                                            <span> Purchase Voucher No.</span>
+                                            <input id="PurchaseVoucherno" type="text" class="form-control" placeholder="Enter Voucher No. ">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <br />
+                                            <a onclick="saveVocherNo('PurchaseVoucherno','PurchaseVoucher')" style="background-color:coral    ;color:white" class="form-control form-control-sidebar">   Save</a>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-10">
+                                        <div class="form-group">
+                                            <span> Payment Voucher No.</span>
+                                            <input id="PaymentVoucherno" type="text" class="form-control" placeholder="Enter Voucher No. ">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <br />
+                                            <a onclick="saveVocherNo('PaymentVoucherno','PaymentVoucher')" style="background-color:coral    ;color:white" class="form-control form-control-sidebar">   Save</a>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-10">
+                                        <div class="form-group">
+                                            <span> Receipt Voucher No.</span>
+                                            <input id="ReceiptVoucherno" type="text" class="form-control" placeholder="Enter Voucher No. ">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <br />
+                                            <a onclick="saveVocherNo('ReceiptVoucherno','ReceiptVoucher')" style="background-color:coral    ;color:white" class="form-control form-control-sidebar">   Save</a>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-10">
+                                        <div class="form-group">
+                                            <span> Debit Note No.</span>
+                                            <input id="DebitVoucherno" type="text" class="form-control" placeholder="Enter Voucher No. ">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <br />
+                                            <a onclick="saveVocherNo('DebitVoucherno','DebitVoucher')" style="background-color:coral    ;color:white" class="form-control form-control-sidebar">   Save</a>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-10">
+                                        <div class="form-group">
+                                            <span> Credit Note No.</span>
+                                            <input id="CreditVoucherno" type="text" class="form-control" placeholder="Enter Voucher No. ">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <br />
+                                            <a onclick="saveVocherNo('CreditVoucherno','CreditVoucher')" style="background-color:coral    ;color:white" class="form-control form-control-sidebar">   Save</a>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-md-10">
+                                        <div class="form-group">
+                                            <span> Material Shifting</span>
+                                            <input id="MaterialShiftVoucherno" type="text" class="form-control" placeholder="Enter Voucher No. ">
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <br />
+                                            <a onclick="saveVocherNo('MaterialShiftVoucherno','MaterialVoucher')" style="background-color:coral    ;color:white" class="form-control form-control-sidebar">   Save</a>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-10">
+                                        <div class="form-group">
+                                            <span> General Entry</span>
+                                            <input id="GeneralEntryVoucherno" type="text" class="form-control" placeholder="Enter Voucher No. ">
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <br />
+                                            <a onclick="saveVocherNo('GeneralEntryVoucherno','GeneralEntryVoucher')" style="background-color:coral    ;color:white" class="form-control form-control-sidebar">Save</a>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-10">
+                                        <div class="form-group">
+                                            <span> Rejection/Return Entry</span>
+                                            <input id="RRVoucherno" type="text" class="form-control" placeholder="Enter Voucher No. ">
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <br />
+                                            <a onclick="saveVocherNo('RRVoucherno','RRVoucher')" style="background-color:coral    ;color:white" class="form-control form-control-sidebar">Save</a>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="content" style="width:50%">
+                    <div class="container-fluid">
+
+                    </div>
+                </section>
+
+
+            </div>
+        </div>
+
+    </div>
+
+    @* ----------------BANK DIV-----------------------*@
+
+    <div id="bankDiv" style="display:none;width:100%">
+        <div class="row">
+            <div class="row" style="width:100%">
+                <section class="content" style="width:100%">
+                    <div class="container-fluid">
+                        <div class="card card-default">
+                            <div class="card-header" style="background-color: #FBFBFD">
+                                <a>Bank Details</a>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-3">
+                                        <div style="border:dotted" class="form-group">
+                                            <center> <button data-toggle="modal" data-target="#exampleModal" class="form-control" placeholder="Enter Voucher No."> +Add Bank Details</button></center>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div style="border: groove; height: 350px" class="form-group">
+                                            <span class="form-control" placeholder="Enter Voucher No.">Bank List</span>
+                                            <section class="content">
+                                                <div class="container-fluid" id="approvedItem">
+                                                    <div class="row" sstyle="overflow-x:auto;">
+                                                        <div class="col-12">
+                                                            <div class="card">
+                                                                <div class="card-body">
+                                                                    <table id="viewBankList" class="table table-bordered table-hover">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th style="font-family: 'sans-serif'; font-weight: normal;"></th>
+                                                                                <th style="font-family: 'sans-serif'; font-weight: normal;">Account Number</th>
+                                                                                <th style="font-family: 'sans-serif'; font-weight: normal;">Bank Name</th>
+                                                                                <th style="font-family: 'sans-serif'; font-weight: normal;">IFSC Code</th>
+                                                                                <th style="font-family: 'sans-serif'; font-weight: normal;">Holder Name </th>
+                                                                                <th style="font-family: 'sans-serif'; font-weight: normal;">Branch </th>
+                                                                                <th style="font-family: 'sans-serif'; font-weight: normal;">Action  </th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                    </table>
+                                                                </div>
+
+                                                            </div>
+
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+
+                                            </section>
+
+
+                                        </div>
+
+
+                                    </div>
+                                    <div class="col-md-10">
+                                        <div class="form-group">
+                                            <span>UPI ID</span>
+                                            <input id="performaVoucherno" type="text" class="form-control" placeholder="Enter Voucher No. ">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <input type="number" hidden id="ItemId" style="width: 100%;" />
+                                        <div class="form-group">
+                                            <br />
+                                            <a onclick="saveVocherNo('performaVoucherno','performaVoucher')" style="background-color:coral    ;color:white" class="form-control form-control-sidebar">   Save</a>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+
+                <div class="modal fade" id="exampleModal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header" style="background-color:darkslategrey">
+                                <h5 style="color:white">Bank Details</h5>
+                                <button style="color:white" type="button" class="close" data-dismiss="modal" tabindex="-1" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <input type="text" style="width:40px;border:none;" hidden readonly id="srno">
+
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <span>Enter Account Number  </span>
+                                            <input id="accoutno" type="number" class="form-control" placeholder="Enter Account No. ">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <span>Retype Account Number  </span>
+                                            <input id="retypeaccountno" type="number" class="form-control" placeholder="Retype Enter Account No ">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <span>Bank Name  </span>
+                                            <input id="bankname" type="text" class="form-control" placeholder="Enter Bank Name. ">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <span> Account Holder Name  </span>
+                                            <input id="holdername" type="text" class="form-control" placeholder="Enter Account Name ">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <span>IFSC CODE  </span>
+                                            <input id="ifsccode" type="text" class="form-control" placeholder="Enter IFSC Code ">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <span>Branch  </span>
+                                            <input id="branch" type="text" class="form-control" placeholder="Enter Branch. ">
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" onclick="savebankDetails()" id="button12">Save</button>
+                                <button id="resetitem" type="button" class="btn btn-danger">Reset</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    @*
+        ------------CREATE BUISNESS DIV---------------*@
+
+    <div id="addbuisnessdiv" style="display:none;width:100%">
+        <div class="row">
+            <div class="column" style="width:100%">
+                <section class="content" style="width:100%">
+                    <div class="container-fluid">
+                        <div class="card card-default">
+                            <div class="card-header" style="background-color: #FBFBFD">
+
+                                <div class="row">
+                                    <span class="col-11">Add New Company</span>
+
+
+                                    <a id="savecompanyButton" class="btn btn-info btn-sm col-1" style="color: white; height: 50%; " onclick="addCompany()">Save</a>
+                                </div>
+                            </div>
+                            <div class="card-body ">
+                                <div class="row">
+                                    <div class="col-md-2">
+
+                                        <div class="form-group">
+
+                                            <div class="card">
+                                                <img src="../imgs/imageicon.jpg" style="width:100%">
+                                                <div class="container">
+
+                                                </div>
+                                            </div>
+
+
+
+                                            <input type="file">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+
+                                        <div class="form-group">
+
+                                            <span>Financial Year </span>
+                                            <select id="financialYear" class="form-control" style="width: 100%;">
+                                                <option>2021-22</option>
+                                                <option>2022-23</option>
+                                                <option>2023-24</option>
+                                                <option>2024-25</option>
+                                                <option>2025-26</option>
+                                                <option>2026-27</option>
+                                                <option>2027-28</option>
+                                                <option>2028-29</option>
+                                                <option>2029-30</option>
+                                                <option>2030-31</option>
+                                            </select>
+
+
+                                            @* <input type="text" class="form-control" id="financialYear" placeholder="Enter Financial Year ">*@
+                                            <br />
+                                            <span>Financial Year Begining From *</span>
+                                            <input type="date" class="form-control" id="yearBeginningDate">
+
+                                            <br />
+                                            <span>Book Beginning From</span>
+                                            <input type="date" class="form-control" id="bookbeginningFrom">
+
+                                            <br />
+                                            <span>Buisness Name *</span>
+                                            <input type="text" class="form-control" id="buisnessname" placeholder="Enter Business Name ">
+                                            <br />
+
+
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+
+                                        <div class="form-group">
+
+                                            <span>E-Mail Address * </span>
+                                            <input type="email" class="form-control" id="email" placeholder="Enter E-mail " /> <br />
+
+                                            <span>Mobile No</span>
+                                            <input type="number" class="form-control" id="mobileno" placeholder="Enter Mobile No. ">
+                                            <br />
+                                            <span>G.S.T </span>
+                                            <input type="text" class="form-control" id="gst" placeholder="Enter G.S.T ">
+                                            <br />
+                                            <span>P.A.N</span>
+                                            <input type="text" class="form-control" id="pan" placeholder="Enter P.A.N ">
+
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <span>Billing Address </span>
+                                            <textarea id="address" class="form-control"></textarea>
+                                            <br />
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <span>Comapny Mailing Name </span>
+                                            <input type="text" id="companymailingname" class="form-control" placeholder="Enter Mailing Name  ">
+                                            <br />
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                                <div class="row">
+                                    <section class="content">
+                                        <div class="container-fluid">
+                                            <div class="row ">
+                                                <div class="col-12">
+                                                    <div class="card">
+                                                        <div class="card-header" style="background-color: #FBFBFD">
+                                                            <a>Company List</a>
+                                                        </div>
+                                                        <div class="card-body">
+                                                            <table id="companylistTable" class="table table-bordered table-hover display ">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th style="font-family: 'sans-serif'; font-weight: normal;">Sr No</th>
+                                                                        <th style="font-family: 'sans-serif'; font-weight: normal; ">Company Name</th>
+                                                                        <th style="font-family: 'sans-serif'; font-weight: normal; ">Financial Year</th>
+                                                                        <th style="font-family: 'sans-serif'; font-weight: normal; ">E-Mail.</th>
+                                                                        <th style="font-family: 'sans-serif'; font-weight: normal; ">Phone No.</th>
+                                                                        <th style="font-family: 'sans-serif'; font-weight: normal; ">Gst</th>
+                                                                        <th style="font-family: 'sans-serif'; font-weight: normal; ">Pan </th>
+                                                                        <th style="font-family: 'sans-serif'; font-weight: normal; ">Address</th>
+                                                                        <th style="font-family: 'sans-serif'; font-weight: normal; ">Action</th>
+                                                                    </tr>
+                                                                </thead>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </section>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <link href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css " rel="stylesheet" type="text/css" />
+    <link href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="~/plugins/daterangepicker/daterangepicker.css">
+
+    @section Scripts{
+        <script src="~/js/Settings.js"></script>
+
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+        <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js"></script>
+        <script src="../plugins/daterangepicker/daterangepicker.js"></script>
+        <script src="../plugins/moment/moment.min.js"></script>
+        <script src="~/js/Additems.js"></script>
+
+        <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
+        <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
+
+        <script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
+        <script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+        <script src="../../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+
+    }
+
+
+
+
+</body>
+
+

@@ -1,0 +1,103 @@
+﻿@page
+@model AddEdit
+@{
+    Layout = null;
+}
+<div style="background-color:dimgrey;border-radius:10px;border-color:black">
+    <div class="card-body">
+        <div class="row">
+            <input type="text" style="width:40px;border:none;" hidden readonly id="itemid" >
+            <div class="col-md-6">
+                <div class="input-group">
+                    <label style="color:white">Item Name</label>
+                    <select class="form-control" id="txtName" onchange="clearsize()" style="width: 100%;">
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="input-group">
+                    <label style="color:white">Item Size</label>
+                    <select class="form-control" id="txtSize" onchange="clearclass()"  style="width: 100%;">
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="input-group">
+                    <label style="color:white">Class/Thk</label>
+                    <select class="form-control" id="txtClass" onchange="clearmake()"  style="width: 100%;">
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="input-group">
+                    <label style="color:white">Item Make</label>
+                    <select class="form-control" id="txtMake" multiple="multiple" style="width: 100%;">
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="input-group">
+                    <label style="color:white">Item Unit</label>
+                    <select class="form-control" id="txtUnit" onchange="filldetails()" style="width: 100%;">
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label style="color:white">Price</label>
+                    <input type="number" id="txtPrice" onkeyup="price()" class="form-control" placeholder="Price" />
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label style="color:white">Discount%</label>
+                    <input type="number" id="txtDisc" onkeyup="discprice()" class="form-control" placeholder="Discount%" />
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label style="color:white">Required Qty.</label>
+                    <input type="number" id="txtReqdQty" onkeyup="finalamount()" class="form-control" placeholder="Required Qty." />
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label style="color:white">Discount Price</label>
+                    <input type="number" id="txtDiscPrice" class="form-control" placeholder="Discount Price" />
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label style="color:white">Amount</label>
+                    <input type="number" id="txtAmount" readonly class="form-control" placeholder="Amount" />
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label style="color:white">Remarks</label>
+                    <input type="text" id="txtRemarks" class="form-control" placeholder="Remarks" />
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <button style="align-content:center;height:50px;width:90px;border-radius:10px;background-color:lightgreen;color:white" onclick="addcompanydetails()" id="saveebutton">Save</button>
+                <button style="align-content:center;height:50px;width:90px;border-radius:10px;background-color:lightgreen;color:white">Reset</button>
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+</div>
+
+@section Scripts{
+    <script src="../js/Salesquotation.js"></script>
+}

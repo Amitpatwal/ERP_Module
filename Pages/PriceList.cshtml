@@ -1,0 +1,193 @@
+﻿@page
+@model PriceListModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<body class="hold-transition sidebar-mini">
+    <div class="row">
+        <span id="voucherno" hidden></span> 
+        <div class="col-md-12">
+            <nav class="navbar navbar-expand-sm  navbar-dark" style="background-color: #FBFBFD; position: sticky; top: 0; z-index: 1;">
+                <ul class="navbar-nav">
+                    <li class="nav-item"> 
+                        <i class="fa fa-arrow-circle-left" onclick="LoadDate()"  style="font-size:24px"></i>
+                        <a class="nav-link" style="color:black">Price List</a>
+                    </li>
+
+                </ul>
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <div id="addButton">
+                            <a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" style="color: black; background-color: white;" onclick="filldetails()" data-toggle="modal" data-target="#Pricelist">
+                                <i class="fa fa-plus" style="font-size:18px;padding:5px"></i>
+                                <span>Add Price</span>
+                            </a>
+
+                        </div>
+
+                    </li>
+                </ul>
+            </nav>
+            <span id="Itemid" hidden></span>
+            <section class="content" id="ItemDiv" style="display:none">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <table id="PriceListTable" class="table table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th style="font-family: 'sans-serif'; font-weight: normal;"> Sr.</th>
+                                                <th style="font-family: 'sans-serif'; font-weight: normal;">Item Description </th>
+                                                <th style="font-family: 'sans-serif'; font-weight: normal;">Unit</th>
+                                                <th style="font-family: 'sans-serif'; font-weight: normal;">Amount </th>
+                                                <th style="font-family: 'sans-serif'; font-weight: normal;">Actions </th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                         
+                    </div>
+                    
+                </div>
+            </section>
+            <section class="content" id="dateDiv" style="display:none">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <table id="PriceListDate" class="table table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th style="font-family: 'sans-serif'; font-weight: normal;"> Sr.</th>
+                                                <th style="font-family: 'sans-serif'; font-weight: normal;">Date</th>
+                                                <th style="font-family: 'sans-serif'; font-weight: normal;">Actions </th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+                </div>
+            </section>
+
+
+
+        </div>
+    </div>
+
+    <div class="modal fade" id="Pricelist" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color:darkslategrey">
+                    <h5 style="color:white;color:white">Item Details</h5>&nbsp;&nbsp;&nbsp;
+                    <button style="color:white" type="button" class="close" data-dismiss="modal" tabindex="-1" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" style="width:40px;border:none;" hidden readonly id="itemid">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class=""> Date</span><br />
+                                <input type="date" class="form-control" style="width:100%" id="pricedate" />
+                            </div>
+                        </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="input-group">
+                                    <span>Item Name  *</span><br />
+                                    <select tabIndex="1" class="form-control" id="txtName" onchange="getsize()" style="width: 100%;">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="input-group">
+                                    <span>Item Size</span>
+                                    <select tabIndex="2" class="form-control" id="txtSize" onchange="getclass()" style="width: 100%;">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="input-group">
+                                    <span>Class/Thk</span>
+                                    <select tabIndex="3" class="form-control" onchange="getunit()" id="txtClass" style="width: 100%;">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="input-group">
+                                    <span>Item Make</span>
+                                    <select tabindex="4" class="form-control" multiple id="txtMake" style="width: 100%; height:40px;">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="input-group">
+                                    <span>Unit</span>
+                                    <select tabIndex="5" class="form-control" id="txtUnit" style="width: 100%;">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <span>Price</span><br />
+                                    <input type="number" tabindex="6" class="form-control" id="priceValue" />
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" tabindex="6" class="btn btn-primary" onclick="SavePriceList()" id="saveebutton1">Save</button>
+                        <button id="resetitem" type="button" class="btn btn-danger" onclick="dataitem(0)">Reset</button>
+                    </div>
+                </div>
+        </div>
+    </div>
+
+    
+
+    <link href="https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../../plugins/select2/css/select2.min.css">
+    <link rel="stylesheet" href="~/plugins/daterangepicker/daterangepicker.css">
+    <link rel="stylesheet" href="~/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+    <link href="~/js/Plugin/jquery-customselect.css" rel="stylesheet" />
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+
+    @section Scripts{
+        <script src="~/js/PriceList.js"></script>
+
+        <link href="~/css/jquery-customselect-1.9.1.css" rel="stylesheet" />
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="~/js/Plugin/jquery-customselect.js"></script>
+        <script src="../plugins/select2/js/select2.full.min.js"></script>
+
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+
+        <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+
+        <script src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap.min.js"></script>
+        <script>
+            document.title = "Physical Stock List";
+        </script>
+    }
+
+
+</body>

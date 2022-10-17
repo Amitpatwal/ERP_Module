@@ -1,0 +1,485 @@
+﻿@page
+@model ItemMasterModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<body>
+    <div>
+        <input type="datetime" hidden id="creationdate" placeholder="" class="form-control" />
+
+        <nav class="navbar navbar-expand-sm  navbar-dark" style="background-color: #FBFBFD">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a href="../ItemList">
+                        <i style="font-size:30px" class="fa fa-arrow-circle-left"></i>
+                        <span class="nav-link" style="color:black">Create Items</span>
+                    </a>
+                </li>
+            </ul>
+
+
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a id="selectdeletefolder" class="d-sm-inline btn btn-sm btn-primary shadow-sm" href="../ItemMaster" style="color:black ;background-color:white;">
+                        <i class="fa fa-close" style="font-size:24px"></i>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        Clear
+                    </a>
+                </li>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <li class="nav-item" id="validation">
+                    <a onclick="saveitem()" class=" d-sm-inline btn btn-sm btn-primary shadow-sm" id="" style="color:black ;background-color:white;">
+                        <span class="fa fa-save " style="font-size:24px"></span>
+                        &nbsp;&nbsp;&nbsp;&nbsp; <span id="savebutton">Save</span>
+                    </a>
+
+                </li>
+
+                <li class="nav-item" id="opstock" style="display:none;">
+                    &nbsp;&nbsp;&nbsp;
+                    <a id="selectdeletefolder" class=" d-sm-inline btn btn-sm btn-primary shadow-sm" style="color:black ;background-color:white;" onclick="stockfill();" data-toggle="modal" data-target="#exampleModal">
+                        <i class="fa fa-industry" style="font-size:24px;color:black"></i>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        Opening Stock
+                    </a>
+                </li>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <li class="nav-item dropdown">
+                    <a id="selectdeletefolder" data-toggle="dropdown" class=" d-sm-inline btn btn-sm btn-primary shadow-sm" href="../ItemMaster" style="color:black ;background-color:white;">
+                        <i data-toggle="dropdown" class="fa fa-gear fa-spin" style="font-size:24px"></i>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        Item Settings
+                    </a>
+
+                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+
+                        <div class="dropdown-divider"></div>
+                        <a href="../ItemDatatable?Id=pname" class="dropdown-item">
+
+                            <span>Item Name</span>
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="../ItemDatatable?Id=size" class="dropdown-item">
+
+                            <span>Item Size</span>
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="../ItemDatatable?Id=class" class="dropdown-item">
+
+                            <span>Item Class</span>
+                        </a>
+                        <div class="dropdown-divider"></div>
+
+                        <a href="../ItemDatatable?Id=make" class="dropdown-item">
+
+                            <span>Item Brand</span>
+                        </a>
+                        <div class="dropdown-divider"></div>
+
+                        <a href="../ItemDatatable?Id=category" class="dropdown-item">
+
+                            <span>Item Category</span>
+                        </a>
+
+                        <div class="dropdown-divider"></div>
+
+                        <a href="../ItemDatatable?Id=unit" class="dropdown-item">
+
+                            <span>Item Unit</span>
+                        </a>
+
+                        <div class="dropdown-divider"></div>
+
+                        <a href="../ItemDatatable?Id=godown" class="dropdown-item">
+
+                            <span>Stock Location</span>
+                        </a>
+
+                    </div>
+                </li>
+
+            </ul>
+        </nav>
+
+        <div class="modal fade" id="exampleModal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header" style="background-color:darkslategrey">
+                        <h5 style="color:white">Stock Management</h5>
+                        <button style="color:white" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-header">
+
+                        <div class="col">
+
+                            <span style="color:black">Product Name :</span>
+                            <span style="color:black" id="productname"> </span>
+                        </div>
+                        <nav class="navbar navbar-expand-sm  navbar-dark" style="background-color: #FBFBFD">
+                            <div class="col-md-4">
+                                <div class="form-group">
+
+                                    <ul class="navbar-nav ml-auto">
+                                        <li class="nav-item">
+                                            <a id="selectdeletefolder" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" onclick="clearstock()" style="color:black ;background-color:white;">
+                                                <i class="fa fa-close" style="font-size:24px"></i>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;
+                                                Clear
+                                            </a>
+                                        </li>
+                                        <li class="nav-item" id="addstc">
+                                            <a onclick="addstock()" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" style="color:black ;background-color:white;">
+                                                <span class="fa fa-save " style="font-size:24px"></span>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;
+                                                <span id="stockadd">Save</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+
+                                </div>
+                            </div>
+                        </nav>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <span id="qtylabel">Qauntity </span>
+                                    <input type="number" class="form-control" min="0" id="stockid" style="width:70%" hidden>
+                                    <div class="row">
+                                        <input type="number" class="form-control" min="0" id="qty" style="width:70%">
+                                        <input type="text" disabled class="form-control " id="unit1" style="width:30%">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3" id="secondarydiv" style="display:none;">
+                                <div class="form-group">
+                                    <span id="secqtylabel">Sec. Qty</span>
+                                    <div class="row">
+                                        <input type="number" class="form-control" min="0" id="altqty" style="width:70%">
+                                        <input type="text" disabled class="form-control " id="altunit1" style="width:30%">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <span id="brandlabel">Brand</span>
+                                    <select class="form-control select2" id="brand" style="width: 100%; height:30%"></select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <span id="locationlabel">Location</span>
+                                    <select class="form-control select2" id="location" style="width: 100%; height:30%"></select>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="card-body">
+                                    <table id="ItemTable" class="table table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>Qty</th>
+                                                <th>Sec. Qty</th>
+                                                <th>Brand Name</th>
+                                                <th>Location</th>
+                                                <th id="acction">Action</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="column" style="width:50%">
+                <section class="content">
+                    <div class="container-fluid">
+                        <div class="card card-default">
+                            <div class="card-header" style="background-color: #FBFBFD">
+                                <a>General Details</a>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <input type="number" hidden id="ItemId" min="0" style="width: 100%;" />
+                                        <div class="form-group">
+                                            <span id="namecolor">Item Name *</span>
+                                            <select class="form-control select2" id="pname" style="width: 100%; height:30%"></select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <span id="sizecolor">Item Size *</span>
+                                            <select class="form-control" id="size" style="width: 100%;"></select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <span id="classcolor">Item Class *</span>
+                                            <select class="form-control" id="Class" style="width: 100%;"></select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <span id="categorycolor">Category *</span>
+                                            <select class="form-control select2" id="category" onchange="fillunit()" style="width: 100%;">
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <span id="categorycolor">Description</span>
+                                            <textarea class="form-control "></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <div class="column " style="width:50%">
+                <section class="content">
+                    <div class="container-fluid">
+                        <div class="card card-default">
+                            <div class="card-header" style="background-color: #FBFBFD">
+                                <a>Stock Details</a>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <span id="unitcolor">Unit*</span>
+                                            <input class="form-control" id="unit" readonly style="width: 100%;" onchange="openingstock()" />
+                                            <input id="unitid" hidden />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6" style="display:none">
+                                        <div class="form-group">
+                                            <span id="sizecolor"> Enable Secondary Unit</span>
+                                            &nbsp;   &nbsp;   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                                            <label class="switch">
+                                                <input type="checkbox" id="togBtnunit" readonly onchange="hideshowunit()" />
+                                                <span class="slider round"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-9">
+                                        <div class="collapse multi-collapse" id="altunitdiv">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <span id="altunitcolor">Secondary Unit *</span>
+                                                        <input class="form-control" readonly style="width:100%" id="altunit" onchange="conversionrate()" />
+                                                        <input class="form-control" hidden id="altunitid" />
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-9">
+                                                    <div class="form-group">
+                                                        <span id="classcolor">Conversion Unit </span>
+                                                        <div class="row">
+                                                            <span style="width:15%;font-size:15px"> Where</span>
+                                                            <input type="number" onkeyup="if(this.value<0){this.value= this.value * -1}" min="0" class="form-control " id="where" placeholder="0" style="width:20%" />
+                                                            <input type="text" disabled class="form-control" style="width:20%" id="secondaryprefix" />
+                                                            <span style="width:5%"> =</span>
+                                                            <input type="number" onkeyup="if(this.value<0){this.value= this.value * -1}" min="0" class="form-control" id="from" placeholder="0" style="width:20%" />
+                                                            <input type="text" disabled class="form-control " style="width: 20%" id="secondarysuffix" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6" style="display:none">
+                                        <div class="input-group">
+                                            <span id="sizecolor">   Enable Weight</span>
+                                            &nbsp;   &nbsp;   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <label class="switch">
+                                                <input type="checkbox" id="togBtnweight" onclick="hideshowweight()" href="#multiCollapseExample12" role="button" aria-expanded="false" aria-controls="multiCollapseExample12" />
+                                                <span class="slider round"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="collapse multi-collapse" id="weightunitdiv">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <span id="classcolor">Weight Unit *</span>
+                                                        <input class="form-control" id="weightunit" readonly onchange="weightconversionrate()" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-5">
+                                                    <div class="form-group">
+                                                        <span id="classcolor">Conversion Weight </span>
+                                                        <div class="row">
+                                                            <input type="text" disabled class="form-control" style="width:40%" id="weightprefix" />
+                                                            <input type="number" min="0" class="form-control" id="weight" placeholder="0" style="width:40%" />
+                                                            <input type="text" disabled class="form-control " style="width:20%" id="weightsuffix" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <span id="sizecolor">Stock Warning</span>
+                                            &nbsp;   &nbsp;   &nbsp;   &nbsp;   &nbsp;   &nbsp;
+                                            <label class="switch">
+                                                <input type="checkbox" onchange="hideshowlow()" id="togBtnLowStock" href="#multiCollapseExample13" role="button" aria-expanded="false" aria-controls="multiCollapseExample13" />
+                                                <span class="slider round"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-2" hidden>
+                                        <div class="form-group">
+                                            <span>Pr.</span>
+                                            <label class="switch">
+                                                <input type="checkbox" onchange="WarningUnit()" id="togBtnSrUnit" role="button" aria-expanded="false" aria-controls="multiCollapseExample13" />
+                                                <span class="slider round"></span>
+                                            </label>
+                                            <span>Sr.</span>
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="col-md-4">
+                                        <div class="collapse multi-collapse" id="multiCollapseExample13">
+                                            <div class="form-group">
+                                                <div class="row">
+                                                    <span id="sizecolor">Minimum Stock</span>
+                                                    <input type="text" class="form-control" id="minimumStock" style="width:70%" placeholder="0" />
+                                                    <input type="text" readonly class="form-control " style="width:30%" id="lowstocksuffix" />
+                                                    <span id="lowstockid" hidden></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <span id="sizecolor">Maximum Stock</span>
+                                                <input type="text" class="form-control" id="maximumStock" style="width:70%" placeholder="0" />
+                                                <input type="text" readonly class="form-control " style="width:30%" id="highstocksuffix" />
+                                                <span id="maxstockid" hidden></span>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- /.row -->
+                        <div class="card card-default">
+                            <div class="card-header" style="background-color: #FBFBFD">
+                                <a>Price Details</a>
+                            </div>
+
+                            <!-- /.card-header -->
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <span>Purchase Price</span>
+                                            <input type="number" id="purchaseprice" min="0" class="form-control select2" placeholder="0" style="width: 100%;" />
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-md-6">
+                                        <dicv class="form-group">
+                                            <span id="hsncolor">Hsn Code*</span>
+
+                                            <input type="text" id="hsncode" class="form-control select2" style="width: 100%; " placeholder="Enter HSN Code" />
+                                        </dicv>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.container-fluid -->
+                </section>
+            </div>
+        </div>
+
+
+
+    </div>
+
+    <link href="https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+    @*<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />*@
+    <link rel="stylesheet" href="../../plugins/select2/css/select2.min.css">
+    <link rel="stylesheet" href="~/plugins/daterangepicker/daterangepicker.css">
+    <link rel="stylesheet" href="~/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+    <link href="~/js/Plugin/jquery-customselect.css" rel="stylesheet" />
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link href="~/css/elements.css" rel="stylesheet" />
+    @section Scripts{
+        <script src="../js/ItemMaster.js"></script>
+
+        <link href="~/css/jquery-customselect-1.9.1.css" rel="stylesheet" />
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="~/js/Plugin/jquery-customselect.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+
+        <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+
+
+
+        <script src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+        <script src="../plugins/select2/js/select2.full.min.js"></script>
+        <script src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+
+    }
+
+
+    <style>
+        .select2-container .select2-selection--single {
+            height: 34px !important;
+        }
+
+        .select2-container--default .select2-selection--single {
+            border: 1px solid #ccc !important;
+            border-radius: 0px !important;
+        }
+    </style>
+
+    <script>
+        document.title = "Item Master";
+    </script>
+
+</body>

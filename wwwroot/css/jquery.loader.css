@@ -1,0 +1,60 @@
+﻿@CHARSET "UTF-8";
+
+#jquery-loader {
+    padding-top: 35px;
+    text-align: center;
+}
+
+#jquery-loader-background {
+    background-color: #F7F7F7;
+}
+
+#jquery-loader.blue-with-image {
+    border: 2px #008587 solid;
+    padding-top: 35px;
+    background-color: white;
+    text-align: center;
+    background-image: url(/jquery_grid/images/loading2.gif);
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+
+#jquery-loader.blue-with-image-2 {
+    border: none;
+    padding-top: 35px;
+    background-color: transparent;
+    text-align: center;
+    background-image: url(/jquery_grid/images/ajax-loader.gif);
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+
+#jquery-loader.blue_for_tb {
+    border: none;
+    padding-top: 35px;
+    background-color: transparent;
+    text-align: center;
+    background-image: url(/images/masters/icon_tb_loader.gif);
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+
+#jquery-loader.blue-with-image-3 {
+    border: none;
+    /*padding-top:35px;*/
+    background-color: transparent;
+    text-align: center;
+    background-image: url(/images/rectangle_loader.gif);
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+
+#jquery-loader.vl_loading {
+    border: none;
+    /*padding-top:35px;*/
+    background-color: transparent;
+    text-align: center;
+    background-image: url(/images/vl_loader.gif);
+    background-position: center center;
+    background-repeat: no-repeat;
+}

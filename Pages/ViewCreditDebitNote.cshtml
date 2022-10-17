@@ -1,0 +1,287 @@
+﻿@page
+@model ViewCreditDebitNoteModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<body class="hold-transition sidebar-mini">
+    <div class="row">
+        <div class="col-md-12">
+            <nav class="navbar navbar-expand-sm  navbar-dark" style="background-color: #FBFBFD; position: sticky; top: 0; z-index: 1;">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" style="color:black">Credit/Debit Note List</a>
+                    </li>
+
+                </ul>
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" href="ViewSale" style="color:black ;background-color:white;">
+                            <i class="fas fa-bars" style="font-size:18px;padding:5px"></i>
+                            <span>Sales</span>
+                        </a>
+                        <a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" href="ViewPurchase" style="color:black ;background-color:white;">
+                            <i class="fas fa-bars" style="font-size:18px;padding:5px"></i>
+                            <span>Purchase</span>
+                        </a>
+                        <a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" href="ViewCreditDebitNote" style="color:black ;background-color:white;">
+                            <i class="fas fa-bars" style="font-size:18px;padding:5px"></i>
+                            <span>Debit/Credit Note</span>
+                        </a>
+                        <a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" href="PaymentReceipt" style="color:black ;background-color:white;">
+                            <i class="fas fa-bars" style="font-size:18px;padding:5px"></i>
+                            <span>Payment/Receipt</span>
+                        </a>
+                        <a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" style="color:black ;background-color:white;">
+                            <input type="text" readonly id="daterange" name="daterange" value="" />
+                        </a>
+                        <a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" style="color:black ;background-color:white;" data-toggle="modal" id="adddd" data-target="#exampleModal" data-backdrop="static">
+                            <i class="fas fa-bars" style="font-size:18px;padding:5px"></i>
+                            <span>Period</span>
+                        </a>
+                        <a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" id="createbutton1" style="color: black; background-color: white; " onclick="filldetails()" data-toggle="modal" data-target="#exampleModal1">
+                            <i class="fa fa-plus" style="font-size:18px;padding:5px"></i>
+                            <span>New Debit/Credit Note</span>
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a style="border-radius:6px" onmouseover="this.style.background='#F5F5F5';" onmouseout="this.style.background='white';" class="nav-link" data-toggle="dropdown" href="#">
+                            <i style="color: grey" class="fa fa-ellipsis-v"></i>  &nbsp;
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                            <a class="dropdown-item" onclick="allData()">
+                                <!-- Message Start -->
+                                <div class="media">
+
+                                    <div class="media-body">
+                                        <i class="dropdown-item-title">
+                                            All Sale List
+                                        </i>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+    <div class="modal fade" id="exampleModal1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color:darkslategrey">
+                    <span style="color:white">Add Debit/ Credit Note Details</span>
+                    <button style="color:white" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <span id="categoryColor">Select Type</span>
+                                <select class="form-control" id="vouchtype" style="width: 100%;" onchange="voucherno()">
+                                    <option value="DEBIT" selected>Debit</option>
+                                    <option value="CREDIT">Credit</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <span>Voucher No.:</span>
+                                <input type="text" id="voucherno" readonly class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <span>Voucher Date :</span>
+                                <input type="date" id="voucherDate" class="form-control" onkeypress="nextfocus(event,'enqdate')" placeholder="Remarks" />
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <span style="color:black">Party Name</span>
+                                <select class="form-control" id="partyName" onchange="FillBillNumbers()" style="width: 100%;">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <span style="color:black">Bill Amount</span>
+                                <input type="number" id="billAmount" class="form-control" placeholder="Bill Amount" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <span id="categoryColor">Select Voucher</span>
+                                <select class="form-control" id="salepurchasetype" style="width: 100%;" onchange="FillBillNumbers()">
+                                    <option value="Sale" selected>Sale</option>
+                                    <option value="Purchase">Purchase</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <span style="color:black">Select Bill No.</span>
+                                <select class="form-control" id="billno" style="width: 100%;">
+                                </select>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="saveVoucher()" id="saveebutton">Save</button>
+                    <button id="resetitem" type="button" class="btn btn-danger" onclick="resetdata()">Reset</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="modal fade" id="exampleModal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-sm" role="document">
+                <div class="modal-content">
+                    <div class="modal-header" style="background-color:darkslategrey">
+                        <h5 style="color:white;color:white">Period</h5>&nbsp;&nbsp;&nbsp;
+                        <button style="color:white" type="button" class="close" data-dismiss="modal" tabindex="-1" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <span>From </span><br />
+                                    <input type="date" id="fromdate" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <span>to </span><br />
+                                    <a id="notes" hidden></a>
+                                    <input type="date" id="todate" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" onclick="gettablelist()" data-dismiss="modal">View</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header p-2">
+                                <ul class="nav nav-pills">
+
+                                    <li class="nav-item"><a class="nav-link active" href="#PaymentTab" onclick="NoteList('DebitTable','DEBIT')" data-toggle="tab">Debit Note List</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="#ReceiptTab" onclick="NoteList('CreditTable','CREDIT')" data-toggle="tab">Credit Note List</a></li>
+                                </ul>
+                            </div>
+                            <div class="card-body">
+                                <div class="tab-content">
+                                    <div class="active tab-pane" id="PaymentTab">
+                                        <section class="content">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <table id="DebitTable" class="table table-bordered table-hover">
+                                                        <thead>
+                                                            <tr>
+                                                                <th></th>
+                                                                <th style="font-family: 'sans-serif'; font-weight: normal; width:20%">Voucher No. </th>
+                                                                <th style="font-family: 'sans-serif'; font-weight: normal;">Date</th>
+                                                                <th style="font-family: 'sans-serif'; font-weight: normal; ">Cpmpany Name</th>
+                                                                <th style="font-family: 'sans-serif'; font-weight: normal; ">Reference</th>
+                                                                <th style="font-family: 'sans-serif'; font-weight: normal; ">Sale/Purchase</th>
+                                                                <th style="font-family: 'sans-serif'; font-weight: normal; ">Debit</th>
+                                                                <th style="font-family: 'sans-serif'; font-weight: normal; ">Credit</th>
+                                                                <th style="font-family: 'sans-serif'; font-weight: normal;" id="actionbt"></th>
+                                                            </tr>
+                                                        </thead>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </section>
+                                    </div>
+
+                                    <div class="tab-pane" id="ReceiptTab">
+                                        <section class="content">
+
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div class="card">
+                                                        <table id="CreditTable" class="table table-bordered table-hover">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th></th>
+                                                                    <th style="font-family: 'sans-serif'; font-weight: normal; width:20%">Voucher No. </th>
+                                                                    <th style="font-family: 'sans-serif'; font-weight: normal;">Date</th>
+                                                                    <th style="font-family: 'sans-serif'; font-weight: normal; ">Cpmpany Name</th>
+                                                                    <th style="font-family: 'sans-serif'; font-weight: normal; ">Reference</th>
+                                                                    <th style="font-family: 'sans-serif'; font-weight: normal; ">Sale/Purchase</th>
+                                                                    <th style="font-family: 'sans-serif'; font-weight: normal; ">Debit</th>
+                                                                    <th style="font-family: 'sans-serif'; font-weight: normal; ">Credit</th>
+                                                                    <th style="font-family: 'sans-serif'; font-weight: normal;" id="actionbt"></th>
+                                                                </tr>
+                                                            </thead>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </section>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- /.content -->
+    </div>
+    <link href="https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../../plugins/select2/css/select2.min.css">
+    <link rel="stylesheet" href="~/plugins/daterangepicker/daterangepicker.css">
+    <link rel="stylesheet" href="~/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+    <link href="~/js/Plugin/jquery-customselect.css" rel="stylesheet" />
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+
+    @section Scripts{
+        <script src="~/js/ViewCreditDebitNote.js"></script>
+        <script src="~/js/Additems.js"></script>
+
+        <link href="~/css/jquery-customselect-1.9.1.css" rel="stylesheet" />
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="~/js/Plugin/jquery-customselect.js"></script>
+        <script src="../plugins/select2/js/select2.full.min.js"></script>
+
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+
+        <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+
+        <script src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap.min.js"></script>
+        <script>
+            document.title = "View Sale List";
+        </script>
+    }
+
+
+</body>
+

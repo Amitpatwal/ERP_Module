@@ -1,0 +1,101 @@
+﻿@page
+@model BillwiseModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="row">
+    <div class="col-lg-3 col-6">
+        <!-- small box -->
+        <div class="small-box bg-info">
+            <div class="inner">
+                <p style="font-size:30px">OUTSTANDING</p>
+                <h3 id="pendingOrder">Rs 69487224293</h3>
+
+            </div>
+            <a href="" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+    <!-- ./col -->
+    <div class="col-lg-3 col-6">
+        <!-- small box -->
+        <div class="small-box bg-success">
+            <div class="inner">
+                <p style="font-size:30PX">OVERDUE</p>
+                <h3 id="dailyquotation">Rs 69487224293</h3>
+
+
+            </div>
+
+            <a href="../ViewQuotation" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+    <!-- ./col -->
+    <div class="col-lg-3 col-6">
+        <!-- small box -->
+        <div class="small-box " style="background-color: #949FB1 ">
+            <div class="inner">
+                <p style="color:white;font-size:30px" > ADVANCED PAID</p>
+                <h3 id="totalsaleOrder" style="color:white">Rs 69487224293</h3>
+            </div>
+           
+            <a href="../ViewSO" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+    <!-- ./col -->
+    <div class="col-lg-3 col-6">
+        <!-- small box -->
+        <div class="small-box bg-danger">
+            <div class="inner">
+                <p style="font-size:30px">OUTSTANDING IN BRANCH</p>
+                <h3 id="dailyInvoice">Rs 69487224293</h3>
+
+
+            </div>
+          
+            <a href="../DispachtedOrderCheck" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-6">
+        <!-- small box -->
+        <div class="small-box bg-danger">
+            <div class="inner">
+                <p style="font-size:30px">OUTSTANDING DEBTORS</p>
+                <h3 id="dailyInvoice">Rs 69487224293</h3>
+            </div>
+         
+            <a href="../DispachtedOrderCheck" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+
+
+</div>
+
+<script src="plugins/chart.js/Chart.min.js"></script>
+@section Scripts{
+    <script src="~/js/Dashboard.js"></script>
+    <script src="../plugins/jqvmap/jquery.vmap.min.js"></script>
+    <script src="../plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.0.0/dist/chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+
+}
+<script>
+    document.title = "Dashboard";
+</script>
+
+<style>
+    .container {
+        width: 40%;
+    }
+
+    h2 {
+        text-align: center;
+        font-family: "Verdana", sans-serif;
+        font-size: 30px;
+    }
+</style>
+
+

@@ -1,0 +1,596 @@
+﻿@page
+@model InvoiceModel
+@{
+
+    ViewData["Title"] = "Home page";
+
+}<!-- Content Wrapper. Contains page content -->
+<body class="hold-transition sidebar-mini">
+
+    <!-- Content Header (Page header) -->
+    <label hidden id="pinodigit"></label>
+    <label hidden id="ivnodigit"></label>
+    <label hidden id="tempsonumber"></label>
+    <label hidden id="tempsave"></label>
+    <label hidden id="statuss"></label>
+    <nav class="navbar navbar-expand-sm  navbar-dark" style="background-color: #FBFBFD; position: sticky; top: 0; z-index: 3;">
+        <ul class="navbar-nav">
+            <li class="nav-item active">
+                <a style="font-size:30px" class="fa fa-arrow-circle-left" href="../ViewSO"></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" style="color:black">Invoice</a>
+            </li>
+        </ul>
+        <ul class="navbar-nav ml-auto">
+
+            <li class="nav-item" id="saveButton">
+                <a onclick="permanentsave()" id="savebt" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" style="color:black ;background-color:white;">
+                    <i class="fa fa-save " style="font-size:24px"></i>
+                    &nbsp;&nbsp;
+                    <span id="saveSO">Save</span>
+                </a>
+            </li>
+            &nbsp;
+            <li class="nav-item" id="printbton" style="display:none">
+                <a id="printbutton" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" onclick="printSaleOrder()" style="color:black ;background-color:white;">
+                    <i class="fa fa-print " style="font-size:24px"></i>
+                    &nbsp;&nbsp;
+                    Print
+                </a>
+            </li>
+            &nbsp;
+        </ul>
+    </nav>
+
+
+    <form id="viewDiv">
+        <div>
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <!-- SELECT2 EXAMPLE -->
+                    <div class="card card-default">
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <span>Invoice No.:</span>
+                                                <input type="text" readonly id="ivno" class="form-control" />
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <span> Invoice Date  :</span>
+                                                <input type="datetime-local" id="ivdate" class="form-control" onkeypress="nextfocus(event,'pinumber')" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <span>DO No.:</span>
+                                                <input type="text" id="dono" class="form-control" onkeypress="nextfocus(event,'pidate')">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <span>DO Date:</span>
+                                                <input type="datetime-local" id="dodate" class="form-control" onkeypress="nextfocus(event,'quotationno')" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <span>SO No.:</span>
+                                                <input type="text" id="sono" class="form-control" onkeypress="nextfocus(event,'quotdate')">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <span>SO Date:</span>
+                                                <input type="datetime-local" id="sodate" class="form-control" onkeypress="nextfocus(event,'referencecode')" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <div class="row col-md-12">
+            <!-- Main content -->
+            <section class=" col-md-6">
+                <div class="card card-default">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <span>Billing Details</span>
+                            </div>
+                            <div class="input-group col-md-6">
+                                <span id="billgstlabel">GST NO  &nbsp; &nbsp; </span>
+                                <input type="text" id="billGST" readonly class="form-control">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="input-group">
+                                    <span>Company Name</span>
+                                    <select class="form-control" id="billcompanyname" onchange="filldetails('bill',this.value);" onkeypress="nextfocus(event,'billSTATE')" style="width:100%;">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class=" col-md-6">
+                                <div class="form-group">
+                                    <span id="bstatelabel">State</span>
+                                    <input type="text" id="billSTATE" class="form-control">
+                                </div>
+                            </div>
+                            <div class=" col-md-6">
+                                <div class="form-group">
+                                    <span id="bcitylabel">City</span>
+                                    <input type="text" id="billCITY" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <span>Address</span>
+                                    <textarea id="billaddress" class="form-control" onkeypress="nextfocus(event,'billcp')"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <span>Contact Person</span>
+                                    <input type="text" id="billcp" class="form-control" onkeypress="nextfocus(event,'billmobile')">
+                                </div>
+                            </div>
+
+
+                            <div class=" col-md-6">
+                                <div class="form-group">
+                                    <span>Mobile</span>
+                                    <input type="text" id="billmobile" class="form-control" onkeypress="nextfocus(event,'billmail')">
+                                </div>
+                            </div>
+                            <div class=" col-md-6">
+                                <div class="form-group">
+                                    <span>E-mail</span>
+                                    <input type="email" id="billmail" class="form-control" onkeypress="nextfocus(event,'consigncompanyname')">
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class=" col-md-6">
+                <div class="card card-default">
+                    <div class="card-body" id="consigndata">
+                        <div class="row">
+                            <div class="col">
+                                <span style="font-size:12px"> Consign Details <u>(Same as Billing Details) </u></span>
+                                <input type="checkbox" id="datacheck" onclick="samedata()" />
+                            </div>
+
+                            <div class="input-group col-md-6">
+                                <span id="consigngstlabel">GST NO  &nbsp; &nbsp; </span>
+                                <input type="text" id="consignGST" readonly class="form-control">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="input-group">
+                                    <span>Company Name</span>
+                                    <select class="form-control" id="consigncompanyname" onchange="filldetails('consign',this.value);" style="width: 100%;" onkeypress="nextfocus(event,'consignSTATE1')">
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <span id="cstatelabel">State</span>
+                                    <input type="text" id="consignSTATE1" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <span id="ccitylabel">City</span>
+                                    <input type="text" id="consignCITY1" class="form-control" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <span>Address</span>
+                                    <textarea id="consignaddress" class="form-control" onkeypress="nextfocus(event,'consigncp')"></textarea>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <span>Contact Person</span>
+                                    <input type="text" id="consigncp" class="form-control" onkeypress="nextfocus(event,'consignmobile')" />
+                                </div>
+                            </div>
+
+                            <div class=" col-md-6">
+                                <div class="form-group">
+                                    <span>Mobile</span>
+                                    <input type="text" id="consignmobile" class="form-control" onkeypress="nextfocus(event,'consignmail')">
+                                </div>
+                            </div>
+                            <div class=" col-md-6">
+                                <div class="form-group">
+                                    <span>E-mail</span>
+                                    <input type="email" id="consignmail" class="form-control" onkeypress="nextfocus(event,'ordertype')">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <div>
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="card card-default">
+                        <div class="card-header">
+                            <div class="container-fluid">
+                                <div class="col-lg-12">
+                                    <span style=" width:10px;"> P.O Details</span>
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse" style="float: right;">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <span>Order Type</span>
+                                                <select class="form-control" id="ordertype" style="width:100%;">
+                                                    <option value="VO">VERBAL ORDER</option>
+                                                    <option value="FO" selected>FORMAL ORDER</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <span id="ponolabel">P.O No.</span>
+                                                <input type="text" id="pono" class="form-control" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group date" id="reservationdatetime" data-target-input="nearest">
+                                                <span>P.O Date</span>
+                                                <input type="datetime-local" id="podate" class="form-control" placeholder="Remarks" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <span>TCS %</span>
+                                            <select class="form-control" id="tcs" style="width:100%;">
+                                                <option value="true">YES</option>
+                                                <option value="false" selected>NO</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            <span>TAX</span>
+                                            <select class="form-control" id="tax" style="width:100%;">
+                                                <option value="GST" selected>GST 18.00%</option>
+                                                <option value="LUT">LUT 0.10%"</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <span>Late Delivery</span><br />
+                                            <input type="checkbox" id="ld" onchange="showhideDD()" data-toggle="toggle" data-style="ios">
+                                        </div>
+                                        <div class="col-md-3 dd">
+                                            <span>Delivery Date</span>
+                                            <input type="datetime-local" id="deliverydate" class="form-control" placeholder="Remarks" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!--</section>-->
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <table id="ItemTable" class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>Item Name</th>
+                                        <th>Size</th>
+                                        <th>Class</th>
+                                        <th>Make</th>
+                                        <th> Qty</th>
+                                        <th>Unit</th>
+                                        <th>Price</th>
+                                        <th>Disc %</th>
+                                        <th>Disc. Price</th>
+                                        <th>Amount</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                            <span style="text-align:right">Total Amount : </span><span id="finalamt">00.0</span>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="card card-default">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <input type="text" style="background-color:grey ;color:white;width:280px" id="frieghtTypelabel" value="Freight Type" /><br />
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <select class="form-control" id="frieghttype" style="width:100%;" onkeypress="nextfocus(event,'FrieghtLabel')">
+                                                        <option value="Select" selected>Please Select Freight Type</option>
+                                                        <option value="F.O.R">F.O.R</option>
+                                                        <option value="To Be Billed">To Be Billed</option>
+                                                        <option value="To Pay">To Pay</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <input type="text" style="background-color:grey;color:white;width:280px" id="FrieghtLabel" value="Freight Charges" onkeypress="nextfocus(event,'Freightcharges')" />
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <input type="number" id="Freightcharges" onkeyup="taxTypeChange()" class="form-control" style="border-block-color:black" onkeypress="nextfocus(event,'LFLabel')" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <br /><br /><br />
+
+
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <input type="text" style="background-color:grey;color:white;width:280px" id="LFLabel" value="Loading/Forwarding Charges" onkeypress="nextfocus(event,'LFCharges')" />
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <input type="number" id="LFCharges" onkeyup="taxTypeChange()" class="form-control" style="border-block-color:black" onkeypress="nextfocus(event,'balancelabel')" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <input type="text" style="background-color:grey ;color:white;width:280px" id="balancelabel" value="Previous balance" onkeypress="nextfocus(event,'balance')" /><br />
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <input type="number" class="form-control" style="border-block-color:black" id="balance" onkeypress="nextfocus(event,'note')" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <span>Note</span><br />
+                                <input type="text" style="background-color:grey ;color:white;width:100%" id="note" /><br />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
+
+
+
+        </div>
+
+        <div>
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="card card-default">
+                        <div class="card-header">
+                            <div class="container-fluid">
+                                <div class="col-lg-12">
+                                    <span style=" width:10px;"> TAX Details</span>
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse" style="float: right;">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <span>TAX TYPE</span>
+                                                <select class="form-control" onchange="taxTypeChange()" id="taxtype" style="width:100%;">
+                                                    <option value="exportSale" selected>Export Sale</option>
+                                                    <option value="igstSale">IGST SALE</option>
+                                                    <option value="localSale">Local Sale</option>
+                                                    <option value="lutSaleLocal">LUT Sale Local</option>
+                                                    <option value="lutSale">LUT Sale InterState</option>
+                                                    <option value="nilSale">NIl Sale</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3" id="igstdiv" style="display:none">
+                                            <div class="form-group">
+                                                <span>IGST</span>
+                                                <input type="text" disabled id="igst" class="form-control" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3" id="sgstdiv" style="display:none">
+                                            <div class="form-group">
+                                                <span>SGST</span>
+                                                <input type="text" disabled id="sgst" class="form-control" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3" id="cgstdiv" style="display:none">
+                                            <div class="form-group">
+                                                <span>CGST</span>
+                                                <input type="text" disabled id="cgst" class="form-control" />
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <span>Taxable Amount</span>
+                                                <input type="text" disabled id="taxableAmount" class="form-control" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <span>TCS ON SALE</span>
+                                                <select class="form-control" onchange="tcsonSale()" id="tcsonsale" style="width:100%;">
+                                                    <option value="no" selected>NO</option>
+                                                    <option value="yes">YES</option>
+
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3" id="tcsratediv" style="display:none">
+                                            <div class="form-group">
+                                                <span>TCS Rate</span>
+                                                <input type="text" disabled id="tcsrate" class="form-control" />
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <span>Final Amount</span>
+                                                <input type="text" disabled id="finalAmount" class="form-control" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+
+    </form>
+
+    <style>
+        .toggle.ios, .toggle-on.ios, .toggle-off.ios {
+            border-radius: 20rem;
+        }
+
+            .toggle.ios .toggle-handle {
+                border-radius: 20rem;
+            }
+    </style>
+
+    <!-- Android Style: No radius -->
+    <style>
+        .toggle.android {
+            border-radius: 0px;
+        }
+
+            .toggle.android .toggle-handle {
+                border-radius: 0px;
+            }
+    </style>
+
+    <link href="https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../../plugins/select2/css/select2.min.css">
+    <link rel="stylesheet" href="~/plugins/daterangepicker/daterangepicker.css">
+    <link rel="stylesheet" href="~/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+    <link href="~/js/Plugin/jquery-customselect.css" rel="stylesheet" />
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+    <link href="~/css/jquery-customselect-1.9.1.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css " rel="stylesheet" type="text/css" />
+    <link href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/css/elements.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
+
+    @section Scripts{
+        <script src="../plugins/select2/js/select2.full.min.js"></script>
+        <script src="~/js/Invoice.js"></script>
+        <script src="~/js/Additems.js"></script>
+
+        <link href="~/css/jquery-customselect-1.9.1.css" rel="stylesheet" />
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="~/js/Plugin/jquery-customselect.js"></script>
+        <script src="../plugins/select2/js/select2.full.min.js"></script>
+        <script src="~/dist/js/Buttontogle.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+
+        <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+
+        <script src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap.min.js"></script>
+    }
+
+</body>

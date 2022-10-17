@@ -1,0 +1,373 @@
+﻿@page
+@model DashboardModel
+@{
+    ViewData["Title"] = "Home page";
+}
+<div class="row">
+
+    <section class="col-lg-12 connectedSortable">
+        <!-- Custom tabs (Charts with tabs)-->
+        <div class="card">
+            <div class="card-header border-0">
+                <div class="row">
+                    <h3 style="font-size: 25px; width: 70%; font-family: Tahoma">Dashboard</h3>
+
+                    <h3 class="card-title;" style="width:30%;font-size:16px">Welcome <Span id="username1"></Span>, everything looks great</h3>
+                </div>
+                <div class="d-flex justify-content-end col">
+                    <ul class="navbar-nav ml">
+                        <li class="nav-item dropdown">
+                            <a style="border-radius:6px" onmouseover="this.style.background='#F5F5F5';" onmouseout="this.style.background='white';" class="nav-link" data-toggle="dropdown" href="#">
+                                <span class="card-title" style="color:black"> &nbsp;Settings</span> &nbsp;
+                                <i style="color: grey" class="fa fa-gear"></i>  &nbsp;
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                                <a href="#" class="dropdown-item">
+                                    <div class="media">
+                                        <img src="dist/img/user1-128x128.jpg" alt="User Avatar" class="img-size-50 mr-3 img-circle">
+                                        <div class="media-body">
+                                            <h3 class="dropdown-item-title">
+                                                Brad Diesel
+                                                <span class="float-right text-sm text-danger"><i class="fas fa-star"></i></span>
+                                            </h3>
+                                            <p class="text-sm">Call me whenever you can...</p>
+                                            <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
+                                        </div>
+                                    </div>
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a href="#" class="dropdown-item">
+                                    <div class="media">
+                                        <img src="dist/img/user8-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
+                                        <div class="media-body">
+                                            <h3 class="dropdown-item-title">
+                                                John Pierce
+                                                <span class="float-right text-sm text-muted"><i class="fas fa-star"></i></span>
+                                            </h3>
+                                            <p class="text-sm">I got your message bro</p>
+                                            <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
+                                        </div>
+                                    </div>
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a href="#" class="dropdown-item">
+                                    <div class="media">
+                                        <img src="dist/img/user3-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
+                                        <div class="media-body">
+                                            <h3 class="dropdown-item-title">
+                                                Nora Silvester
+                                                <span class="float-right text-sm text-warning"><i class="fas fa-star"></i></span>
+                                            </h3>
+                                            <p class="text-sm">The subject goes here</p>
+                                            <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
+                                        </div>
+                                    </div>
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
+                            </div>
+                        </li>
+                    </ul>
+                    &nbsp;
+                    <ul class="navbar-nav ml">
+                        <li class="nav-item dropdown">
+                            <a style="border-radius:6px" onmouseover="this.style.background='#F5F5F5';" onmouseout="this.style.background='white';" class="nav-link" data-toggle="dropdown" href="#">
+                                <span class="card-title" style="color:black"> &nbsp;All time</span> &nbsp;
+                                <i style="color: grey" class="fa fa-calendar"></i>  &nbsp;
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                                <a href="#" class="dropdown-item">
+                                    <div class="media">
+                                        <div class="media-body">
+                                            <h3 class="dropdown-item-title">
+                                                Last 30 Days
+                                            </h3>
+                                        </div>
+                                    </div>
+                                </a>
+                                <a href="#" class="dropdown-item">
+                                    <div class="media">
+                                        <div class="media-body">
+                                            <h3 class="dropdown-item-title">
+                                                Last Month
+                                            </h3>
+                                        </div>
+                                    </div>
+                                </a>
+
+                                <a href="#" class="dropdown-item">
+                                    <div class="media">
+                                        <div class="media-body">
+                                            <h3 class="dropdown-item-title">
+                                                Last 3 Months
+                                            </h3>
+                                        </div>
+                                    </div>
+                                    <!-- Message End -->
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a href="#" class="dropdown-item">
+                                    <div class="media">
+                                        <div class="media-body">
+                                            <h3 class="dropdown-item-title">
+                                                This Year
+                                            </h3>
+                                        </div>
+                                    </div>
+                                    <!-- Message End -->
+                                </a>
+                                <a href="#" class="dropdown-item">
+                                    <div class="media">
+                                        <div class="media-body">
+                                            <h3 class="dropdown-item-title">
+                                                Last Year
+                                            </h3>
+                                        </div>
+                                    </div>
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a href="#" class="dropdown-item">
+                                    <div class="media">
+                                        <div class="media-body">
+                                            <h3 class="dropdown-item-title">
+                                                All Time
+                                            </h3>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<div class="row">
+    <div class="col-lg-3 col-6">
+        <!-- small box -->
+        <div class="small-box bg-info">
+            <div class="inner">
+                <h3 style="font-size:20px" id="pendingOrder">0</h3>
+                <p>Pending Orders</p>
+            </div>
+            <div class="icon">
+                <i class="fas fa-stopwatch"></i>
+            </div>
+            <a href="" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+    <!-- ./col -->
+    <div class="col-lg-3 col-6">
+        <!-- small box -->
+        <div class="small-box bg-success">
+            <div class="inner">
+                <h3 style="font-size:20px" id="dailyquotation">0</h3>
+
+                <p>Daily Quotation</p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-bag"></i>
+            </div>
+            <a href="../ViewQuotation" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+    <!-- ./col -->
+    <div class="col-lg-3 col-6">
+        <!-- small box -->
+        <div class="small-box " style="background-color: #949FB1 ">
+            <div class="inner">
+                <h3  id="totalsaleOrder" style="color:white; font-size:20px">0</h3>
+                <p style="color:white"> Daily Order</p>
+            </div>
+            <div class="icon">
+                <i class="fa fa-shopping-cart "></i>
+            </div>
+            <a href="../ViewSO" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+    <!-- ./col -->
+    <div class="col-lg-3 col-6">
+        <!-- small box -->
+        <div class="small-box bg-danger">
+            <div class="inner">
+                <h3 id="dailyInvoice">0</h3>
+
+                <p>Daily Invoice</p>
+            </div>
+            <div class="icon">
+                <i class="fas fa-file-invoice-dollar"></i>
+            </div>
+            <a href="../DispachtedOrderCheck" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+
+    <div class="card col-6">
+        <div class="card-header">
+            <h3 class="card-title">Quotation Charts</h3>&nbsp;
+            <div id="datelabel" style="display:none">
+                <span>This Record is fetched from <span id="recordfrom"></span>  to  <span id="recordto"></span></span>
+
+            </div>
+
+            <div class="card-tools">
+                <button type="button" class="btn btn-tool">
+                    <ul>
+                        <li class="nav-item dropdown">
+                            <a data-toggle="modal" data-target="#quotationReport" style="border-radius:6px" onmouseover="this.style.background='#F5F5F5';" onmouseout="this.style.background='white';" class="nav-link">
+                                <span class="card-title" style="color:black"> &nbsp;All time</span> &nbsp;
+                                <i style="color: grey" class="fa fa-calendar"></i>  &nbsp;
+                            </a>
+
+                        </li>
+                    </ul>
+                </button>
+            </div>
+        </div>
+
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="chart-responsive">
+                        <canvas id="labelChart" height="200"></canvas>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <ul class="chart-legend clearfix">
+                        <li><i class="far fa-circle text" style="background-color: #F7464A"></i> Total Quotation <span id="Totalquotation">0</span></li>
+                        <li><i class="far fa-circle text" style="background-color: #F7464A"></i> Pending Quotation <span id="pendingQuotation">0</span></li>
+                        <li><i class="far fa-circle text" style="background-color: #46BFBD"></i> Total PI <span id="totalPI">0</span></li>
+                        <li><i class="far fa-circle text" style="background-color: #949FB1"></i> Order Converted <span id="OrderConverted">0</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card col-6">
+        <div class="card-header">
+            <h3 class="card-title">Sales Charts</h3>&nbsp;
+
+            <div id="salesdatelabel" style="display:none">
+                <span>This Record is fetched from <span id="salesrecordfrom"></span>  to  <span id="salesrecordto"></span></span>
+
+            </div>
+            <div class="card-tools">
+                <button type="button" class="btn btn-tool">
+                    <ul>
+                        <li class="nav-item dropdown">
+                            <a data-toggle="modal" data-target="#salesReport" style="border-radius:6px" onmouseover="this.style.background='#F5F5F5';" onmouseout="this.style.background='white';" class="nav-link" data-toggle="dropdown" href="#">
+                                <span class="card-title" style="color:black"> &nbsp;All time</span> &nbsp;
+                                <i style="color: grey" class="fa fa-calendar"></i>  &nbsp;
+                            </a>
+
+                        </li>
+                    </ul>
+                </button>
+            </div>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="chart-responsive">
+                        <canvas id="barChart" height="200"></canvas>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="quotationReport" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color:darkslategrey">
+                    <h5 style="color:white;color:white">Period</h5>&nbsp;&nbsp;&nbsp;
+                    <button type="button" class="fa fa-close " data-dismiss="modal" tabindex="-1" aria-label="Close">
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <span>From </span><br />
+                                <input type="date" id="fromdate" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <span>to </span><br />
+                                <input type="date" id="todate" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="viewReport()" data-dismiss="modal">View</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="salesReport" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color:darkslategrey">
+                    <h5 style="color:white;color:white">Period</h5>&nbsp;&nbsp;&nbsp;
+                    <button type="button" class="fa fa-close " data-dismiss="modal" tabindex="-1" aria-label="Close">
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <span>From </span><br />
+                                <input type="date" id="salesfromdate" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <span>to </span><br />
+                                <input type="date" id="salestodate" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="salesviewReport()" data-dismiss="modal">View</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script src="plugins/chart.js/Chart.min.js"></script>
+@section Scripts{
+    
+    <script src="~/js/Dashboard.js"></script>
+    <script src="../plugins/jqvmap/jquery.vmap.min.js"></script>
+    <script src="../plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.0.0/dist/chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+
+}
+<script>
+    document.title = "Dashboard";
+</script>
+
+<style>
+    .container {
+        width: 40%;
+    }
+
+    h2 {
+        text-align: center;
+        font-family: "Verdana", sans-serif;
+        font-size: 30px;
+    }
+</style>
+
+

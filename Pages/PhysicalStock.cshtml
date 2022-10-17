@@ -1,0 +1,218 @@
+﻿@page
+@model GeneralEntryModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<body class="hold-transition sidebar-mini">
+    <div class="row">
+        <span id="voucherno" hidden></span>
+        <div class="col-md-12">
+            <nav class="navbar navbar-expand-sm  navbar-dark" style="background-color: #FBFBFD; position: sticky; top: 0; z-index: 1;">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" style="color:black">Physical Stock</a>
+                    </li>
+
+                </ul>
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" style="color:black ;background-color:white; width:230px">
+                            <input style="width:200px" type="text" readonly id="daterange" name="daterange" value="" />
+                        </a>
+                        <a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" style="color:black ;background-color:white;" data-toggle="modal" id="adddd" data-target="#exampleModal" data-backdrop="static">
+                            <i class="fas fa-bars" style="font-size:18px;padding:5px"></i>
+                            <span>Period</span>
+                        </a>
+                        <div id="addButton" style="display:none">
+                            <a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" style="color: black; background-color: white;" onclick="filldetails()" data-toggle="modal" data-target="#physicalStock">
+                                <i class="fa fa-plus" style="font-size:18px;padding:5px"></i>
+                                <span>Add Physical Stock</span>
+                            </a>
+
+                        </div>
+                    </li>
+
+                </ul>
+            </nav>
+
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <table id="VoucherTable" class="table table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th style="font-family: 'sans-serif'; font-weight: normal;">Date</th>
+                                                <th style="font-family: 'sans-serif'; font-weight: normal;">Item Description </th>
+                                                <th style="font-family: 'sans-serif'; font-weight: normal;">Godown</th>
+                                                <th style="font-family: 'sans-serif'; font-weight: normal;"> Qty </th>
+                                                <th style="font-family: 'sans-serif'; font-weight: normal;">Alt Qty </th>
+                                                <th style="font-family: 'sans-serif'; font-weight: normal;"> Created by</th>
+                                                <th style="font-family: 'sans-serif'; font-weight: normal;">Action</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+                </div>
+                <!-- /.container-fluid -->
+            </section>
+
+
+
+
+        </div>
+    </div>
+
+    <div class="modal fade" id="physicalStock" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color:darkslategrey">
+                    <h5 style="color:white;color:white">Item Details</h5>&nbsp;&nbsp;&nbsp;
+                    <button style="color:white" type="button" class="close" data-dismiss="modal" tabindex="-1" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <input type="text" style="width:40px;border:none;" hidden readonly id="itemid">
+                      
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="">Voucher Date</span><br />
+                                <input type="date" class="form-control" style="width:100%" id="voucherdate" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span>Item Name  *</span><br />
+                                <select tabIndex="1" class="form-control" id="txtName" onchange="getsize()" style="width: 100%;">
+                                </select>
+                            </div>
+
+                        </div>
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span>Item Size</span>
+                                <select tabIndex="2" class="form-control" id="txtSize" onchange="getclass()" style="width: 100%;">
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span>Class/Thk</span>
+                                <select tabIndex="3" class="form-control" onchange="checkalternateunit()" id="txtClass" style="width: 100%;">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span>Item Make</span>
+                                <select tabindex="4" class="form-control" id="txtMake" style="width: 100%; height:40px;">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <span> WhareHouse</span>
+                                <select tabindex="5" class="form-control" id="frmWarehouse" style="width: 100%; height:40px;">
+                                </select>
+
+                            </div>
+                        </div>
+                  
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span>Qty No.</span><br />
+                                <div class="row">
+                                    <input type="text" class="form-control" style="width:80%" id="QtyNo" />
+                                    <input type="text" class="form-control" style="width:20%" id="QtyUnit" disabled />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6" id="AltDiv" style="display:none">
+                            <div class="input-group">
+                                <span>Alt qty No.</span><br />
+                                <input type="text" class="form-control" style="width:80%" id="AltQtyNo" />
+                                <input type="text" class="form-control" style="width:20%" id="AltQtyUnit" disabled />
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="SaveVoucher()" id="saveebutton1">Save</button>
+                    <button id="resetitem" type="button" class="btn btn-danger" onclick="dataitem(0)">Reset</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="exampleModal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color:darkslategrey">
+                    <h5 style="color:white;color:white">Period</h5>&nbsp;&nbsp;&nbsp;
+                    <button style="color:white" type="button" class="close" data-dismiss="modal" tabindex="-1" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <span>Current </span><br />
+                                <input type="date" id="currentdate" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="LoadDatatable()" data-dismiss="modal">View</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <link href="https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../../plugins/select2/css/select2.min.css">
+    <link rel="stylesheet" href="~/plugins/daterangepicker/daterangepicker.css">
+    <link rel="stylesheet" href="~/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+    <link href="~/js/Plugin/jquery-customselect.css" rel="stylesheet" />
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+
+    @section Scripts{
+        <script src="~/js/PhysicalStock.js"></script>
+
+        <link href="~/css/jquery-customselect-1.9.1.css" rel="stylesheet" />
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="~/js/Plugin/jquery-customselect.js"></script>
+        <script src="../plugins/select2/js/select2.full.min.js"></script>
+
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+
+        <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+
+        <script src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap.min.js"></script>
+        <script>
+            document.title = "Physical Stock List";
+        </script>
+    }
+
+
+</body>
+

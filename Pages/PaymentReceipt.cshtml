@@ -1,0 +1,366 @@
+﻿@page
+@model PaymentReceiptModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<body class="hold-transition sidebar-mini">
+    <div class="row">
+        <div class="col-md-12">
+            <nav class="navbar navbar-expand-sm  navbar-dark" style="background-color: #FBFBFD; position: sticky; top: 0; z-index: 1;">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" style="color:black">Payment/Receipt List </a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" href="ViewSale" style="color:black ;background-color:white;">
+                            <i class="fas fa-bars" style="font-size:18px;padding:5px"></i>
+                            <span>Sales</span>
+                        </a>
+                        <a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" href="ViewPurchase" style="color:black ;background-color:white;">
+                            <i class="fas fa-bars" style="font-size:18px;padding:5px"></i>
+                            <span>Purchase</span>
+                        </a>
+                        <a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" href="ViewCreditDebitNote" style="color:black ;background-color:white;">
+                            <i class="fas fa-bars" style="font-size:18px;padding:5px"></i>
+                            <span>Debit/Credit Note</span>
+                        </a>
+                        <a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" href="PaymentReceipt" style="color:black ;background-color:white;">
+                            <i class="fas fa-bars" style="font-size:18px;padding:5px"></i>
+                            <span>Payment/Receipt</span>
+                        </a>
+                        <a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" style="color:black ;background-color:white;">
+                            <input type="text" readonly id="daterange" name="daterange" value="" />
+                        </a>
+                        <a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" style="color:black ;background-color:white;" data-toggle="modal" id="adddd" data-target="#exampleModal" data-backdrop="static">
+                            <i class="fas fa-bars" style="font-size:18px;padding:5px"></i>
+                            <span>Period</span>
+                        </a>
+                        <a id="createbutton1" onclick="filldetails()" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" style="color: black;  background-color: white; " data-toggle="modal" data-target="#exampleModal1">
+                            <i class="fa fa-plus" style="font-size:18px;padding:5px"></i>
+                            <span>New Purchase/ Receipt</span>
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a style="border-radius:6px" onmouseover="this.style.background='#F5F5F5';" onmouseout="this.style.background='white';" class="nav-link" data-toggle="dropdown" href="#">
+                            <i style="color: grey" class="fa fa-ellipsis-v"></i>  &nbsp;
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                            <a class="dropdown-item" onclick="allData()">
+                                <div class="media">
+                                    <div class="media-body">
+                                        <i class="dropdown-item-title">
+                                            All Purchase List
+                                        </i>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+    <div class="modal fade" id="exampleModal1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color:darkslategrey">
+                    <span style="color:white">Add Payment/ Receipt Details</span>
+                    <button style="color:white" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <span style="font-weight:500">Select Type</span>
+                                <select id="vouchtype" class="form-control" onchange="voucherno()" style="width: 100%;">
+                                    <option value="RECEIPT" selected>Receipt</option>
+                                    <option value="PAYMENT">Payment</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <span style="font-weight:500">Voucher No.:</span>
+                                <input type="text" id="voucherno" readonly class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <span style="font-weight:500">Voucher Date :</span>
+                                <input type="date" id="voucherDate" class="form-control" onkeypress="nextfocus(event,'enqdate')" placeholder="Remarks" />
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <span style="font-weight:500;color:black">Bank Name</span>
+                                <select class="form-control" id="bankName" style="width: 100%;">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <span style="color: black; font-weight: 500;">Party Name</span>
+                                <select class="form-control" id="companyname" style="width: 100%;">
+                                </select>
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <span style="color: black ;font-weight:500;" id="billamountlabel">Amount</span>
+                                <input type="number" id="billAmount" class="form-control" placeholder="Amount" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <marquee>  <span style="text-align: right; font-weight: 500;">Balance Amount : <span id="amountLabel"></span>Rs. 1,00,000.00 Dr. </span></marquee>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <span stye="font-weight:500;">Narration:</span>
+                        <textarea type="text" id="Narration" placeholder="Narration" class="form-control"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <marquee>  <span style="text-align: left; font-weight: 500;">Bill Amount : <span id="amountLabel"></span> </span></marquee>
+                    <marquee>  <span style="text-align: left; font-weight: 500;">On Amount : <span id="amountLabel"></span> </span></marquee>
+                    <button type="button" class="btn btn-primary" style="display:none" id="againstButton" onclick="againstDetails()" data-toggle="modal" data-target="#AgainstBill">Settle Bill-wise</button>
+                    <button type="button" class="btn btn-primary" onclick="addVoucher()" id="saveebutton">Save</button>
+                    <button id="resetitem" type="button" class="btn btn-danger" onclick="resetdata()">Reset</button>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="AgainstBill" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color:darkslategrey">
+                    <span style="color:white">Bill-wise Breakup of:</span>&nbsp;&nbsp;&nbsp;
+                    <span style="color:white" id="billwisecompanyname"></span> &nbsp;&nbsp;&nbsp;&nbsp;
+                    <span style="color:white">Upto :</span>&nbsp;&nbsp;&nbsp;
+                    <span style="color:white" id="uptoAmount"></span>
+                    <button style="color:white" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <span style="text-align: left; font-weight: 500;">Select Bill No.</span>
+                                <input type="number" id="SrNo" class="form-control" hidden />
+                                <select class="form-control" onchange="fillAmount()" id="billno" style="width: 100%;">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <span style="text-align: left; font-weight: 500;">Amount</span>
+                                <input type="number" id="amt" class="form-control" hidden />
+                                <input type="number" id="Amount" class="form-control" onkeyup="checkamt()" placeholder="Enter Amount" />
+                            </div>
+                        </div><div class="col-md-3">
+                            <div class="form-group">
+                                <button id="buttonid" type="button" onclick="saveAgainst()" class="btn btn-primary">Save</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="col-md-12">
+                        <table id="againstTable" class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th style="font-family: 'sans-serif'; font-weight: normal;">Actions</th>
+                                    <th style="font-family: 'sans-serif'; font-weight: normal;">Against Bill No.</th>
+                                    <th style="font-family: 'sans-serif'; font-weight: normal;">Debit</th>
+                                    <th style="font-family: 'sans-serif'; font-weight: normal;">Credit</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="row">
+                        <span style="text-align: left; font-weight: 500;">Total Debit : </span>&nbsp;
+                        <input type="text" id="TotDeb" readonly class="form-control">
+
+                    </div>
+                    <div class="row">
+                        <span style="text-align: left; font-weight: 500;"> Total Credit : </span>&nbsp;
+                        <input type="text" id="TotCrd" readonly class="form-control">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="modal fade" id="exampleModal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-sm" role="document">
+                <div class="modal-content">
+                    <div class="modal-header" style="background-color:darkslategrey">
+                        <h5 style="color:white;color:white">Period</h5>&nbsp;&nbsp;&nbsp;
+                        <button style="color:white" type="button" class="close" data-dismiss="modal" tabindex="-1" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <span>From </span><br />
+                                    <input type="date" id="fromdate" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <span>to </span><br />
+                                    <input type="date" id="todate" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" onclick="gettablelist()" data-dismiss="modal">View</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main content -->
+
+
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header p-2">
+                                <ul class="nav nav-pills">
+                                    <li class="nav-item"><a class="nav-link active" href="#ReceiptTab" onclick="NoteList('ReceiptTable','RECEIPT')" data-toggle="tab">Receipt List</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="#PaymentTab" onclick="NoteList('PaymentTable','PAYMENT')" data-toggle="tab">Payment List</a></li>
+                                </ul>
+                            </div>
+
+                            <div class="card-body">
+                                <div class="tab-content">
+
+                                    <div class="tab-pane" id="PaymentTab">
+                                        <section class="content">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <table id="PaymentTable" class="table table-bordered table-hover">
+                                                        <thead>
+                                                            <tr>
+                                                                <th style="font-family: 'sans-serif'; font-weight: normal; "></th>
+                                                                <th style="font-family: 'sans-serif'; font-weight: normal; ">Voucher No.</th>
+                                                                <th style="font-family: 'sans-serif'; font-weight: normal; ">Date</th>
+                                                                <th style="font-family: 'sans-serif'; font-weight: normal; ">Customer Name</th>
+                                                                <th style="font-family: 'sans-serif'; font-weight: normal; ">Bank Name</th>
+                                                                <th style="font-family: 'sans-serif'; font-weight: normal; ">Debit</th>
+                                                                <th style="font-family: 'sans-serif'; font-weight: normal; ">Credit</th>
+                                                                <th style="font-family: 'sans-serif'; font-weight: normal; ">Action</th>
+                                                            </tr>
+                                                        </thead>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </section>
+                                    </div>
+
+                                    <div class=" active tab-pane" id="ReceiptTab">
+                                        <section class="content">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div class="card">
+                                                        <table id="ReceiptTable" class="table table-bordered table-hover">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th style="font-family: 'sans-serif'; font-weight: normal; "></th>
+                                                                    <th style="font-family: 'sans-serif'; font-weight: normal; ">Voucher No.</th>
+                                                                    <th style="font-family: 'sans-serif'; font-weight: normal; ">Date</th>
+                                                                    <th style="font-family: 'sans-serif'; font-weight: normal; ">Customer Name</th>
+                                                                    <th style="font-family: 'sans-serif'; font-weight: normal; ">Bank Name</th>
+                                                                    <th style="font-family: 'sans-serif'; font-weight: normal; ">Debit</th>
+                                                                    <th style="font-family: 'sans-serif'; font-weight: normal; ">Credit</th>
+                                                                    <th style="font-family: 'sans-serif'; font-weight: normal; ">Action</th>
+                                                                </tr>
+                                                            </thead>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </section>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+    <link rel="stylesheet" href="../../plugins/select2/css/select2.min.css">
+    <link href="~/js/Plugin/jquery-customselect.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+
+
+
+
+
+    @section Scripts{
+
+        <script src="~/js/PaymentReceipt.js"></script>
+        <script src="~/js/Additems.js"></script>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        <script src="~/js/Plugin/jquery-customselect.js"></script>
+        <script src="../plugins/select2/js/select2.full.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
+        <script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+        <script src="../../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+        <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+        <link href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css " rel="stylesheet" type="text/css" />
+        <link href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css" />
+        <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.colVis.min.js"></script>
+        <link href="~/css/jquery-customselect-1.9.1.css" rel="stylesheet" />
+
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+
+        <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+
+        <script src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap.min.js"></script>
+
+        <script>
+            document.title = "Payment - Receipt List";
+        </script>
+    }
+
+</body>
+

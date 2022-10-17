@@ -1,0 +1,228 @@
+﻿@page
+@model LoadingReort
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<body class="hold-transition sidebar-mini">
+    <div class="container-fluid">
+        <div>
+            <div class="row">
+                <div class="col-md-12">
+                    <nav class="navbar navbar-expand-sm  navbar-dark" style="background-color: #FBFBFD;">
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <a class="nav-link" style="color:black">Loading /Unloading Report List</a>
+                            </li>
+                        </ul>
+                    </nav>
+
+                    <nav class="navbar navbar-expand navbar-dark" style="background-color: #FBFBFD; float: right; margin-top: -60px; ">
+                        <ul class="navbar-nav">
+                        </ul>
+                    </nav>
+                </div>
+                <div class="col-md-12">
+                    <nav class="navbar navbar-expand navbar-dark" style="background-color: #FBFBFD; ">
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <div class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" style="color:black ;background-color:white; width:400px">
+                                    <div class="input-group">
+                                        <span style="color: black;align-content:center">Contractor Name</span>
+                                        <select id="ctrName" class="form-control"></select>
+                                    </div>
+                                </div>
+                                <div class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" style="color:black ;background-color:white;">
+                                    <div class="input-group">
+                                        <span style="color: black; width: 100px ;align-content:center">Voucher Type</span>
+                                        <select id="frm" class="form-control">
+                                            <option value="SELL" selected>Sell</option>
+                                            <option value="PURCHASE">Purchase</option>
+                                            <option value="SELL/PURCHASE">Sell/Purchase</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                &nbsp;
+                                <div class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" style="color:black ;background-color:white;">
+                                    <div class="input-group">
+                                        <span style="color:black;width:50px">Type</span>
+                                        <select id="type" class="form-control">
+                                            <option value="BOTH" selected>All Loading Payment</option>
+                                            <option value="CRANE">Crane Loading Payment</option>
+                                            <option value="MANUAL">Manual Loading Payment</option>
+
+
+                                        </select>
+                                    </div>
+                                </div>
+                                <a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" style="color:black ;background-color:white;">
+                                    <input type="text" readonly id="daterange" name="daterange" value="" />
+                                </a>
+                                <a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" style="color:black ;background-color:white;" data-toggle="modal" id="adddd" data-target="#exampleModal" data-backdrop="static">
+                                    <i class="fas fa-bars" style="font-size:18px;padding:5px"></i>
+                                    <span>Period</span>
+                                </a>
+                                <a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" style="color: black; background-color: white;" onclick="viewReport()">
+                                    <i class="fas fa-angle-double-right" style="font-size:18px;padding:5px"></i>
+                                    <span>View Report</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+            <div class="modal fade" id="exampleModal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-sm" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header" style="background-color:darkslategrey">
+                            <h5 style="color:white;color:white">Period</h5>&nbsp;&nbsp;&nbsp;
+                            <button style="color:white" type="button" class="close" data-dismiss="modal" tabindex="-1" aria-label="Close">
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <span>From </span><br />
+                                        <input type="date" id="fromdate" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <span>to </span><br />
+                                        <input type="date" id="todate" class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" onclick="viewReport()" data-dismiss="modal">View</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <!-- /.card-header -->
+                                <div class="card-body">
+
+
+                                    <table id="listTable" class="table table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+
+                                                <th style="font-family: 'sans-serif'; font-weight: normal; "></th>
+                                                <th style="font-family: 'sans-serif'; font-weight: normal; ">Date</th>
+                                                <th style="font-family: 'sans-serif'; font-weight: normal; ">Voucher No.</th>
+                                                <th style="font-family: 'sans-serif'; font-weight: normal; ">Inv No.</th>
+                                                <th style="font-family: 'sans-serif'; font-weight: normal; ">Company Name</th>
+                                                <th style="font-family: 'sans-serif'; font-weight: normal; ">Weight(kgs)</th>
+                                                <th style="font-family: 'sans-serif'; font-weight: normal; ">Type</th>
+                                                <th style="font-family: 'sans-serif'; font-weight: normal; ">Amount</th>
+
+                                            </tr>
+                                        </thead>
+
+                                        <tfoot>
+                                            <tr>
+                                                <th colspan="6"></th>
+                                                <th style="text-align:right">Total</th>
+                                                <th></th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                                <!-- /.card-body -->
+                            </div>
+                            <!-- /.card -->
+                            <!-- /.card -->
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+                </div>
+                <!-- /.container-fluid -->
+            </section>
+            <!-- /.content -->
+        </div>
+    </div>
+    <link rel="stylesheet" href="../../plugins/select2/css/select2.min.css">
+    @section Scripts{
+
+        <script src="~/js/Additems.js"></script>
+        <script src="~/js/LoadingReport.js"></script>
+
+
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
+        <script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+        <script src="../../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+        <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
+
+        <script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+        <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
+        <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
+
+        <link href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css " rel="stylesheet" type="text/css" />
+        <link href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css" />
+        <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.colVis.min.js"></script>
+        <script src="../plugins/select2/js/select2.full.min.js"></script>
+    }
+    <style>
+        .dropbtn {
+            background-color: #04AA6D;
+            color: white;
+            padding: 12px;
+            font-size: 12px;
+            border: none;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f1f1f1;
+            min-width: 100px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+            .dropdown-content a {
+                color: black;
+                padding: 12px 16px;
+                text-decoration: none;
+                display: block;
+                color: black;
+            }
+
+                .dropdown-content a:hover {
+                    background-color: #ddd;
+                    color: black;
+                }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown:hover .dropbtn {
+            background-color: #3e8e41;
+        }
+    </style>
+</body>
+

@@ -1,0 +1,114 @@
+﻿@page
+@model SALES_ERP.Pages.IndexModel
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>ERP SYSTEM</title>
+    <!-- Custom fonts for this template-->
+    <link href="~/css/login_style.css" rel="stylesheet" />
+    <link href="~/css/animate.css" rel="stylesheet" />
+    <link href="~/css/jquery.loader.css" rel="stylesheet" />
+</head>
+
+<body>
+    <div class="login-page">
+        <div class="mobile_login">
+            <img src="https://cdn.vend-x.com/images/login-btn.gif" />
+        </div>
+        <div class="login-left">
+            <ul class="circle-container">
+                <li data-color="skyblue"><a href="javascript:;"><img src="./imgs/icon4.png"><span>E-auctions</span></a></li>
+                <li data-color="orange"><a href="javascript:;"><img src="./imgs/icon5.png"><span>Order Tracking</span></a></li>
+                <li data-color="black"><a href="javascript:;"><img src="./imgs/icon6.png"><span>Negotiation Trend</span></a></li>
+                <li data-color="blue"><a href="javascript:;"><img src="./imgs/icon7.png"><span>Spend Analysis</span></a></li>
+                <li data-color="skyblue"><a href="javascript:;"><img src="./imgs/icon8.png"><span>Commodity Price Tracking</span></a></li>
+                <li data-color="orange"><a href="javascript:;"><img src="./imgs/icon9.png"><span>Decision Authorization</span></a></li>
+                <li data-color="black" data-text="The key benefit of GRN is to provide visibility to vendors of GRN details for the materials received. Improved visibility of GRN in respect to ASN both at vendor and buyer end will lead to reduction of time for co-ordination between internal stake holders and suppliers"><a href="javascript:;"><img src="https://cdn.vend-x.com/images/icon10.png"><span>GRN</span></a></li>
+                <li data-color="blue" data-text="VENDX is a fully integrated end-to-end procurement solution which can be seamlessly integrated with your existing ERP thus eliminates manual work of uploading CSV files and thereby making your PR to PO process much faster and smoother. The power behind our integrated solution is its incredible flexibility and simple architecture."><a href="javascript:;"><img src="./imgs/icon11.png"><span>ERP Integration</span></a></li>
+                <li data-color="skyblue" data-text="Payment Register helps in deriving High satisfaction among vendor community due to instant availability of all information related to the payment thereby easing of account reconciliation"><a href="javascript:;"><img src="https://cdn.vend-x.com/images/icon12.png"><span>Payment Register</span></a></li>
+                <li data-color="orange" data-text="Purchase Requisition tracking assists buyer to consolidate and float multiple PRs of different categories and destinations involving multiple suppliers in a single transaction, thus; facilitates buyer with sufficient time for improved negotiations. It also maintains track of each and every PR/line item to ensure timely purchase."><a href="javascript:;"><img src="./imgs/icon1.png"><span>PR Tracking</span></a></li>
+                <li data-color="black" data-text="From the simplest RFI, RFP to the most complex multiple parameter bids, calculations can be easily handled through our intuitive RFX tool by facilitating multiple templates for RFI, RFP, Quotation, Landed cost computation, negotiation as per the business requirement. It helps in shortening your buying cycle and also brings down your processing cost."><a href="javascript:;"><img src="./imgs/icon2.png"><span>RFQ / RFP</span></a></li>
+                <li data-color="blue" data-text="Using this tool, you can evaluate supplier’s bids based on technical as well as commercial parameters. This tool also provides ease of creating multiple technical bid templates to collect relevant data for any line item from the suppliers."><a href="javascript:;"><img src="./imgs/icon3.png"><span>Techno - commercial Comparison</span></a></li>
+            </ul>
+        </div>
+        <div class="login-right">
+            <ul class="top_link mobile_contact">
+                <li>A Product of SBS DIGITAL INFOTECH</li>
+                <li><a href="https://sbsdigitalinfotech.com/" target="_blank">www.sbsdigitalinfotech.com</a> | <a href="https://sbsdigitalinfotech.com/contact-us/" target="_blank">Contact Us</a></li>
+                <li style="font-size:20px">SALES INVENTORY</li>
+                <li>( A Complete Inventory Solution )</li>
+            </ul>
+            <div class="login-right_inner">
+                <div class="flip_style_div1" id="flip_style_div1" style='position: absolute; right:15px; left:15px;'>
+                    <div class="login-right_login">
+                        <h2>Login</h2>
+                        <form class="form-signin">
+                            <div>
+                                <input type="text" placeholder="Username" name="username" class="vl_username" id="email" autocomplete="off">
+                                <input type="password" placeholder="Password" name="password" class="password" id="pwd" autocomplete="off">
+                                <div class="alert alert-danger" id="error_login_div" style="display:none;"></div>
+                            </div>
+                            <button type="button" id="login">login</button>
+                            <span style="cursor: pointer; margin-left: 20px;">
+                                <a class="flip_ta_form" id="flip_ta_form" href="#"> Login As Technical Approver </a>
+                            </span>
+                            <input type="hidden" name="BusinessGrID" id="BusinessGrID" value="1">
+                        </form>
+                    </div>
+                    <div class="login-right_forgot">
+                        <h2>Forgot your Password?</h2>
+                        <p>Please enter your email id, which also acts as your Username </p>
+                        <form method="POST" name="forgotpass">
+                            <input type="text" name="buyer_username" id="buyer_username" placeholder="Login ID" class="vl_username" autocomplete="off">
+                            <input type="text" name="buyer_email" id="buyer_email" placeholder="Email ID" class="password email_img" autocomplete="off">
+                            <div id="buyer_forgot_password_err_div" class="alert alert-danger" style="display:none;"></div>
+                            <button type="button" id="btnforgot" onclick="buyer_forgot_password_new();">Submit</button>
+                            <span style="margin-left: 15px;"><a class="flip_form" href="javascript:;">Back to Login</a></span>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+            <!--<img class="vl_user-desk" src="/images/vl_user-icon.png" alt=""/> -->
+            <div class="copy-right-mob ">
+                <a class="desktop_mobile" href="tel:091 9711003869"><img src="https://cdn.vend-x.com/images/vl_support.png" alt="" /> <span>+91-9711003869</span></a>
+                <a class="desktop_mobile" href="info@sbsdigitalinfotech.com"><img src="https://cdn.vend-x.com/images/email-box.png" alt="" /> <span>info@sbsdigitalinfotech.com</span></a>
+            </div>
+        </div>
+    </div>
+    <div class="copy-right">
+        <a class="desktop_contact">
+            <span>Contact Support:</span>  +91-9711003869
+        </a>
+        <div id="copyright"></div>
+    </div>
+    <script>
+        var currentTime = new Date();
+        var year = currentTime.getFullYear();
+        document.getElementById('copyright').innerHTML
+            = 'Copyright 2021-' + year + ' SBS DIGITAL INFOTECH. All rights reserved';
+    </script>
+    <!-- Bootstrap core JavaScript-->
+    <script src="~/lib/jquery/jquery.min.js"></script>
+
+    <script src="~/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- Core plugin JavaScript-->
+    <script src="~/lib/jquery-easing/jquery.easing.min.js"></script>
+    <!-- Custom scripts for all pages-->
+    <script src="~/js/sb-admin-2.min.js"></script>
+    <script src="~/js/login.js"></script>
+
+
+
+</body>
+
+
+
+</html>

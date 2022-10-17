@@ -1,0 +1,400 @@
+﻿@page
+@model DOLoadingDetails
+@{
+
+    ViewData["Title"] = "Home page";
+
+}
+<!-- Content Wrapper. Contains page content -->
+<!-- Begin Page Content -->
+<body class="hold-transition sidebar-mini">
+    <div class="container-fluid">
+        <div>
+            <span id="lonodigit" hidden></span>
+            <span id="tempsave" hidden>Save</span>
+            <span id="olddono" hidden></span>
+            <i hidden class="nav-item" id="opstock" style="display:none; "></i>
+
+            <nav class="navbar navbar-expand-sm  navbar-dark" style="background-color: #FBFBFD; ">
+                <ul class="navbar-nav">
+                    <li class="nav-item active">
+                        <a href="../ViewDispachtedOrder" style="font-size:30px" class="fa fa-arrow-circle-left"></a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" style="color:black">Loading Deatils</a>
+
+                    </li>
+                </ul>
+                <ul class="navbar-nav ml-auto">
+
+                    <li class="nav-item" id="printbton" style="display:none">
+                        <a id="printbutton" onclick="printLO()" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" style="color:black ;background-color:white;">
+                            <i class="fa fa-print " style="font-size:24px"></i>
+                            &nbsp;&nbsp;
+                            Print
+                        </a>
+                    </li>
+                    &nbsp;
+                    <li class="nav-item">
+                        <a onclick="permanentsave()" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" style="color:black ;background-color:white;">
+                            <i class="fa fa-save " style="font-size:24px"></i>
+                            &nbsp;&nbsp;
+                            <span id="saveLO">Save</span>
+                        </a>
+                    </li>
+                    &nbsp;
+
+                </ul>
+            </nav>
+
+
+            <!-- Content Header (Page header) -->
+
+            <div>
+                <!-- Main content -->
+                <section class="content">
+                    <div class="container-fluid">
+                        <!-- SELECT2 EXAMPLE -->
+                        <div class="card card-default">
+                            <!-- /.card-header -->
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <span>Loading No.:</span>
+                                            <input type="text" id="lono" readonly class="form-control">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <span>Loading Date :</span>
+                                            <input type="datetime-local" id="lodate" class="form-control" placeholder="Remarks" />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <span>Customer Name:</span>
+                                            <input id="suppliername" type="text" readonly class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <span>Company Address:</span>
+                                            <input id="addresss" type="text" readonly class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <span>Note</span>
+                                            <input id="Note" type="text" class="form-control">
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <div>
+                <!-- Main content -->
+                <section class="content">
+                    <div class="container-fluid">
+                        <div class="card card-default">
+                            <div class="card-header">
+                                <div class="container-fluid">
+                                    <div class="col-md-8">
+                                        <span>Transporter Details  </span>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="input-group">
+                                            <span>Transporter Name</span>
+                                            <select class="form-control" id="transportname" onkeypress="nextfocus(event,'contactperson')" style="width: 100%;">
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <span>Lorry/ Vechile No</span>
+                                            <input id="vehicle" type="text" class="form-control" placeholder="Enter Vechile No" />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <span>Name Of Driver</span>
+                                            <input type="text" id="driverName" class="form-control" placeholder="Enter Driver Name ">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <span> Driver Mobile No.</span>
+                                            <input type="text" id="DriverMobile" class="form-control" placeholder="Enter Mobile No">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <span>Loading Incharge</span>
+                                            <input id="incharge" type="text" class="form-control" placeholder="Enter Loading Incharge">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+
+            <!--</section>-->
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+
+                        <div class="card">
+                            <!-- /.card-header -->
+                            <div class="card-body">
+
+                                <div class="modal fade" id="exampleModal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header" style="background-color:darkslategrey">
+                                                <h5 style="color:white;color:white">Fill Details</h5>&nbsp;&nbsp;&nbsp;
+
+                                                <button style="color:white" type="button" class="close" data-dismiss="modal" tabindex="-1" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="row">
+                                                    <input type="text" style="width:40px;border:none;" hidden readonly id="itemid">
+                                                    <div class="col-md-6">
+                                                        <div class="input-group">
+                                                            <span id="namecolor">Item Name  *</span><br />
+
+                                                            <select tabIndex="1" disabled class="form-control" id="txtName" style="width: 100%;">
+                                                            </select>
+
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="input-group">
+                                                            <span>Item Size</span>
+                                                            <select tabIndex="2" class="form-control" id="txtSize" disabled style="width: 100%;">
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="input-group">
+                                                            <span>Class/Thk</span>
+                                                            <select tabIndex="3" class="form-control" id="txtClass" onchange="getconer()" style="width: 100%;">
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="input-group">
+                                                            <span>Item Make</span>
+                                                            <select tabindex="4" class="form-control" id="txtMake" style="width: 100%; height:40px;">
+                                                            </select>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <span id="unitcolor">Qty (Mtr) *</span>
+                                                            <input type="number" id="qtyMtr" class="form-control" onkeyup="altweight()" placeholder="Enter Order Qty " />
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <span>Alt Qty (Nos)</span>
+                                                            <input type="number" id="altqty" class="form-control" placeholder=" Enter Alt Qty " />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <span>Item Weight (Kg) </span>
+                                                            <input type="number" id="itmweight" class="form-control" placeholder="Enter Item Weight" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <span id="wharehouselabel">Warehouse</span>
+                                                            <select class="form-control" id="txtWarehouse" style="width: 100%;">
+                                                            </select>
+                                                        </div>
+                                                    </div>
+
+
+                                                </div>
+
+                                            </div>
+
+                                            <div class="modal-footer">
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <span>Order Qty</span>
+                                                        <span hidden id="orderqtyy"></span>
+                                                        <span hidden id="orderqtyunit"></span>
+                                                        <input type="text" id="orderQty" disabled class="form-control" />
+                                                    </div>
+                                                </div>
+                                                <button type="button" class="btn btn-primary" onclick="addLOdetails()" id="saveebutton1">Save</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="card">
+                                        <div class="card-header p-2">
+                                            <ul class="nav nav-pills">
+                                                <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Ordered List</a></li>
+                                                <li class="nav-item"><a class="nav-link" href="#timeline" onclick="despatchMaterial()" data-toggle="tab">Dispachted Material</a></li>
+                                            </ul>
+                                        </div>
+
+                                        <div class="card-body">
+                                            <div class="tab-content">
+
+                                                <div class="active tab-pane" id="activity">
+                                                    <section class="content">
+                                                        <div class="row">
+                                                            <div class="col-12">
+                                                                <table id="ItemTable" class="table table-bordered table-hover">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th style="font-family: 'sans-serif'; font-weight: normal; text-align: center; "></th>
+                                                                            <th style="font-family: 'sans-serif'; font-weight: normal; text-align: center;  ">Item Description</th>
+                                                                            <th style="font-family: 'sans-serif'; font-weight: normal; text-align: center; ">Order Qty </th>
+                                                                            <th style="font-family: 'sans-serif'; font-weight: normal; text-align: center; ">Qty(Mtr) </th>
+                                                                            <th style="font-family: 'sans-serif'; font-weight: normal; text-align: center; ">Qty(Nos.)</th>
+                                                                            <th style="font-family: 'sans-serif'; font-weight: normal; text-align: center; ">Weight(Kg)</th>
+                                                                            <th style="font-family: 'sans-serif'; font-weight: normal; text-align: center; ">Material Source</th>
+                                                                            <th style="font-family: 'sans-serif'; font-weight: normal; text-align: center; ">Action</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </section>
+                                                </div>
+
+                                                <div class="tab-pane" id="timeline">
+                                                    <section class="content">
+
+                                                        <div class="row">
+                                                            <div class="col-12">
+                                                                <div class="card">
+
+                                                                    <table id="dispachtedMaterial" class="table table-bordered table-hover">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th style="font-family: 'sans-serif'; font-weight: normal; text-align: center; "></th>
+                                                                                <th style="font-family: 'sans-serif'; font-weight: normal; text-align: center;  ">Item Description</th>
+                                                                                <th style="font-family: 'sans-serif'; font-weight: normal; text-align: center; ">Order Qty </th>
+                                                                                <th style="font-family: 'sans-serif'; font-weight: normal; text-align: center; ">Qty(Mtr) </th>
+                                                                                <th style="font-family: 'sans-serif'; font-weight: normal; text-align: center; ">Qty(Nos.)</th>
+                                                                                <th style="font-family: 'sans-serif'; font-weight: normal; text-align: center; ">Weight(Kg)</th>
+                                                                                <th style="font-family: 'sans-serif'; font-weight: normal; text-align: center; ">Material Source</th>
+                                                                                <th style="font-family: 'sans-serif'; font-weight: normal; text-align: center; ">Action</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </section>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                        <!-- /.card -->
+                        <!-- /.card -->
+                    </div>
+                    <!-- /.col -->
+                </div>
+                <!-- /.row -->
+            </div>
+
+        </div>
+    </div>
+    <link href="https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../../plugins/select2/css/select2.min.css">
+    <link rel="stylesheet" href="~/plugins/daterangepicker/daterangepicker.css">
+    <link rel="stylesheet" href="~/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+    <link href="~/js/Plugin/jquery-customselect.css" rel="stylesheet" />
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+
+    @section Scripts{
+
+        <script src="~/js/DOLoadingDetails.js"></script>
+        <script src="~/js/Additems.js"></script>
+        <link href="~/css/jquery-customselect-1.9.1.css" rel="stylesheet" />
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="~/js/Plugin/jquery-customselect.js"></script>
+        <script src="../plugins/select2/js/select2.full.min.js"></script>
+
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+
+        <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+
+        <script src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap.min.js"></script>
+        <script>
+            document.title = "DO Loading Details";
+        </script>
+    }
+    <link href="~/css/elements.css" rel="stylesheet" />
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <script type="text/javascript">
+        $('body').on('keydown', 'input, select', function (e) {
+            if (e.key === "Enter") {
+                var self = $(this), form = self.parents('form:eq(0)'), focusable, next;
+                focusable = form.find('input,a,select,button,textarea').filter(':not([disabled]):not([tabindex="-1"]):visible');
+                next = focusable.eq(focusable.index(this) + 1);
+                if (next.length) {
+                    next.focus();
+                } else {
+                    //form.submit();
+                }
+                return false;
+            }
+        });
+    </script>
+
+    <style>
+        .select2-container .select2-selection--single {
+            height: 34px !important;
+        }
+
+        .select2-container--default .select2-selection--single {
+            border: 1px solid #ccc !important;
+            border-radius: 0px !important;
+        }
+    </style>
+</body>

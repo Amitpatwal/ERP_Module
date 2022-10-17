@@ -1,0 +1,1002 @@
+﻿@page
+@model SaleOrder
+@{
+
+    ViewData["Title"] = "Home page";
+
+}<!-- Content Wrapper. Contains page content -->
+<body class="hold-transition sidebar-mini">
+
+    <!-- Content Header (Page header) -->
+    <label hidden id="pinodigit"></label>
+    <label hidden id="sonodigit"></label>
+    <label hidden id="tempsonumber"></label>
+    <label hidden id="tempsave"></label>
+    <label hidden id="statuss"></label>
+    <nav class="navbar navbar-expand-sm  navbar-dark" style="background-color: #FBFBFD; position: sticky; top: 0; z-index: 3;">
+        <ul class="navbar-nav">
+            <li class="nav-item active">
+                <a style="font-size:30px" class="fa fa-arrow-circle-left" href="../ViewSO"></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" style="color:black">Sale Order</a>
+            </li>
+        </ul>
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item" style="display:none" id="jumpTo">
+                <a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" style="color:black ;background-color:white;">
+                    <i onclick="jumptoPrevious()" class="fa fa-arrow-left " id="previousone" style="font-size:24px"></i>
+                </a>
+                <a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" style="color:black ;background-color:white;">
+                    <span>Jump to</span>
+                </a>
+                <a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" style="color:black ;background-color:white;">
+                    <i onclick="jumptoNext()" class="fa fa-arrow-right " id="nextone" style="font-size:24px"></i>
+                </a>
+            </li>
+            &nbsp;
+
+            <li class="nav-item" style="display:none" id="attachmentButton">
+                <a data-toggle="modal" data-target="#exampleModal15" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" style="color:black;background-color:white" onclick="attachments()">
+                    <i class="fa fa-paperclip" style="font-size:24px"></i>
+                    &nbsp;&nbsp;
+                    Attachments
+                    &nbsp;&nbsp;
+                    <span class="badge badge-danger navbar-badge" id="attachmentsno"></span>
+                </a>
+            </li>
+
+            <li class="nav-item" id="saveButton" style="display:none">
+                <a onclick="permanentsave()" id="savebt" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" style="color:black ;background-color:white;">
+                    <i class="fa fa-save " style="font-size:24px"></i>
+                    &nbsp;&nbsp;
+                    <span id="saveSO">Save</span>
+                </a>
+
+            </li>
+            &nbsp;
+
+
+            <li class="nav-item" id="qapInspection">
+                <a onclick="QAPSave()" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" style="color:black ;background-color:white;">
+                    <i class="fa fa-save " style="font-size:24px"></i>
+                    &nbsp;&nbsp;
+                    <span>QAP/INSPECTION</span>
+
+                </a>
+
+            </li>
+            <li class="nav-item" hidden>
+                <a id="hiddenbtn" data-toggle="modal" data-target="#QAPModel" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" style="color:black ;background-color:white;">
+                </a>
+            </li>
+            &nbsp;
+
+            <li class="nav-item" id="printbton" style="display:none">
+                <a id="printbutton" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" onclick="printSaleOrder()" style="color:black ;background-color:white;">
+                    <i class="fa fa-print " style="font-size:24px"></i>
+                    &nbsp;&nbsp;
+                    Print
+                </a>
+            </li>
+            &nbsp;
+            <li class="nav-item">
+                <a onclick="newSO()" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" style="color:black ;background-color:white;">
+                    <i class="fa fa-plus " style="font-size:24px"></i>
+                    &nbsp;&nbsp;
+                    New S.O
+                </a>
+            </li>
+
+        </ul>
+    </nav>
+
+
+    <form id="viewDiv">
+        <div>
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <!-- SELECT2 EXAMPLE -->
+                    <div class="card card-default">
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <span>S.O No.:</span>
+                                                <input type="text" readonly id="sono" class="form-control" />
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <span> S.O Date  :</span>
+                                                <input type="datetime-local" id="Voucherdate" class="form-control" onkeypress="nextfocus(event,'pinumber')" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <span>PI No.:</span>
+                                                <input type="text" id="pinumber" class="form-control" onkeypress="nextfocus(event,'pidate')">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <span>PI Date:</span>
+                                                <input type="datetime-local" id="pidate" class="form-control" onkeypress="nextfocus(event,'quotationno')" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <span>Quotation No.:</span>
+                                                <input type="text" id="quotationno" class="form-control" onkeypress="nextfocus(event,'quotdate')">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <span>Quotation Date:</span>
+                                                <input type="datetime-local" id="quotdate" class="form-control" onkeypress="nextfocus(event,'referencecode')" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <span>Amend No.:</span>
+                                                <input type="text" id="referencecode" class="form-control" onkeypress="nextfocus(event,'enqdate')">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <span>Amend Date:</span>
+                                                <input type="datetime-local" id="enqdate" class="form-control" onkeypress="nextfocus(event,'billcompanyname')" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <div class="row col-md-12">
+            <!-- Main content -->
+            <section class=" col-md-6">
+                <div class="card card-default">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <span>Billing Details</span>
+                            </div>
+                            <div class="input-group col-md-6">
+                                <span id="billgstlabel">GST NO  &nbsp; &nbsp; </span>
+                                <input type="text" id="billGST" readonly class="form-control">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="input-group">
+                                    <span>Company Name</span>
+                                    <select class="form-control" id="billcompanyname" onchange="filldetails('bill',this.value);" onkeypress="nextfocus(event,'billSTATE')" style="width:100%;">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class=" col-md-6">
+                                <div class="form-group">
+                                    <span id="bstatelabel">State</span>
+                                    <select onchange="print_city('billCITY', this.selectedIndex);" id="billSTATE" name="stt" class="form-control" onkeypress="nextfocus(event,'billCITY')" required></select>
+                                </div>
+                            </div>
+                            <div class=" col-md-6">
+                                <div class="form-group">
+                                    <span id="bcitylabel">City</span>
+                                    <select id="billCITY" class="form-control" required onkeypress="nextfocus(event,'billaddress')"></select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <span>Address</span>
+                                    <textarea id="billaddress" class="form-control" onkeypress="nextfocus(event,'billcp')"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <span>Contact Person</span>
+                                    <input type="text" id="billcp" class="form-control" onkeypress="nextfocus(event,'billmobile')">
+                                </div>
+                            </div>
+
+
+                            <div class=" col-md-6">
+                                <div class="form-group">
+                                    <span>Mobile</span>
+                                    <input type="text" id="billmobile" class="form-control" onkeypress="nextfocus(event,'billmail')">
+                                </div>
+                            </div>
+                            <div class=" col-md-6">
+                                <div class="form-group">
+                                    <span>E-mail</span>
+                                    <input type="email" id="billmail" class="form-control" onkeypress="nextfocus(event,'consigncompanyname')">
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class=" col-md-6">
+                <div class="card card-default">
+                    <div class="card-body" id="consigndata">
+                        <div class="row">
+                            <div class="col">
+                                <span style="font-size:12px"> Consign Details <u>(Same as Billing Details) </u></span>
+                                <input type="checkbox" id="datacheck" onclick="samedata()" />
+                            </div>
+
+                            <div class="input-group col-md-6">
+                                <span id="consigngstlabel">GST NO  &nbsp; &nbsp; </span>
+                                <input type="text" id="consignGST" readonly class="form-control">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="input-group">
+                                    <span>Company Name</span>
+                                    <select class="form-control" id="consigncompanyname" onchange="filldetails('consign',this.value);" style="width: 100%;" onkeypress="nextfocus(event,'consignSTATE1')">
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <span id="cstatelabel">State</span>
+                                    <select onchange="print_city('consignCITY1', this.selectedIndex);" id="consignSTATE1" name="stt" class="form-control" required onkeypress="nextfocus(event,'consignCITY1')"></select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <span id="ccitylabel">City</span>
+                                    <select id="consignCITY1" class="form-control" required onkeypress="nextfocus(event,'consignaddress')"></select>
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <span>Address</span>
+                                    <textarea id="consignaddress" class="form-control" onkeypress="nextfocus(event,'consigncp')"></textarea>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <span>Contact Person</span>
+                                    <input type="text" id="consigncp" class="form-control" onkeypress="nextfocus(event,'consignmobile')" />
+                                </div>
+                            </div>
+
+                            <div class=" col-md-6">
+                                <div class="form-group">
+                                    <span>Mobile</span>
+                                    <input type="text" id="consignmobile" class="form-control" onkeypress="nextfocus(event,'consignmail')">
+                                </div>
+                            </div>
+                            <div class=" col-md-6">
+                                <div class="form-group">
+                                    <span>E-mail</span>
+                                    <input type="email" id="consignmail" class="form-control" onkeypress="nextfocus(event,'ordertype')">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <div>
+
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="card card-default">
+                        <div class="card-header">
+                            <div class="container-fluid">
+                                <div class="col-lg-12">
+                                    <span style=" width:10px;"> P.O Details</span>
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse" style="float: right;">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <span>Order Type</span>
+                                                <select class="form-control" id="ordertype" style="width:100%;">
+                                                    <option value="VO">VERBAL ORDER</option>
+                                                    <option value="FO" selected>FORMAL ORDER</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <span id="ponolabel">P.O No.</span>
+                                                <input type="text" id="pono" class="form-control" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group date" id="reservationdatetime" data-target-input="nearest">
+                                                <span>P.O Date</span>
+                                                <input type="datetime-local" id="podate" class="form-control" placeholder="Remarks" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <span>TCS %</span>
+                                            <select class="form-control" id="tcs" style="width:100%;">
+                                                <option value="true">YES</option>
+                                                <option value="false" selected>NO</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            <span>TAX</span>
+                                            <select class="form-control" id="tax" style="width:100%;">
+                                                <option value="GST" selected>GST 18.00%</option>
+                                                <option value="LUT">LUT 0.10%"</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <span>Late Delivery</span><br />
+                                            <input type="checkbox" id="ld" onchange="showhideDD()" data-toggle="toggle" data-style="ios">
+                                        </div>
+                                        <div class="col-md-3 dd">
+                                            <span>Delivery Date</span>
+                                            <input type="datetime-local" id="deliverydate" class="form-control" placeholder="Remarks" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!--</section>-->
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <button type="button" class="btn btn-primary" onclick="dataitem(0)" data-toggle="modal" data-target="#exampleModal" id="addbt">Add New</button>
+
+                            <div class="modal fade" id="exampleModal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-lg" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header" style="background-color:darkslategrey">
+                                            <h5 style="color:white">Add New Item</h5>
+                                            <button style="color:white" type="button" class="close" data-dismiss="modal" tabindex="-1" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <input type="text" style="width:40px;border:none;" hidden readonly id="itemid">
+                                                <div class="col-md-6">
+                                                    <div class="input-group">
+                                                        <span id="namecolor">Item Name  *</span><br />
+
+                                                        <select class="form-control" id="txtName" onchange="getsize()" style="width: 100%;">
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="input-group">
+                                                        <span>Item Size</span>
+                                                        <select class="form-control" id="txtSize" onchange="getclass()" style="width: 100%;">
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="input-group">
+                                                        <span>Class/Thk</span>
+                                                        <select class="form-control" id="txtClass" onchange="getunit()" style="width: 100%;">
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="input-group">
+                                                        <span>Item Make</span>
+                                                        <select class="form-control" id="txtMake" onchange="getsaleOrderStock()" style="width: 100%; height:40px;">
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="input-group">
+                                                        <span id="unitcolor">Item Unit *</span>
+                                                        <select class="form-control" id="txtUnit" onchange="setunitType();" style="width: 100%;">
+                                                        </select>
+                                                        <select tabindex="5" hidden class="form-control" id="Unittype" style="width: 100%;">
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <span>Price</span>
+                                                        <a href="#" style="color:blue" onclick="getCurrentPrice()">Refresh Price</a>
+                                                        <span id="pricedate" style="color:blue"></span>
+                                                        <input type="number" id="txtPrice" onkeyup="price()" onkeypress="nextfocus(event,'txtDisc')" class="form-control" placeholder="Price" />
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <span>Discount%</span>
+                                                        <input type="number" id="txtDisc" onkeyup="discprice()" onkeypress="nextfocus(event,'txtReqdQty')" class="form-control" placeholder="Discount%" />
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <span>Required Qty.</span>
+                                                        <input type="number" id="txtReqdQty" onkeyup="finalamount()" class="form-control" onkeypress="nextfocus(event,'txtRemarks')" placeholder="Required Qty." />
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <span>Remarks</span>
+                                                        <input type="text" id="txtRemarks" class="form-control" onkeypress="saveed(event)" placeholder="Remarks" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <span>Discount Price</span>
+                                                        <input type="number" id="txtDiscPrice" disabled class="form-control" placeholder="Discount Price" />
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <span>Amount</span>
+                                                        <input type="number" id="txtAmount" disabled class="form-control" placeholder="Amount" />
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <div class="row" style="text-align: center">
+                                                <span>Current Stock:</span> &nbsp;&nbsp;
+                                                <span id="currentStock"></span>
+                                            </div>
+                                            <button type="button" class="btn btn-primary" onclick="addcompanydetails()" id="saveebutton1">Save</button>
+                                            <button id="resetitem" type="button" class="btn btn-danger" onclick="dataitem(0)">Reset</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <table id="ItemTable" class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>Item Name</th>
+                                        <th>Size</th>
+                                        <th>Class</th>
+                                        <th>Make</th>
+                                        <th>Unit</th>
+                                        <th>Price</th>
+                                        <th>Disc %</th>
+                                        <th>Reqd. Qty</th>
+                                        <th>Disc. Price</th>
+                                        <th>Amount</th>
+                                        <th id="action">Action</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                            <span style="text-align:right">Total Amount : </span><span id="finalamt">00.0</span>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="card card-default">
+
+                        <div class="card-body">
+                            <div class="row">
+
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <input type="text" style="background-color:grey ;color:white;width:280px" id="frieghtTypelabel" value="Freight Type" /><br />
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <select class="form-control" id="frieghttype" style="width:100%;" onkeypress="nextfocus(event,'FrieghtLabel')">
+                                                        <option value="Select" selected>Please Select Freight Type</option>
+                                                        <option value="F.O.R">F.O.R</option>
+                                                        <option value="To Be Billed">To Be Billed</option>
+                                                        <option value="To Pay">To Pay</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <input type="text" style="background-color:grey;color:white;width:280px" id="FrieghtLabel" value="Freight Charges" onkeypress="nextfocus(event,'Freightcharges')" />
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <input type="number" id="Freightcharges" class="form-control" style="border-block-color:black" onkeypress="nextfocus(event,'LFLabel')" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <br /><br /><br />
+
+
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <input type="text" style="background-color:grey;color:white;width:280px" id="LFLabel" value="Loading/Forwarding Charges" onkeypress="nextfocus(event,'LFCharges')" />
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <input type="number" id="LFCharges" class="form-control" style="border-block-color:black" onkeypress="nextfocus(event,'balancelabel')" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <input type="text" style="background-color:grey ;color:white;width:280px" id="balancelabel" value="Previous balance" onkeypress="nextfocus(event,'balance')" /><br />
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <input type="number" class="form-control" style="border-block-color:black" id="balance" onkeypress="nextfocus(event,'note')" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <span>Note</span><br />
+                                <input type="text" style="background-color:grey ;color:white;width:100%" id="note" /><br />
+
+                            </div>
+
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
+
+
+
+        </div>
+    </form>
+
+
+
+    <div class="modal fade" id="exampleModal15" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" style="max-width: 65%;" role="document">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color:darkslategrey">
+                    <span style="color:white">Attachments</span>
+                    <button style="color:white" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="tab-content">
+
+                                <div class="active tab-pane">
+                                    <section class="content">
+                                        <div class="container-fluid">
+                                            <div class="row">
+                                                <div class="col-12">
+
+
+                                                    <div class="card-body">
+                                                        <div class="row">
+                                                            <div class="col-md-10">
+                                                                <div class="form-group">
+                                                                    <span>File Location:</span> &nbsp;&nbsp;
+                                                                    <form enctype="multipart/form-data">
+                                                                        <input type="file" id="document_attachment_doc" class="form-control" placeholder="File" multiple aria-label="File browser example">
+                                                                    </form>
+                                                                    @*<input id='browse' type='file' readonly class="form-control">*@
+                                                                </div>
+                                                            </div>
+
+                                                            <div id="previewDiv" class="col-md-12" style="height:400px; width:100%; border-radius:10px; background-color:silver;display:none">
+                                                                <div class="form-group">
+                                                                    <button style="border-radius:10px" id="x" onclick="closemodel()">
+                                                                        X
+                                                                    </button>
+                                                                    <img id="blah" src="#" alt="your image" style="display: none; height: 400px; border-radius: 10px; width: 100%" />
+                                                                </div>
+
+                                                            </div>
+
+                                                            <div class="col-md-2">
+                                                                <div class="form-group">
+                                                                    <br />
+                                                                    <button type="button" class="btn btn-success" onclick="uploadFile()">Upload</button>
+                                                                </div>
+
+                                                            </div>
+
+                                                            <hr style="border-top: 3px solid #bbb;">
+
+                                                            <div class="col-md-12">
+                                                                <table id="attachmentsTable" class="table table-bordered table-hover ">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th style="font-family: 'sans-serif'; font-weight: normal; text-align: center; width:10px">Sr. No</th>
+                                                                            <th style="font-family: 'sans-serif'; font-weight: normal; width:250px">File Name</th>
+                                                                            <th style="font-family: 'sans-serif'; font-weight: normal; text-align: center; width:20px">Action</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                </table>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </section>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <div class="modal fade" data-keyboard="false" data-backdrop="static" id="QAPModel" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color:darkslategrey">
+                    <h5 style="color:white;color:white">QAP/ INSPECTION REQUIRED</h5>&nbsp;&nbsp;&nbsp;
+                    <a data-toggle="modal" data-target="#QAPATTACHMENTSMODEL" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" style="color:black;background-color:white" onclick="QapAttachmentsList()">
+                        <i class="fa fa-paperclip" style="font-size:24px"></i>
+                        &nbsp;&nbsp;
+                        Attachments
+                        &nbsp;&nbsp;
+                        <span class="badge badge-danger navbar-badge" id="attachmentsno"></span>
+                    </a>
+                    <button style="color:white" type="button" class="close" data-dismiss="modal" tabindex="-1" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span>Ispection Clause</span><br />
+                                <input type="text" class="form-control" style="width:100%" id="ispectionClause" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span>End Protection Required</span><br />
+                                <select class="form-control" id="epRequired" style="width: 100%;">
+                                    <option value="YES.">YES</option>
+                                    <option value="NO">NO</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <span>End Finishing Both Side</span>
+                                <select class="form-control" id="ecbSide" style="width: 100%;">
+                                    <option value="NA.">N/A</option>
+                                    <option value="BE.">BE</option>
+                                    <option value="PE">PE</option>
+                                    <option value="THREDED">THREADED</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <span>Calibration Certification *</span>
+                                <select class="form-control" id="caliCertificate" style="width: 100%;">
+                                    <option value="ACL/MIC/003783">ACL/MIC/003783</option>
+                                    <option value="ACL/TAPE/0037109">ACL/TAPE/0037109</option>
+                                    <option value="ACL/DCG/003785">ACL/DCG/003785</option>
+                                    <option value="ACL/VER/003784">ACL/VER/003784</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <span>Pipe Finshing Required</span>
+                                <select class="form-control" id="varnshingUnvarshing" style="width: 100%;">
+                                    <option value="NA.">N/A</option>
+                                    <option value="Varnishing.">Varnishing</option>
+                                    <option value="UnVarnishing">UnVarnishing</option>
+                                    <option value="THREDED">THREADED</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <span>MTC (Material Test Certificate)</span>
+                                <input type="text" class="form-control" style="width:100%" id="mtcno" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <span>Remarks</span>
+                                <input type="text" class="form-control" style="width:100%" id="qacRemarks" />
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-12" id="qapAttchmentsdiv" style="display:none">
+                            <div class="form-group">
+                                <span>Qap Attachments:</span> &nbsp;&nbsp;
+                                <div class="row">
+                                    <form enctype="multipart/form-data" style="width:80%">
+                                        <input type="file" id="QapFile" class="form-control" placeholder="File" multiple aria-label="File browser example">
+                                    </form>
+                                    <button type="button" class="btn btn-success" onclick="QapAttachments()" style="width:20%">Upload</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="QapSavebtn" onclick="QAPInspectionSave()">Save</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" data-keyboard="false" data-backdrop="static" id="StockModel" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color:darkslategrey">
+                    <h5 style="color:white;color:white">Stock Reservation</h5>&nbsp;&nbsp;&nbsp;
+                    <button style="color:white" type="button" class="close" data-dismiss="modal" tabindex="-1" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span style="font-weight:500">Material Description</span><br />
+
+                            </div>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="mtdesc" disabled />
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span style="font-weight:500">Order Qty</span><br />
+                            </div>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="" disabled />
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <span style="font-weight:500">Stock Avalibity</span><br />
+                            </div>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="" disabled />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <span style="font-weight:500">Stock Reservation Qty</span><br />
+                            </div>
+                            <div class="input-group">
+                                <input type="number" class="form-control" id="" />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <span style="font-weight:500">Balance Stock</span><br />
+                            </div>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="" disabled />
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="QapSavebtn" onclick="QAPInspectionSave()">Save</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="QAPATTACHMENTSMODEL" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" style="max-width: 70%;" role="document">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color:darkslategrey">
+                    <h5 style="color:white;color:white">Attchments</h5>&nbsp;&nbsp;&nbsp;
+                    <button style="color:white" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="tab-content">
+                                <div class="active tab-pane">
+                                    <section class="content">
+                                        <div class="container-fluid">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div class="card-body">
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <table id="QAPattachmentsTable" class="table table-bordered table-hover ">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th style="font-family: 'sans-serif'; font-weight: normal; text-align: center; width:10px">Sr. No</th>
+                                                                            <th style="font-family: 'sans-serif'; font-weight: normal; width:250px">File Name</th>
+                                                                            <th style="font-family: 'sans-serif'; font-weight: normal; text-align: center; width:20px">Action</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                </table>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </section>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <style>
+        .toggle.ios, .toggle-on.ios, .toggle-off.ios {
+            border-radius: 20rem;
+        }
+
+            .toggle.ios .toggle-handle {
+                border-radius: 20rem;
+            }
+    </style>
+
+    <!-- Android Style: No radius -->
+    <style>
+        .toggle.android {
+            border-radius: 0px;
+        }
+
+            .toggle.android .toggle-handle {
+                border-radius: 0px;
+            }
+    </style>
+
+    <link href="https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../../plugins/select2/css/select2.min.css">
+    <link rel="stylesheet" href="~/plugins/daterangepicker/daterangepicker.css">
+    <link rel="stylesheet" href="~/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+    <link href="~/js/Plugin/jquery-customselect.css" rel="stylesheet" />
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+    <link href="~/css/jquery-customselect-1.9.1.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css " rel="stylesheet" type="text/css" />
+    <link href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/css/elements.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
+
+    @section Scripts{
+        <script src="../plugins/select2/js/select2.full.min.js"></script>
+        <script src="~/js/SaleOrder.js"></script>
+        <script src="~/js/Additems.js"></script>
+
+        <link href="~/css/jquery-customselect-1.9.1.css" rel="stylesheet" />
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="~/js/Plugin/jquery-customselect.js"></script>
+        <script src="../plugins/select2/js/select2.full.min.js"></script>
+        <script src="~/dist/js/Buttontogle.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+
+        <script src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap.min.js"></script>
+    }
+
+</body>

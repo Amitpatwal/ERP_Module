@@ -1,0 +1,226 @@
+﻿@page
+@model ViewSO
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<body class="hold-transition sidebar-mini">
+    <div class="container-fluid">
+        <div>
+
+            <nav class="navbar navbar-expand-sm  navbar-dark" style="background-color: #FBFBFD; ">
+                <ul class="navbar-nav">
+                    <li class="nav-item active">
+                        <a class="nav-link" style="color:black;font-size:18px">Sale Order List</a>
+
+                    </li>
+                </ul>
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+                            <span>Incomplete Sale Order</span>
+                        </a>
+                        <a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" style="color:black ;background-color:white;">
+                            <input type="text" readonly id="daterange" name="daterange" value="" />
+                        </a>
+                        <a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" style="color:black ;background-color:white;" data-toggle="modal" id="adddd" data-target="#exampleModal" data-backdrop="static">
+                            <i class="fas fa-bars" style="font-size:18px;padding:5px"></i>
+                            <span>Period</span>
+                        </a>
+                        <a id="validation" style="display:none" href="../SaleOrder" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+                            <i class="fas fa-cart-arrow-down" style="font-size:18px;padding:5px"></i>
+                            <span>Create New S.O.</span>
+                        </a>
+                        <span id="saveSO" hidden>Save</span>
+                    </li>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                </ul>
+            </nav>
+
+            <div class="modal fade" id="exampleModal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-sm" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header" style="background-color:darkslategrey">
+                            <h5 style="color:white;color:white">Period</h5>&nbsp;&nbsp;&nbsp;
+                            <button style="color:white" type="button" class="close" data-dismiss="modal" tabindex="-1" aria-label="Close">
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <span>From </span><br />
+                                        <input type="date" id="fromdate" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <span>to </span><br />
+                                        <input type="date" id="todate" class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" onclick="DateWiseFilter()" data-dismiss="modal">View</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <table id="listTable" class="table table-bordered table-hover" style="width:100%;background-color:silver; ">
+                                        <thead>
+                                            <tr>
+                                                <th>S.O Date</th>
+                                                <th>S.O. No.</th>
+                                                <th>P.I No.</th>
+                                                <th>Customer Name</th>
+                                                <th>P.O. Number</th>
+                                                <th>Created By.</th>
+                                                <th>Amount</th>
+                                                <th><i class="fa fa-paperclip"></i></th>
+                                                <th>Planning Status</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                                <!-- /.card-body -->
+                            </div>
+                            <!-- /.card -->
+                            <!-- /.card -->
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+                </div>
+                <!-- /.container-fluid -->
+            </section>
+            <!-- /.content -->
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="ItemsModel" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color:darkslategrey">
+                    <span style="color:white">ITEM LIST --> </span>&nbsp;&nbsp;&nbsp;
+                    <span style="color:white; " id="sono"> </span>
+                    <button style="color:white" type="button" class="close" data-dismiss="modal" tabindex="-1" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <table id="ItemTable" class="table table-bordered table-hover ">
+                        <thead>
+                            <tr>
+                                <th style="font-family: 'sans-serif'; font-weight: normal; text-align: center; "></th>
+                                <th style="font-family: 'sans-serif'; font-weight: normal; text-align: center;  ">Item Description</th>
+                                <th style="font-family: 'sans-serif'; font-weight: normal; text-align: center; ">Unit</th>
+                                <th style="font-family: 'sans-serif'; font-weight: normal; text-align: center; ">Price</th>
+                                <th style="font-family: 'sans-serif'; font-weight: normal; text-align: center; ">Disc %</th>
+                                <th style="font-family: 'sans-serif'; font-weight: normal; text-align: center; ">Reqd. Qty</th>
+                                <th style="font-family: 'sans-serif'; font-weight: normal; text-align: center; ">Disc. Price</th>
+                                <th style="font-family: 'sans-serif'; font-weight: normal; text-align: center; ">Amount</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="attchmentsModel" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" style="max-width: 65%;" role="document">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color:darkslategrey">
+                    <span style="color:white">Attachments -</span> &nbsp;&nbsp;&nbsp;&nbsp;
+                    <span style="color:white" id="attachmentlabel"></span>
+                    <button style="color:white" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="tab-content">
+
+                                <div class="active tab-pane">
+                                    <section class="content">
+                                        <div class="container-fluid">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div class="card-body">
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <table id="attachmentsTable" class="table table-bordered table-hover ">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th style="font-family: 'sans-serif'; font-weight: normal; text-align: center; width:10px">Sr. No</th>
+                                                                            <th style="font-family: 'sans-serif'; font-weight: normal; width:250px">File Name</th>
+                                                                            <th style="font-family: 'sans-serif'; font-weight: normal; text-align: center; width:20px">Action</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                </table>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </section>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @section Scripts{
+        <script src="~/js/ViewSO.js"></script>
+
+
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
+        <script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+        <script src="../../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+        <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
+
+        <script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+        <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
+        <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
+
+        <link href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css " rel="stylesheet" type="text/css" />
+        <link href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css" />
+        <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.colVis.min.js"></script>
+        <script>
+
+            document.title = "View Sale Order List";
+        </script>
+        <style type="text/css">
+            body {
+                font-family: Arial;
+                font-size: 10pt;
+            }
+        </style>
+    }
+</body>
+

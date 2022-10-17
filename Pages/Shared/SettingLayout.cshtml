@@ -1,0 +1,274 @@
+﻿@using Microsoft.AspNetCore.Http;
+@inject IHttpContextAccessor HttpContextAccessor
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="../plugins/fontawesome-free/css/all.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Tempusdominus Bootstrap 4 -->
+    <link rel="stylesheet" href="../plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+    <!-- iCheck -->
+    <link rel="stylesheet" href="../plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+    <!-- JQVMap -->
+    <link rel="stylesheet" href="../plugins/jqvmap/jqvmap.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="../dist/css/adminlte.min.css">
+    <!-- overlayScrollbars -->
+    <link rel="stylesheet" href="../plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+    <!-- Daterange picker -->
+    <link rel="stylesheet" href="../plugins/daterangepicker/daterangepicker.css">
+    <!-- summernote -->
+    <link rel="stylesheet" href="../plugins/summernote/summernote-bs4.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed">
+    <div class=" wrapper">
+        <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+            <span id="companyid" hidden></span>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+                </li>
+                <li class="nav-item d-none d-sm-inline-block">
+                    <img src="../imgs/adduser.png" class="img-circle elevation-2" alt="User Image" style="height:40px;width:40px">
+                </li>
+
+                <li class="nav-item d-none d-sm-inline-block">
+
+
+                    <a class="nav-link" id="usernam"></a>
+                </li>
+            </ul>
+
+            <!-- Right navbar links -->
+            <ul class="navbar-nav ml-auto">
+
+                <li class="nav-item">
+                    <a class="nav-link" data-widget="fullscreen" href="#" role="button">
+                        <i class="fas fa-expand-arrows-alt"></i>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
+                        <i class="fas fa-th-large"></i>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <!-- /.navbar -->
+
+        <aside class="main-sidebar sidebar-dark-primary elevation-4" style="background-color:blueviolet">
+
+            <div class="sidebar">
+
+                <div class="row">
+
+                    <div class=" mt-3 d-flex" style=" display: flex; justify-content: center;width:90%">
+                        <div class="image">
+                            <img src="../imgs/inventory.jpeg" class="img-circle elevation-2" alt="User Image" style="height: 40px; width: 45px; ">
+                        </div>
+
+                    </div>
+
+
+                </div>
+                <div class=" mt-3 mb-3 d-flex" style=" display: inline-block; justify-content: center; text-align:center">
+                    <div class="info">
+                        <span style="color: white;  " id="companyname1"></span>
+                    </div>
+                </div>
+                <div class="form-inline">
+                    <div class="input-group" data-widget="sidebar-search">
+                        <a href="../Dashboard" style="background-color:white;color:black" class="form-control form-control-sidebar">  &nbsp;&nbsp; &nbsp;&nbsp; Back To Dashboard</a>
+
+                    </div>
+                </div>
+                <nav class="mt-2">
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+
+                        <li class="nav-item special" onclick="AddBuisnessDiv()">
+                            <a class="nav-link">
+                                <i class="nav-icon fas fa-tachometer-alt"></i>
+                                <p>
+                                    <span style="font-size:15px"> Manage Buisness</span>
+                                </p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item special" onclick="VocherDiv()">
+                            <a class="nav-link">
+                                <i class="fas fa-user-friends"></i> &nbsp;
+                                <span style="font-size:15px">Voucher No.</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item special">
+                            <a class="nav-link" onmouseover="" onclick="addBank()">
+                                <i class="fas fa-piggy-bank"></i> &nbsp;
+                                <span style="font-size:15px">Add Bank Details</span>
+                            </a>
+                        </li>
+                        <li class="nav-item special">
+                            <a href="" class="nav-link">
+                                <i class="fa fa-cubes"></i>&nbsp;&nbsp;
+                                <span style="font-size:15px"> Manage Staff </span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item special">
+                            <a href="" class="nav-link">
+                                <i class="fa fa-cubes"></i>&nbsp;&nbsp;
+                                <span style="font-size:15px">Customize Format </span>
+                            </a>
+                        </li>
+
+                        <li class="user-panel" style="background-color:white"></li>
+
+                        <li class="nav-item special">
+                            <a href="#" class="nav-link" onclick="logout()" onmouseover="this.style.background='red';" onmouseout="this.style.background='blueviolet';">
+                                <i class="fas fa-sign-in-alt" style="color:white"></i>
+                                <span style="font-size:15px">LogOut</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            <center>
+                <ul style="position: absolute; bottom: 0px" class="nav nav-pills nav-sidebar ">
+
+                    <li class="nav-item">
+
+                        <div class="col" style="font-size:12px">
+                            &nbsp;&nbsp;&nbsp;
+                            <i class="fas fa-shield-alt" style="color:white"></i>
+                            <span style="color:white">  100% Secure</span>
+                            &nbsp;&nbsp;&nbsp;
+                            <span style="color:white">  ISO Certified</span>
+                            <input type="text" id="roletype" hidden />
+                        </div>
+
+                    </li>
+
+                    <li style="background-color:white ;width:250px;height:2px"></li>
+
+                    <li class="nav-item">
+
+                        &nbsp;&nbsp;&nbsp; &nbsp;
+                        <img src="../imgs/inventory.jpeg" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8; width:30px;height:30px">
+                        <span style="color:white;font-size:15px">Inventory</span>
+                        <span style="color:white;font-size:8px">by SBS Digital Infotech</span>
+
+                    </li>
+                </ul>
+            </center>
+
+        </aside>
+
+        <div class="content-wrapper">
+            <!-- /.content-header -->
+            <main role="main" class="content">
+                <div class="container-fluid">
+                    @RenderBody()
+                </div>
+            </main>
+        </div>
+        <!-- /.content-wrapper -->
+        <!-- Control Sidebar -->
+        <!-- /.control-sidebar -->
+
+    </div>
+
+
+    <!-- jQuery -->
+    <script src="~/js/Common.js"></script>
+
+    <script src="../plugins/jquery/jquery.min.js"></script>
+    <!-- jQuery UI 1.11.4 -->
+    <script src="../plugins/jquery-ui/jquery-ui.min.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Sparkline -->
+    <script src="../plugins/sparklines/sparkline.js"></script>
+
+    <!-- jQuery Knob Chart -->
+    <script src="../plugins/jquery-knob/jquery.knob.min.js"></script>
+    <!-- daterangepicker -->
+    <script src="../plugins/moment/moment.min.js"></script>
+    <script src="../plugins/daterangepicker/daterangepicker.js"></script>
+    <!-- Tempusdominus Bootstrap 4 -->
+    <script src="../plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+    <!-- Summernote -->
+    <script src="../plugins/summernote/summernote-bs4.min.js"></script>
+    <!-- overlayScrollbars -->
+    <script src="../plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="../dist/js/adminlte.js"></script>
+    <!-- AdminLTE for demo purposes -->
+    @*  <script src="../dist/js/demo.js"></script>*@
+    <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+    <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+    <script>
+        $.widget.bridge('uibutton', $.ui.button)
+    </script>
+
+    <script>
+
+        function logout() {
+            $.ajax({
+                type: "post",
+                url: "api/Login/Logout",
+                success: function (data) {
+                    if (data.success) {
+                        window.location.replace("Index");
+                    }
+                    else {
+                        toastr.error(data.message);
+                    }
+                }
+
+            });
+        }
+
+
+        var roletype = document.getElementById('roletype').value;
+        if (roletype == "Admin") {
+
+            document.getElementById("checkPR").style.display = "block";
+            document.getElementById("createPR").style.display = "none";
+
+        }
+        if (roletype == "Editor") {
+            document.getElementById("checkPR").style.display = "none";
+            document.getElementById("createPR").style.display = "block";
+        }
+        if (roletype == "Super Admin") {
+
+            document.getElementById("checkPR").style.display = "block";
+            document.getElementById("createPR").style.display = "block";
+        }
+
+    </script>
+    @await RenderSectionAsync("Scripts", required: false)
+    <style>
+
+        .special {
+            cursor: pointer;
+        }
+    </style>
+
+</body>
+</html>
+
+

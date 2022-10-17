@@ -1,0 +1,486 @@
+﻿@page
+@model DispatchedOrderPrint
+@{
+    Layout = null;
+
+}
+
+<!--<body style="border:solid">
+    <div>
+        <table>
+            <thead class="print-content">
+                <tr>
+                    <td>
+
+                        <div class="row invoice-info" style=" border: 1px solid black">
+                            <div class="col-sm-5 invoice-col" style="align-content:center; height:150px">
+                                <address>
+                                    <br />
+                                    &nbsp;  <b style="font-family:Bahnschrift ;font-size:28px; "> PIPE & SECTIONS PVT. LTD.</b><br />
+                                    <span style="font-family: Bahnschrift">
+                                        &nbsp;      22 & 23 , APOLLO Market, PIPE  Market, <br />
+                                        &nbsp;      Prakash Industrial Estate,<br />
+                                        &nbsp;   SAHIBABAD -201005<br />
+                                        &nbsp;   Distt :GHAZIABAD (U.P.) INDIA
+                                    </span>
+                                </address>
+                            </div>
+
+
+
+                            <div class="col-sm-4 invoice-col">
+                                <br /> <br />
+                                <span style="font-family: Bahnschrift">
+                                    C : U52100UP2015PTCO72815 <br />
+                                    E : info@pipeandsections.com  <br />
+                                    W : www.pipeandsections.com  <br />
+                                    P : +91 120 45 48044 / 45  <br />
+                                </span>
+
+                            </div>
+
+                            <div class="col-sm-3 invoice-col">
+                                <br />
+                                <img src="../imgs/pnslogo.jpg" style="height:100px;width:170px" />
+
+                            </div>
+
+
+                        </div>
+                        <div>
+                            <h4 style="text-align: center; height:30px; background-color: lightgrey;  "> <b>Dispachted Order</b></h4>
+                            <div class="row invoice-info" style="border:solid">
+
+                                <div class="col-sm-4 invoice-col">
+                                    <div>   <h5 style="color:red">  Working & Billing Address  </h5></div>
+                                    <span id="customername"></span>
+                                    <address>
+                                        <span id="customeraddress" style="width:280px;"></span><br />
+                                    </address>
+                                </div>
+                                <!-- /.col -->
+                                <!--<div class="col-sm-4 invoice-col" style="border: 2px solid black">
+                                    <div>   <h5 style="color:red"> Consigne Address  </h5></div>
+                                    <span id="Consignename"> </span>
+                                    <address>
+                                        <span id="Consigneaddress" style="width:280px;"> </span><br />
+                                    </address>
+                                </div>
+                                <div class="col-sm-4 invoice-col">
+
+                                    <span>D.O Date :</span>    <span id="dodate"></span><br />
+                                    <span>D.O No. :</span>    <span id="dono"></span><br />
+                                    <span>S.O NO :</span>    <span id="invoiceno"></span><br />
+
+                                    <span>P.O Date :</span>    <span id="podate"></span><br />
+
+
+
+                                    <div class="boxed" style="width:400px">
+
+                                    </div>
+                                </div>-->
+                                <!-- /.col -->
+                            <!--</div>
+
+                        </div>
+
+                    </td>
+                </tr>
+            </thead>
+
+            <thead>
+                <tr>
+                    <td>-->
+                        <!-- Start Print Content -->
+                        <!--<div class="row" style=" overflow-x:auto; ">
+                            <div class="col-12 table-responsive" style="border: 1px solid black">
+                                <table id="ItemTable" class="print-content" border="1" style="width: 100%;">
+                                    <thead>
+                                        <tr style="height:10px">
+                                            <th style="font-family: 'sans-serif'; font-weight: normal;"> Sr <br />No.</th>
+                                            <th style="font-family: 'sans-serif'; font-weight: normal;">Description</th>
+                                            <th style="font-family: 'sans-serif'; font-weight: normal;">Brand</th>
+                                            <th style="font-family: 'sans-serif'; font-weight: normal;">Heat/Batch No.</th>
+                                            <th style="font-family: 'sans-serif'; font-weight: normal;">Qty</th>
+                                            <th style="font-family: 'sans-serif'; font-weight: normal;">Alt Qty</th>
+                                            <th style="font-family: 'sans-serif'; font-weight: normal;">Wieght</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>-->
+                            <!-- /.col -->
+                        <!--</div>-->
+                        <!-- End Print Content -->
+                    <!--</td>
+                </tr>
+            </thead>-->
+
+            <!-- Start Space For Footer -->
+            <!--<tfoot>
+                <tr>
+                    <td style="height: 12cm">-->
+                        <!-- Leave this empty and don't remove it. This space is where footer placed on print -->
+                    <!--</td>
+                </tr>
+            </tfoot>-->
+
+
+
+
+            <!-- End Space For Footer -->
+        <!--</table>-->
+
+        <!-- Start Footer -->
+        <!--<div class="print-footer">
+
+            <div class="row" style="border: 2px solid black; height:55px">-->
+                <!-- accepted payments column -->
+                <!--<div style="width:795px">
+                    <b style="font-size:20px">&nbsp;&nbsp; Note:</b><span id="note"></span>
+
+                </div>
+            </div>
+
+            <br />
+            <div class="row invoice-info" style="border: 1px solid black">
+
+                <div class="col-sm-4 invoice-col" style="border: 1px solid black">
+                    <div align="center">   <h5 style="color:red">  Transporation </h5></div>
+                   
+                    <div class="row">
+                        <div class="col-6" style="border:outset">
+                            <span> Transporter Name</span>
+                        </div>
+                        <div class="col-6" style="border:outset">
+                            <span id="transportname"></span>
+                        </div>
+                        <div class="col-6" style="border:outset">
+                            <span> Lorry/Vechile No.</span>
+                        </div>
+                        <div class="col-6" style="border:outset">
+                            <span id="vechileno"></span>
+                        </div>
+                        <div class="col-6" style="border:outset">
+                            <span> Gr. No.</span>
+                        </div>
+                        <div class="col-6" style="border:outset">
+                            <span id="grno"></span>
+                        </div>
+                        <div class="col-6" style="border:outset">
+                            <span> Name of Driver</span>
+                        </div>
+                        <div class="col-6" style="border:outset">
+                            <span id="drivername"></span>
+                        </div>
+                        <div class="col-6" style="border:outset">
+                            <span>Driver License No.</span>
+                        </div>
+                        <div class="col-6" style="border:outset">
+                            <span id="licenseno"></span>
+                        </div>
+                        <div class="col-6" style="border:outset">
+                            <span>Freight Type</span>
+                        </div>
+                        <div class="col-6" style="border:outset">
+                            <span id="freighttype"></span>
+                        </div>
+                        <div class="col-6" style="border:outset">
+                            <span> Freight Amount.</span>
+                        </div>
+                        <div class="col-6" style="border:outset">
+                            <a id="freightamount"></a>
+                        </div>
+                        <div class="col-6" style="border:outset">
+                            <span> Fwd upto Transport.</span>
+                        </div>
+                        <div class="col-6" style="border:outset">
+                            <span id="forwardingTransportAmount"></span>
+                        </div>
+
+
+
+
+
+
+                    </div>-->
+                   @* <span> Transporter Name: </span> <a id="transportname"></a> <br>
+                    <span> Lorry/Vechile No. : </span> <a id="vechileno"></a> <br>
+                    <span> Gr. No.:</span> <a id="grno"></a><br />
+                    <span> Name of Driver :</span> <a id="drivername"></a><br />
+                    <span> Driver License No. :</span> <a id="licenseno"></a><br />
+                    <span> Freight Type :</span> <a id="freighttype"></a><br />
+                    <span> Freight Amount. :</span> <a id="freightamount"></a><br />
+                    <span> Forwarding upto Transport. :</span> <a id="forwardingTransportAmount"></a><br />*@
+
+                <!--</div>-->
+                <!-- /.col -->
+                <!--<div class="col-sm-8 invoice-col" style="border: 1px solid black">
+                    <div align="center">   <h5 style="color:red"> Loading/Unloading </h5></div>
+                    <div class="row">
+                        <div style="border: 1px solid black" class="col-sm-6 invoice-col">
+                            <div align="center">   <h5 style="color: red; font-size: 16px">  Crane Loading  </h5></div>-->
+
+
+                            @*<div class="row">
+            <div style="border: 1px solid black; height: 190px" class="col-sm-6 invoice-col">
+                <div align="center">   <h5 style="color: red; font-size: 16px">  Location </h5></div>
+                <span>Loaction</span><br /><br /><br />
+                <br />
+                <div style="background: lightgrey ;border:outset ">
+                    <center><span>Total</span></center>
+                </div>
+                <div style="background: lightgrey ;border:outset ">
+                    <center><span>Charges(P/MT)</span></center>
+                </div>
+                <div class="col-12" style="border:outset">
+                    <span> Fwd upto Transport.</span>
+                </div>
+                <hr />
+            </div>
+            <div style="border: 1px solid black" class="col-sm-6 invoice-col">
+                <div align="center">   <h5 style="color: red; font-size: 16px"> Weight </h5></div>
+                <hr />
+            </div>
+        </div>*@
+
+                            <div class="row">
+                                <div class="col-6" style="border:outset">
+                                    <center><span style="color:red"> Location</span></center>
+                                </div>
+                                <div class="col-6" style="border:outset">
+                                    <center><span style="color:red"> Weight</span></center>
+                                </div>
+                                <div class="col-6" style="border:outset">
+                                    <span> </span>
+                                </div>
+                                <div class="col-6" style="border:outset">
+                                    <span >.</span>
+                                </div>
+                                <div class="col-6" style="border:outset">
+                                    <span></span>
+                                </div>
+                                <div class="col-6" style="border:outset">
+                                    <span >.</span>
+                                </div>
+                                <div class="col-6" style="border:outset">
+                                    <span> </span>
+                                </div>
+                                <div class="col-6" style="border:outset">
+                                    <span>.</span>
+                                </div>
+                                <div class="col-6" style="border:outset">
+                                    <span></span>
+                                </div>
+                                <div class="col-6" style="border:outset">
+                                    <span >.</span>
+                                </div>
+                                <div  class="col-6" style="border:outset ;text-align:center;background-color:lightgrey">
+                                    <span>Total</span>
+                                </div>
+                                <div class="col-6" style="border:outset">
+                                    <span style="float:right" id="craneLoadingWeightmt"></span>
+                                </div>
+                                <div class="col-6" style="border:outset;text-align:center;background-color:lightgrey">
+                                    <span> Charges(P/MT)</span>
+                                </div>
+                                <div class="col-3" style="border:outset">
+                                    <a style="float:right" id="craneCharge"></a>
+                                   
+                                </div>  <div class="col-3" style="border:outset">
+                                    
+                                    <a style="float:right" id="craneTotalCharge"></a>
+                                </div>
+                            
+                            </div>
+
+
+
+                        </div>
+                        <div style="border: 1px solid black" class="col-sm-6 invoice-col">
+                            <div align="center">   <h5 style="color: red; font-size: 16px">  Manual Loading  </h5></div>
+                            <div class="row">
+                                <div class="col-6" style="border:outset">
+                                    <center><span style="color:red"> Location</span></center>
+                                </div>
+                                <div class="col-6" style="border:outset">
+                                    <center><span style="color:red"> Weight</span></center>
+                                </div>
+                                <div class="col-6" style="border:outset">
+                                    <span> .</span>
+                                </div>
+                                <div class="col-6" style="border:outset">
+                                    <span></span>
+                                </div>
+                                <div class="col-6" style="border:outset">
+                                    <span></span>
+                                </div>
+                                <div class="col-6" style="border:outset">
+                                    <span>.</span>
+                                </div>
+                                <div class="col-6" style="border:outset">
+                                    <span></span>
+                                </div>
+                                <div class="col-6" style="border:outset">
+                                    <span>.</span>
+                                </div>
+                                <div class="col-6" style="border:outset">
+                                    <span></span>
+                                </div>
+                                <div class="col-6" style="border:outset">
+                                    <span>.</span>
+                                </div>
+                                <div class="col-6" style="border:outset ;text-align:center;background-color:lightgrey">
+                                    <span>Total</span>
+                                </div>
+                                <div class="col-6" style="border:outset">
+                                    <span style="float:right" id="manualLoadingWeightmt"></span>
+                                </div>
+                                <div class="col-6" style="border:outset;text-align:center;background-color:lightgrey">
+                                    <span> Charges(P/MT)</span>
+                                </div>
+                                <div class="col-3" style="border:outset">
+                                    <a style="float:right" id="manualCharge"></a>
+                                  
+                                </div>
+                                <div class="col-3" style="border:outset">
+                                  
+                                    <a style="float:right" id="manualTotalCharge"></a>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>-->
+
+                <!-- /.col -->
+            <!--</div>
+
+            <div style="border: 1px solid black">
+                <h2 style="text-align:center;background-color:gainsboro;font-size:20px"> <span>For Account use Only</span></h2>
+            </div>
+
+
+            <div class="row invoice-info">
+
+                <div style="border: 1px solid black" class="col-sm-3 invoice-col">
+                    <div align="center">   <h5 style="color:red;font-size:16px">  Freight Payment Details </h5></div>
+                    <hr />
+
+                    <span> Cheq No. </span> <a id="billcontactperson"></a> <br>
+                    <span> Vouch No. : </span> <a id="billmobile"></a> <br>
+                    <span> Date:</span> <a id="billemailid"></a><br />
+                    <span> Amount :</span> <a id="billgst"></a><br />
+
+                    <span> Mobile No. :</span> <a id="billpan"></a><br />
+
+
+                </div>
+                <div style="border: 1px solid black" class="col-sm-3 invoice-col">
+                    <div align="center">   <h5 style="color: red; font-size: 16px">  Forwarding Payment Details </h5></div>
+                    <hr />
+
+                    <span> Cheq No. </span> <a id="billcontactperson"></a> <br>
+                    <span> Vouch No. : </span> <a id="billmobile"></a> <br>
+                    <span> Date:</span> <a id="billemailid"></a><br />
+                    <span> Amount :</span> <a id="billgst"></a><br />
+
+                    <span> Mobile No. :</span> <a id="billpan"></a><br />
+
+                </div>
+                <div style="border: 1px solid black" class="col-sm-3 invoice-col">
+                    <div align="center">   <h5 style="color: red; font-size: 16px">  Crane Loading Payment Details </h5></div>
+                    <hr />
+
+                    <span> Cheq No. </span> <a id="billcontactperson"></a> <br>
+                    <span> Vouch No. : </span> <a id="billmobile"></a> <br>
+                    <span> Date:</span> <a id="billemailid"></a><br />
+                    <span> Amount :</span> <a id="billgst"></a><br />
+
+                    <span> Mobile No. :</span> <a id="billpan"></a><br />
+
+                </div>
+                <div style="border: 1px solid black" class="col-sm-3 invoice-col">
+                    <div align="center">   <h5 style="color: red; font-size: 16px">  Manual Loading Payment Details </h5></div>
+                    <hr />
+
+                    <span> Cheq No. </span> <a id="billcontactperson"></a> <br>
+                    <span> Vouch No. : </span> <a id="billmobile"></a> <br>
+                    <span> Date:</span> <a id="billemailid"></a><br />
+                    <span> Amount :</span> <a id="billgst"></a><br />
+
+                    <span> Mobile No. :</span> <a id="billpan"></a><br />
+
+                </div>
+
+
+
+            </div>
+
+            <div class="row invoice-info">
+
+                <div style="border: 1px solid black" class="col-sm-3 invoice-col">
+                    <div align="center">   <h5 style="color:red;font-size:16px">  ISSUES BY </h5></div>
+                    <hr />
+                    <div style="height:40px"></div>
+
+
+                </div>
+                <div style="border: 1px solid black" class="col-sm-3 invoice-col">
+                    <div align="center">   <h5 style="color: red; font-size: 16px">  CHECKED BY </h5></div>
+                    <hr />
+
+
+
+                </div>
+                <div style="border: 1px solid black" class="col-sm-3 invoice-col">
+                    <div align="center">   <h5 style="color: red; font-size: 16px">  APPROVED BY </h5></div>
+                    <hr />
+
+
+                </div>
+                <div style="border: 1px solid black" class="col-sm-3 invoice-col">
+                    <div align="center">   <h5 style="color: red; font-size: 16px">  AUTHORISED BY </h5></div>
+                    <hr />
+
+                </div>
+
+
+
+            </div>
+
+            <img src="../imgs/fotter.png"
+                 style="width:100%; height:100px">
+        </div>
+
+    </div>
+
+
+
+
+
+
+    <script src="~/js/DispachtedOrderPrint.js"></script>
+   
+    <script src="../plugins/jquery/jquery.min.js"></script>
+    <script src="../plugins/moment/moment.min.js"></script>
+
+
+    <script src="https://nightly.datatables.net/js/jquery.dataTables.js"></script>
+    <link href="https://nightly.datatables.net/css/jquery.dataTables.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">-->
+    <!-- Font Awesome -->
+    <!--<link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">-->
+    <!-- Theme style -->
+    <!--<link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+
+
+
+
+    <link href="~/css/printsbs.css" rel="stylesheet" />
+
+
+
+</body>-->
+

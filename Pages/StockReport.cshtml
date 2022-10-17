@@ -1,0 +1,533 @@
+﻿@page
+@model StockReport
+@{
+
+    ViewData["Title"] = "Home page";
+}
+
+<body class="hold-transition sidebar-mini">
+    <span id="godownid" hidden></span>
+    <span id="pnameid" hidden></span>
+    <span id="sizeid" hidden></span>
+    <span id="classid" hidden></span>
+    <span id="makeid" hidden></span>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <nav class="navbar navbar-expand-sm  navbar-dark" style="background-color: #2671B2; ">
+                    <ul class="navbar-nav">
+                        <li class="nav-item active">
+                            <a style="font-size:40px;color:white" onclick="goback()"><i class="fa fa-arrow-circle-left special"></i></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" style="color:white">Stock Report</a>
+                        </li>
+                    </ul>
+                </nav>
+                <nav class="navbar navbar-expand navbar-dark" style="background-color: #2671B2; float: right; margin-top: -60px; ">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" onclick="fillcategory()" style="color:black ;background-color:white;display:none" id="stksmry" data-toggle="modal" data-target="#CategoryListModel">
+                                <i class="fas fa-bars" style="font-size:18px;padding:5px"></i>
+                                <span>Report Glance</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" onclick="stkSummary()" style="color:black ;background-color:white;display:none" id="stksmry" data-toggle="modal" data-target="#GodownNameListModel">
+                                <i class="fas fa-bars" style="font-size:18px;padding:5px"></i>
+                                <span>Stock Summary</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" style="color:black ;background-color:white;" data-toggle="modal" id="adddd" data-target="#exampleModal" data-backdrop="static">
+                                <i class="fas fa-bars" style="font-size:18px;padding:5px"></i>
+                                <span>Period</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" onclick="filldetails()" style="color:black ;background-color:white;" data-toggle="modal" id="adddd" data-target="#comparisonModel" data-backdrop="static">
+                                <i class="fas fa-bars" style="font-size:18px;padding:5px"></i>
+                                <span>Make Comparison</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" onclick="stockWiseReport()" style="color:black ;background-color:white;" data-toggle="modal" id="stockwise" data-backdrop="static">
+                                <i class="fas fa-bars" style="font-size:18px;padding:5px"></i>
+                                <span id="stkwise">Item Wise</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" onclick="AllItem()" style="color:black ;background-color:white;" data-toggle="modal" id="stockwise" data-backdrop="static">
+                                <i class="fas fa-bars" style="font-size:18px;padding:5px"></i>
+                                <span id="AllItem">Show </span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+
+
+        <div class="modal fade" id="exampleModal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-sm" role="document">
+                <div class="modal-content">
+                    <div class="modal-header" style="background-color:darkslategrey">
+                        <h5 style="color:white;color:white">Period</h5>
+                        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <span>From </span><br />
+                                    <input type="date" id="fromdate" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <span>to </span><br />
+                                    <input type="date" id="todate1" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" onclick="viewReport()" data-dismiss="modal">View</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="GodownNameListModel" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header" style="background-color:darkslategrey">
+                        <h5 style="color:white;color:white">Stock Summary</h5>
+                        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="card">
+                            <div class="card-body">
+                                <div id="GodownlistTablediv">
+                                    <table id="GodownlistTable" class="table table-bordered table-hover display">
+                                        <thead>
+                                            <tr>
+                                                <th style="font-family: 'sans-serif'; font-weight: normal;">WhareHouse Name</th>
+                                                <th style="font-family: 'sans-serif'; font-weight: normal;">WhareHouse Location</th>
+                                                <th style="font-family: 'sans-serif';  font-weight: normal;">Actions</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" onclick="stkSummary11('jk')" data-dismiss="modal">Item Wise</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="CategoryListModel" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header" style="background-color:darkslategrey">
+                        <h5 style="color:white;color:white">Items Category Summary</h5>
+                        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="card">
+                            <div class="card-header p-2">
+                                <ul class="nav nav-pills">
+                                    <li class="nav-item"><a class="nav-link active" href="#categorywise1" data-toggle="tab">Category Wise</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="#itemwise1" onclick="itemwisedata()" data-toggle="tab">Sub Category</a></li>
+                                </ul>
+                            </div>
+                            <div class="tab-content">
+                                <div class="active tab-pane" id="categorywise1">
+                                    <div class="card-body">
+                                        <table id="CategorylistTable" class="table table-bordered table-hover display">
+                                            <thead>
+                                                <tr>
+                                                    <th>Category Name</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="itemwise1">
+                                    <div class="card-body">
+                                        <table id="ItemlistTable" class="table table-bordered table-hover display">
+                                            <thead>
+                                                <tr>
+                                                    <th></th>
+                                                    <th>Item Name</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="modal fade" id="comparisonModel" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header" style="background-color:darkslategrey">
+                        <h5 style="color:white;color:white">Comparison Between Two Brand </h5>
+                        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <span>Product Name </span><br />
+                                    <select class="form-control select2" id="txtName" style="width: 100%; height:30%"></select>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <span>Make </span><br />
+                                            <select class="form-control select2" id="txtMake" style="width: 100%; height:30%"></select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <span>Between </span><br />
+                                            <select class="form-control select2" id="txtMake1" style="width: 100%; height:30%"></select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <span>Godown List </span><br />
+                                            <select class="form-control select2" id="txtWarehouse" multiple="multiple" style="width: 100%;  height:30%"></select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <span>Check All </span><br />
+                                            <input id="checkall" onchange="selectall()" type="checkbox" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <span>Negative Stock</span><br />
+                                            <input id="ngcheck" type="checkbox" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" onclick="viewComparisonReport()" data-dismiss="modal">View Report</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section class="content">
+            <div class="container-fluid" id="itemlistdiv">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="col-12" style=" border: 3px solid #73AD21;">
+                                    <div class="row">
+                                        <div class="col-6" style="height:120px">
+                                            <div class="input-group">
+
+                                            </div>
+                                            <div class="input-group">
+                                                <span style="color:black ;font-size:18px;  font-family:Tahoma" id="godownHeading"></span>
+                                            </div>
+
+                                            <div class="input-group">
+                                                <span style="color:black ;font-size:18px;  font-family:Tahoma; display:none;" id="productname"></span>
+                                            </div>
+                                            <div class="input-group">
+                                                <span style="color:black ;font-size:18px;  font-family:Tahoma; display:none;" id="ProductDescription"></span>
+                                                <span style="color:black ;font-size:18px;  font-family:Tahoma; display:none;" id="ProductSize"></span>
+                                                <span style="color:black ;font-size:18px;  font-family:Tahoma; display:none;" id="ProductClass"></span>
+                                                <span style="color:black ;font-size:18px;  font-family:Tahoma; display:none;" id="ProductMake"></span>
+                                            </div>
+                                            <div class="input-group">
+                                                <span style="color:black ;font-size:18px;  font-family:Tahoma; display:none;" id="MonthName"></span>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-6" style="height: 120px; text-align: center;" id="summrydiv">
+                                            <div class="input-group" style="position: absolute; right: 0px; width: 300px; padding: 0px; text-align: center;">
+                                                <p style="color: black; font-size: 18px; font-family: Tahoma; text-align: center; "> Stock Summary</p>
+                                            </div>
+                                            <div class="input-group" style="position: absolute; right: 0px; width: 300px;  padding: 0px; top:30px;">
+                                                <span style="font-family: Tahoma; font-size: 18px; " id="frmdate"></span>
+                                                <span style="color:black ;font-size:18px;  font-family:Tahoma;">-</span>
+                                                <span style="font-family: Tahoma; font-size: 18px;" id="todate"></span>
+                                            </div>
+                                            <div class="content">
+                                                <ul>
+                                                    <li><input id="Zerostk" type="checkbox" /> Zero Stock</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <br />
+                                @* -------------------GodownWise List------------------------------------*@
+
+                                <div id="listTablediv" style="display:none">
+                                    <table id="listTable" class="table table-bordered table-hover display">
+                                        <thead class="thead-dark">
+                                            <tr>
+                                                <th style="  font-weight: normal;"></th>
+                                                <th style=" font-weight: normal;">WhareHouse Name</th>
+                                                <th style=" font-weight: normal;">WhareHouse Location</th>
+                                                <th style=" font-weight: normal;">Actions</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                                @* -------------------ProductName List------------------------------------*@
+                                <div id="productnametablediv" style="display:none">
+                                    <table id="productnametable" class="table table-bordered table-hover display ">
+                                        <thead class="thead-dark">
+                                            <tr>
+                                                <th style=" font-weight: normal;"></th>
+                                                <th style=" font-weight: normal;">Product Name</th>
+                                                <th style="  font-weight: normal;">Actions</th>
+
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                                @* -------------------ProductDeatils List------------------------------------*@
+                                <div id="productdetailstablediv" style="display:none">
+                                    <table id="productdetailstable" class="table table-bordered table-hover display">
+                                        <thead class="thead-dark">
+                                            <tr>
+                                                <th style="  font-weight: normal;"></th>
+                                                <th style=" font-weight: normal;">Product Name</th>
+                                                <th style="  font-weight: normal;">Size</th>
+                                                <th style=" font-weight: normal;">Class</th>
+                                                <th style="  font-weight: normal;">Brand</th>
+                                                <th style=" font-weight: normal;">Qty</th>
+                                                <th style="  font-weight: normal;">Alt Qty</th>
+                                                <th style="  font-weight: normal;">Weight(Kg)</th>
+                                                <th style=" font-weight: normal;">Actions</th>
+                                                <th></th>
+
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                                @* -------------------MonthWise Stock List------------------------------------*@
+                                <div id="MonthWiseTablediv" style="display:none">
+                                    <table id="MonthWiseTable" class="table table-bordered table-hover display ">
+                                        <thead>
+                                            <tr>
+                                                <th></th>
+                                                <th style=" font-weight: normal;" colspan="1"></th>
+                                                <th style="text-align: center; font-weight: 500; color: white; background-color: #2671B2 " colspan="2">Inwards</th>
+                                                <th style=" text-align: center; font-weight: 500; background-color: #AAD21F; color: white " colspan="2">Outwards</th>
+                                                <th style=" text-align: center; font-weight: 500;background-color: #FFDE59 " colspan="2">Closing Balance</th>
+                                                <th style="  font-weight: normal;" colspan="1"></th>
+                                            </tr>
+                                            <tr>
+                                                <th></th>
+                                                <th style=" font-weight: normal; ">Particulars</th>
+                                                <th style="  font-weight: normal;">Qty</th>
+                                                <th style=" font-weight: normal; ">Alt Qty</th>
+                                                <th style="  font-weight: normal;">Qty</th>
+                                                <th style=" font-weight: normal;">Alt Qty</th>
+                                                <th style=" font-weight: normal;">Qty</th>
+                                                <th style=" font-weight: normal;">Alt Qty</th>
+                                                <th style=" font-weight: normal;">Operations</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tfoot>
+                                            <tr id="tfooter">
+                                                <th></th>
+                                                <th style="font-weight: normal;">Grand Total :</th>
+                                                <th style="color:white; font-weight: normal; background-color: #2671B2 " id="grandinqty"></th>
+                                                <th style="color: white; font-weight: normal; background-color: #2671B2 " id="grandinaltqty"></th>
+                                                <th style="font-weight: normal; background-color: #AAD21F; color: white" id="grandoutqty"></th>
+                                                <th style="font-weight: normal; background-color: #AAD21F; color: white" id="grandoutaltqty"></th>
+                                                <th style="font-weight: normal; background-color: #FFDE59" id="grandbalqty"></th>
+                                                <th style="font-weight: normal; background-color: #FFDE59" id="grandbalaltqty"></th>
+                                                <th></th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                                @* -------------------MonthWiseDetails Stock List------------------------------------*@
+                                <div id="MonthWiseDetilasTablediv" style="display:none">
+                                    <table id="MonthWiseDetilasTable" class="table table-bordered table-hover display ">
+                                        <thead class="thead-dark">
+                                            <tr>
+                                                <th style="font-family: 'sans-serif';   font-weight: normal;" rowspan="1"></th>
+                                                <th style="font-family: 'sans-serif';  font-weight: normal;" colspan="1"></th>
+                                                <th style="font-family: 'sans-serif'; text-align: center; font-weight: normal; font-size:20px" colspan="2">Voucher Details</th>
+                                                <th style="font-family: 'sans-serif'; text-align: center; font-weight: normal; font-size:20px" colspan="2">Inwards</th>
+                                                <th style="font-family: 'sans-serif'; text-align: center; font-weight: normal; font-size:20px" colspan="2">Outwards</th>
+                                                <th style="font-family: 'sans-serif'; text-align: center; font-weight: normal; font-size:20px" colspan="2">Closing</th>
+                                                <th style="font-family: 'sans-serif';  font-weight: normal;" colspan="1"></th>
+                                            </tr>
+                                            <tr>
+                                                <th style="font-family: 'sans-serif';  font-weight: normal;">Date</th>
+                                                <th style="font-family: 'sans-serif';  font-weight: normal;">Particulars</th>
+                                                <th style="font-family: 'sans-serif';  font-weight: normal;">Vch Type</th>
+                                                <th style="font-family: 'sans-serif';  font-weight: normal;">Vch No</th>
+                                                <th style="font-family: 'sans-serif';  font-weight: normal;">Qty</th>
+                                                <th style="font-family: 'sans-serif';  font-weight: normal; ">Alt Qty</th>
+                                                <th style="font-family: 'sans-serif';  font-weight: normal;">Qty</th>
+                                                <th style="font-family: 'sans-serif';  font-weight: normal;">Alt Qty</th>
+                                                <th style="font-family: 'sans-serif';  font-weight: normal;">Qty</th>
+                                                <th style="font-family: 'sans-serif';  font-weight: normal;">Alt Qty</th>
+                                                <th style="font-family: 'sans-serif';  font-weight: normal;"></th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+
+
+                                @* -------------------MonthWiseDetails Stock List------------------------------------*@
+                                <div id="ComparisonDiv" style="display:none">
+                                    <table id="ComparisonTable" class="table table-bordered table-hover display ">
+                                        <thead>
+                                            <tr>
+                                                <th style="font-family: 'sans-serif';   font-weight: normal;" rowspan="1"></th>
+                                                <th style="font-family: 'sans-serif';  font-weight: normal;" colspan="1"></th>
+                                                <th style="font-family: 'sans-serif';  font-weight: normal;" colspan="1"></th>
+                                                <th style="font-family: 'sans-serif';  font-weight: normal;" colspan="1"></th>
+                                                <th style="font-family: 'sans-serif';  font-weight: normal;" colspan="1"></th>
+                                                <th style="font-family: 'sans-serif'; text-align: center; font-weight: normal; font-size:20px" id="brandd1" colspan="2"></th>
+                                                <th style="font-family: 'sans-serif'; text-align: center; font-weight: normal; font-size:20px" id="brandd2" colspan="2"></th>
+                                            </tr>
+                                            <tr>
+                                                <th style="font-family: 'sans-serif';  font-weight: normal;">Sl.No.</th>
+                                                <th style="font-family: 'sans-serif';  font-weight: normal;">Material Name</th>
+                                                <th style="font-family: 'sans-serif';  font-weight: normal;">Size</th>
+                                                <th style="font-family: 'sans-serif';  font-weight: normal;">Class</th>
+                                                <th style="font-family: 'sans-serif';  font-weight: normal;">Godown Name</th>
+                                                <th style="font-family: 'sans-serif';  font-weight: normal; ">Qty</th>
+                                                <th style="font-family: 'sans-serif';  font-weight: normal;">Alt Qty</th>
+                                                <th style="font-family: 'sans-serif';  font-weight: normal;">Qty</th>
+                                                <th style="font-family: 'sans-serif';  font-weight: normal;">Alt Qty</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+
+                                @* -------------------Stock Report Glance List------------------------------------*@
+                                <div id="GlanceTablediv">
+                                    <table id="GlanceTable" class="table table-bordered table-hover display ">
+                                        <thead class="thead-dark">
+                                            <tr></tr>
+                                            <tr></tr>
+                                            @* <tr>
+                                                    <th rowspan="2">Name</th>
+                                                    <th colspan="2">HR Information</th>
+                                                    <th colspan="3">Contact</th>
+                                                </tr>*@
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+    <link rel="stylesheet" href="../../plugins/select2/css/select2.min.css">
+    <link rel="stylesheet" href="~/plugins/daterangepicker/daterangepicker.css">
+    <link rel="stylesheet" href="~/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+    <link href="~/js/Plugin/jquery-customselect.css" rel="stylesheet" />
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+    @section Scripts{
+
+
+        <script src="~/js/StockReport.js"></script>
+        <link href="~/css/jquery-customselect-1.9.1.css" rel="stylesheet" />
+
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
+        <script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+        <script src="../../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+        <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+        <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
+        <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
+        <script src="../plugins/select2/js/select2.full.min.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+
+        <link href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css " rel="stylesheet" type="text/css" />
+        <link href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css" />
+
+
+    }
+    <style>
+        .select2-container .select2-selection--single {
+            height: 34px !important;
+        }
+
+        .select2-container--default .select2-selection--single {
+            border: 1px solid #ccc !important;
+            border-radius: 0px !important;
+        }
+
+        .table-cell-edit {
+            background-color: #9ab8d2;
+        }
+
+        .table-cell-grn {
+            background-color: #c1d08c;
+        }
+
+        .table-cell-yl {
+            background-color: #eee5c0;
+        }
+
+        td.details-control {
+            background: url('https://www.datatables.net/examples/resources/details_open.png') no-repeat center center;
+            cursor: pointer;
+        }
+
+        tr.shown td.details-control {
+            background: url('https://www.datatables.net/examples/resources/details_close.png') no-repeat center center;
+        }
+
+
+        td.details-control1 {
+            background: url('https://www.datatables.net/examples/resources/details_open.png') no-repeat center center;
+            cursor: pointer;
+        }
+
+        tr.shown td.details-control1 {
+            background: url('https://www.datatables.net/examples/resources/details_close.png') no-repeat center center;
+        }
+    </style>
+</body>

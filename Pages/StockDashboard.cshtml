@@ -1,0 +1,349 @@
+﻿@page
+@model StockDashboardModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+
+
+
+
+
+
+<!--<div class="row">
+    <div class="col-lg-2 col-6">-->
+        <!-- small box -->
+        <!--<div class="small-box bg-info">
+            <div class="inner">
+                <p>OPENING STOCK</p>
+                <h4 id="pendingOrder">Rs 69487224293</h4>
+
+            </div>
+            <a href="" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+    </div>-->
+    <!-- ./col -->
+    <!--<div class="col-lg-2 col-6">-->
+        <!-- small box -->
+        <!--<div class="small-box bg-success">
+            <div class="inner">
+                <p>TOTAL PURCHASE</p>
+                <h4 id="dailyquotation">Rs 69487224293</h4>
+
+
+            </div>
+
+            <a href="../ViewQuotation" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+    </div>-->
+    <!-- ./col -->
+    <!--<div class="col-lg-2 col-6">-->
+        <!-- small box -->
+        <!--<div class="small-box " style="background-color: #949FB1 ">
+            <div class="inner">
+                <p style="color:white;"> TOTAL SALE</p>
+                <h4 id="totalsaleOrder" style="color:white">Rs 69487224293</h4>
+            </div>
+
+            <a href="../ViewSO" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+    </div>-->
+    <!-- ./col -->
+    <!--<div class="col-lg-2 col-6">-->
+        <!-- small box -->
+        <!--<div class="small-box bg-danger">
+            <div class="inner">
+                <p>CURRENT STOCK</p>
+                <h4 id="dailyInvoice">Rs 69487224293</h4>
+
+
+            </div>
+
+            <a href="../DispachtedOrderCheck" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+
+</div>-->
+
+
+
+<div class="row">
+    <div class="card col-8">
+        <div class="card-header">
+            <h3 class="card-title">Brand Wise Stock </h3>&nbsp;
+
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="chart-responsive">
+                        <canvas id="barChart" height="200"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card col-4">
+        <div class="card-header">
+            <h3 class="card-title">Brand Wise Stock </h3>&nbsp;
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="chart-responsive">
+                        <canvas id="labelChart" height="200"></canvas>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <div class="card col-12">
+        <div class="card-header">
+            <h3 class="card-title">Stock Report</h3>&nbsp;
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body">
+            <div class="card">
+                <table id="stockTable" class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th style="font-family: 'sans-serif'; font-weight: normal; ">Item Name</th>
+                            <th style="font-family: 'sans-serif'; font-weight: normal; ">Size</th>
+                            <th style="font-family: 'sans-serif'; font-weight: normal; ">Class</th>
+                            <th style="font-family: 'sans-serif'; font-weight: normal; ">Make</th>
+                            <th style="font-family: 'sans-serif'; font-weight: normal; ">Status</th>
+                            <th style="font-family: 'sans-serif'; font-weight: normal; ">Qty</th>
+                            <th style="font-family: 'sans-serif'; font-weight: normal; "> Alt Qty</th>
+                        </tr>
+                    </thead>
+                </table>
+
+
+
+            </div>
+        </div>
+    </div>
+
+
+    <div class="card col-12">
+        <div class="card-header">
+            <h3 class="card-title">No Stock Movement</h3>&nbsp;
+            
+                <a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" style="color:black ;background-color:white;">
+                    <input type="text" readonly id="daterange" name="daterange" value="" />
+                </a>
+                <a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" style="color:black ;background-color:white;" data-toggle="modal" id="adddd" data-target="#exampleModal" data-backdrop="static">
+                    <i class="fas fa-bars" style="font-size:18px;padding:5px"></i>
+                    <span>Period</span>
+                </a>
+              
+              
+           
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body">
+            <div class="card">
+                <table id="noStockMovement" class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th style="font-family: 'sans-serif'; font-weight: normal; ">Purchase Date</th>
+                            <th style="font-family: 'sans-serif'; font-weight: normal; ">Item Name</th>
+                            <th style="font-family: 'sans-serif'; font-weight: normal; ">Size</th>
+                            <th style="font-family: 'sans-serif'; font-weight: normal; ">Class</th>
+                            <th style="font-family: 'sans-serif'; font-weight: normal; ">Make</th>
+                            <th style="font-family: 'sans-serif'; font-weight: normal; ">Godown</th>
+                            <th style="font-family: 'sans-serif'; font-weight: normal; ">Qty</th>
+                            <th style="font-family: 'sans-serif'; font-weight: normal; "> Alt Qty</th>
+                        </tr>
+                    </thead>
+                </table>
+
+
+
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="exampleModal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color:darkslategrey">
+                    <h5 style="color:white;color:white">Period</h5>&nbsp;&nbsp;&nbsp;
+                    <button style="color:white" type="button" class="close" data-dismiss="modal" tabindex="-1" aria-label="Close">
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <span>From </span><br />
+                                <input type="date" id="fromdate" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <span>to </span><br />
+                                <input type="date" id="todate" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="noStockMovement()" data-dismiss="modal">View</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+      <div class="container-fluid card col-12">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header p-2">
+                            <ul class="nav nav-pills">
+                                <li class="nav-item"><a class="nav-link active" href="#openingtab" data-toggle="tab" onclick="TotalStockInNos('totalstock')">Opening Stock</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#purchastab" data-toggle="tab" onclick="TotalStockInNos('totalpurchase')">Total Purchase</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#saletab" data-toggle="tab" onclick="TotalStockInNos('totalsale')">Total Sale</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#currentstocktab" data-toggle="tab" onclick="TotalStockInNos('currentstock')">Current Stock</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="card-body">
+                            <div class="tab-content">
+                                <div class="active tab-pane" id="openingtab">
+                                    <section class="content">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <table id="opningTable" class="table table-bordered table-hover">
+                                                    <thead>
+                                                        <tr>
+                                                            <th style="font-family: 'sans-serif'; font-weight: normal; ">Category</th>
+                                                            <th style="font-family: 'sans-serif'; font-weight: normal; ">Stock</th>
+                                                        </tr>
+                                                    </thead>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </section>
+                                </div>
+                                <div class="tab-pane" id="purchastab">
+                                    <section class="content">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="card">
+                                                    <table id="purchaseTable" class="table table-bordered table-hover">
+                                                        <thead>
+                                                            <tr>
+                                                                <th style="font-family: 'sans-serif'; font-weight: normal; ">Category</th>
+                                                                <th style="font-family: 'sans-serif'; font-weight: normal; ">Stock</th>
+                                                            </tr>
+                                                        </thead>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </section>
+                                </div>
+                                <div class="tab-pane" id="saletab">
+                                    <section class="content">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="card">
+                                                    <table id="saleTable" class="table table-bordered table-hover">
+                                                        <thead>
+                                                            <tr>
+                                                                <th style="font-family: 'sans-serif'; font-weight: normal; ">Category</th>
+                                                                <th style="font-family: 'sans-serif'; font-weight: normal; ">Stock</th>
+                                                            </tr>
+                                                        </thead>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </section>
+                                </div>
+                                <div class="tab-pane" id="currentstocktab">
+                                    <section class="content">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="card">
+                                                    <table id="currentstockTable" class="table table-bordered table-hover">
+                                                        <thead>
+                                                            <tr>
+                                                                <th style="font-family: 'sans-serif'; font-weight: normal; ">Category</th>
+                                                                <th style="font-family: 'sans-serif'; font-weight: normal; ">Stock</th>
+                                                            </tr>
+                                                        </thead>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </section>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+<script src="plugins/chart.js/Chart.min.js"></script>
+@section Scripts{
+    <script src="~/js/StockDashboard.js"></script>
+    <script src="../plugins/jqvmap/jquery.vmap.min.js"></script>
+    <script src="../plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.0.0/dist/chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- DataTables  & Plugins -->
+    <script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="../../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="../../plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="../../plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="../../plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+    <script src="../../plugins/jszip/jszip.min.js"></script>
+    <script src="../../plugins/pdfmake/pdfmake.min.js"></script>
+    <script src="../../plugins/pdfmake/vfs_fonts.js"></script>
+    <script src="../../plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+    <script src="../../plugins/datatables-buttons/js/buttons.print.min.js"></script>
+    <script src="../../plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+    <link href="https://nightly.datatables.net/css/jquery.dataTables.css" rel="stylesheet" type="text/css" />
+    <script src="https://nightly.datatables.net/js/jquery.dataTables.js"></script>
+
+}
+<script>
+    document.title = "Dashboard";
+</script>
+
+<style>
+    .container {
+        width: 40%;
+    }
+
+    h2 {
+        text-align: center;
+        font-family: "Verdana", sans-serif;
+        font-size: 30px;
+    }
+</style>
+
+

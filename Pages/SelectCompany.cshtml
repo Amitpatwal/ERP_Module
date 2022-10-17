@@ -1,0 +1,166 @@
+﻿
+@page
+@model SelectComapnyModel
+@{
+
+    Layout = null;
+}
+@using Microsoft.AspNetCore.Http;
+@inject IHttpContextAccessor HttpContextAccessor
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>ERP SYSTEM</title>
+    <!-- Custom fonts for this template-->
+    <link href="~/lib/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+          rel="stylesheet">
+    <!-- Custom styles for this template-->
+    <link href="~/css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="~/css/login.css" rel="stylesheet">
+    <link href="~/css/selectcompany.css" rel="stylesheet" />
+    <link href="~/css/login.css" rel="stylesheet" />
+
+</head>
+
+<body style="background-color:white" onload="myFunction()">
+
+    <div id="loader"></div>
+
+
+    <input type="text" id="roletype" value="@HttpContextAccessor.HttpContext.Session.GetString("roletype")" hidden />
+
+    <nav class="main-header navbar navbar-expand navbar-white navbar-light" id="navbar" style="background-color:blueviolet">
+
+        <img src="../imgs/inventory.jpeg" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style=" clip-path: circle(); height:60px">
+        <span></span>
+        <h3 style="font-family: Garamond ; color:white">Inventory Management</h3>
+
+        <!-- Right navbar links -->
+        <ul class="navbar-nav ml-auto">
+
+
+          @*  <li class="nav-item" id="usermanagement" style="display:none">
+                <a class="btn btn-danger btn-sm" href="../UserManagement">
+                    <i class="fas fa-user-alt">
+                    </i>
+                    User Mangement
+                </a>
+
+
+            </li>*@
+            <li style="width:30px"></li>
+
+            <li class="nav-item">
+                <a class="btn btn-danger btn-sm" id="logout">
+                    <i class="fas fa-sign-in-alt">
+                    </i>
+                    logout
+                </a>
+
+            </li>
+        </ul>
+    </nav>
+
+    <div align="center" id="myDiv">
+        <br />
+        <table id="companylist" class="styled-table" style=" margin: auto;width:30%">
+            <thead>
+                <tr style="background-color:blueviolet">
+                    <th style="color:white ;">Company name</th>
+                    <th style="color:white">financial Year.</th>
+
+                </tr>
+            </thead>
+        </table>
+    </div>
+
+
+    <script src="~/lib/jquery/jquery.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="~/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- Core plugin JavaScript-->
+    <script src="~/lib/jquery-easing/jquery.easing.min.js"></script>
+    <!-- Custom scripts for all pages-->
+    <script src="~/js/sb-admin-2.min.js"></script>
+    <script src="~/js/SelectCompany.js"></script>
+    <script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="../../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="../../plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="../../plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="../../plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+
+    <script src="../../plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+    <script src="../../plugins/datatables-buttons/js/buttons.print.min.js"></script>
+    <script src="../../plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+
+
+
+
+    <script>
+
+
+
+    </script>
+    <style>
+        .textOnInput {
+            position: relative;
+        }
+
+            .textOnInput label {
+                position: absolute;
+                top: -15px;
+                left: 23px;
+                padding: 2px;
+                z-index: 1;
+            }
+
+                .textOnInput label:after {
+                    content: "";
+                    background-color: #fff;
+                    width: 100%;
+                    height: 13px;
+                    position: absolute;
+                    left: 0;
+                    bottom: 0;
+                    z-index: -1;
+                }
+
+        label {
+            font-size: 16px;
+            display: inline-block;
+            margin-bottom: .5rem;
+            color: orangered;
+        }
+
+        .form-control {
+            box-shadow: none !important;
+        }
+
+
+        .special {
+            cursor: pointer;
+        }
+    </style>
+
+    <script>
+        var myVar;
+
+        function myFunction() {
+            myVar = setTimeout(showPage, 500);
+        }
+
+        function showPage() {
+            document.getElementById("loader").style.display = "none";
+            document.getElementById("myDiv").style.display = "block";
+        }
+    </script>
+
+
+
+</body>
+
+

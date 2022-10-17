@@ -1,0 +1,968 @@
+﻿@page
+@model SalesQaModel
+@{
+
+    ViewData["Title"] = "Home page";
+
+}
+<!-- Content Wrapper. Contains page content -->
+<!-- Begin Page Content -->
+
+
+<body class="hold-transition sidebar-mini">
+
+    <div id="loading">
+        <img id="loading-image" src="~/imgs/loadingBar.gif" alt="Loading..." />
+    </div>
+
+    <div class="container-fluid">
+        <div>
+            <span id="qtnodigit" hidden></span>
+            <span id="tempsave" hidden>Save</span>
+            <span id="tempqtno" hidden></span>
+            <span id="quotno" hidden></span>
+            <input type="datetime" hidden id="creationdate" class="form-control" />
+            <i hidden class="nav-item" id="opstock" style="display:none; "></i>
+
+            <nav class="navbar navbar-expand-sm  navbar-dark" style="background-color: #FBFBFD; position: sticky; top: 0; z-index: 3;">
+                <ul class="navbar-nav">
+                    <li class="nav-item active">
+                        <a href="../ViewQuotation" style="font-size:30px" class="fa fa-arrow-circle-left"></a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" style="color:black">Sales Quotation</a>
+
+                    </li>
+                </ul>
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a data-toggle="modal" data-target="#SearchModel" class=" d-sm-inline-block btn btn-sm btn-primary shadow-sm" style="color:black ;background-color:white;">
+                            <i onclick="SearchOperations()" class="fa fa-search " id="searchbutton" style="font-size:24px"></i>
+                            <span>Search</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class=" d-sm-inline-block btn btn-sm btn-primary shadow-sm" style="color:black ;background-color:white;">
+                            <i onclick="jumptoPrevious()" class="fa fa-arrow-left " id="previousone" style="font-size:24px"></i>
+                        </a>
+                        <a class=" d-sm-inline-block btn btn-sm btn-primary shadow-sm" style="color:black ;background-color:white;">
+                            <span>Jump to</span>
+                        </a>
+                        <a class=" d-sm-inline-block btn btn-sm btn-primary shadow-sm" style="color:black ;background-color:white;">
+                            <i onclick="jumptoNext()" class="fa fa-arrow-right " id="nextone" style="font-size:24px"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item" id="attachmentsdiv" style="display:none">
+                        <a data-toggle="modal" data-target="#exampleModal15" class=" d-sm-inline-block btn btn-sm btn-primary shadow-sm" style="color:black ;background-color:white;" onclick="attachments()">
+                            <i class="fa fa-paperclip" style="font-size:24px"></i>
+                            &nbsp;&nbsp;
+                            Attachments
+                            &nbsp;&nbsp;
+                            <span class="badge badge-danger navbar-badge" id="attachmentsno"></span>
+                        </a>
+                    </li>
+                    <li class="nav-item" id="printbton" style="display:none">
+                        <a id="printbutton" class=" d-sm-inline-block btn btn-sm btn-primary shadow-sm" style="color:black ;background-color:white;">
+                            <i class="fa fa-print " style="font-size:24px"></i>
+                            &nbsp;&nbsp;
+                            Print
+                        </a>
+                    </li>
+                    &nbsp;
+                    <li class="nav-item">
+                        <a onclick="permanentsave()" class=" d-sm-inline-block btn btn-sm btn-primary shadow-sm" style="color:black ;background-color:white;">
+                            <i class="fa fa-save " style="font-size:24px"></i>
+                            &nbsp;&nbsp;
+                            <span id="savequotation">Save</span>
+                        </a>
+                    </li>
+                    &nbsp;
+                    <li class="nav-item" style="display:none" id="convertpi">
+                        <a class=" d-sm-inline-block btn btn-sm btn-primary shadow-sm" id="convertToPI" style="color:black ;background-color:white;">
+                            <i class="fa fa-close " style="font-size:24px"></i>
+                            &nbsp;&nbsp;
+                            <span>Convert To PI</span>
+                        </a>
+                    </li>
+                    &nbsp;&nbsp;&nbsp;
+                    <li class="nav-item">
+                        <a id="reset" class=" d-sm-inline-block btn btn-sm btn-primary shadow-sm" style="color:black ;background-color:white;">
+                            <i class="fa fa-plus " style="font-size:24px"></i>
+                            &nbsp;&nbsp;
+                            New Quotation
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+
+            <div class="modal fade" id="SearchModel" role="dialog" aria-labelledby="SearchModel" aria-hidden="true" style="padding-right: 0px !important;">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header" style="background-color:darkslategrey">
+                            <h5 style="color:white">Search Operation </h5>
+                            <button style="color:white" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <div class="input-group">
+                                        <div class="content">
+                                            <ul class="nav nav-pills nav-sidebar flex-column" onchange="viewperiod()">
+                                                <li class="nav-item"><input id="partynamecheck" groupname="group1" type="checkbox" checked /> Party Name</li>
+                                                <li class="nav-item"><input id="QuotNoO" groupname="group1" type="checkbox" /> Quotation Number</li>
+                                                <li class="nav-item"><input id="periodcheck" groupname="group1" type="checkbox" /> Period</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-7">
+                                    <div class="input-group">
+                                        <div class="form-group" id="SearchDiv" style="width:1200px">
+                                            <input type="text" placeholder="Search.." class="form-control" name="search" id="SearchRecordInput" style="max-width:2200px"><br />
+                                            <button onclick="searchingReport()" style="background-color:lightblue" class="form-control" data-toggle="modal" data-target="#SearchModel"><i class="fa fa-search"></i></button>
+                                        </div>
+
+                                        <div id="periodDiv" class="row" style="display:none">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <span>From </span><br />
+                                                    <input type="date" id="fromdate" class="form-control" />
+                                                </div>
+                                                <div class="form-group">
+                                                    <span>to </span><br />
+                                                    <input type="date" id="todate" class="form-control" />
+                                                </div>
+                                                <div class="form-group">
+                                                    <button onclick="searchingReport()" style="background-color:lightblue" class="form-control" data-toggle="modal" data-target="#SearchModel"><i class="fa fa-search"></i></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <aside class="main-sidebar sidebar-dark-primary elevation-4" id="searchReportDiv" style="background-color:white;width:500px;display:none">
+                <div class="sidebar">
+                    <div class="modal-content">
+                        <div class="modal-header" style="background-color:darkslategrey">
+                            <span style="color:white">Search List</span>
+                            <button style="color:white" type="button" onclick="hideSearchReport()" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="tab-pane" id="searchPanel">
+                            <section class="content">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="card">
+                                            <table id="searchList" class="table table-bordered table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th></th>
+                                                        <th>Date</th>
+                                                        <th>Q.T. No.</th>
+                                                        <th>Comapny Name</th>
+                                                    </tr>
+                                                </thead>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+
+                    </div>
+                </div>
+
+            </aside>
+            <!-- Content Header (Page header) -->
+
+            <div>
+                <!-- Main content -->
+                <section class="content">
+                    <div class="container-fluid">
+                        <!-- SELECT2 EXAMPLE -->
+                        <div class="card card-default">
+                            <!-- /.card-header -->
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <span>Quotation No.:</span>
+                                            <input type="text" id="quotationno" readonly class="form-control">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <span>Quotation Date  :</span>
+                                            <input type="datetime-local" id="Voucherdate" class="form-control" onkeypress="nextfocus(event,'enqdate')" placeholder="Remarks" />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <span>Enquiry Date  </span>	&nbsp;	&nbsp;
+                                            <input type="datetime-local" id="enqdate" class="form-control" onkeypress="nextfocus(event,'referencecode')" placeholder="Remarks" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <span>Quotation Refrence</span> &nbsp;	&nbsp;
+                                            <input type="text" id="referencecode" class="form-control" onkeypress="nextfocus(event,'companyname')" placeholder="Quotation Refrence ">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <div>
+                <!-- Main content -->
+                <section class="content">
+                    <div class="container-fluid">
+                        <div class="card card-default">
+                            <div class="card-header">
+                                <div class="container-fluid">
+                                    <div class="col-md-8">
+                                        <span>Customer Details  </span>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="input-group">
+                                            <span>Company Name</span>
+                                            <select class="form-control" id="companyname" onchange="filldetails()" onkeypress="nextfocus(event,'contactperson')" style="width: 100%;">
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <span>Conatct Person</span>
+                                            <input type="text" id="contactperson" class="form-control" onkeypress="nextfocus(event,'email')" placeholder="Contact Person" />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <span>Email Id</span>
+                                            <input type="text" id="email" class="form-control" onkeypress="nextfocus(event,'phone')" placeholder="Email Id ">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <span>Mobile No.</span>
+                                            <input type="text" id="phone" class="form-control" onkeypress="nextfocus(event,'dealingPerson')" placeholder="Mobile Nos.">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <span>Dealing Person</span>
+                                            <input disabled type="text" id="dealingPerson" class="form-control" onkeypress="nextfocus(event,'adddd')">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <span id="categoryColor">Category</span>
+                                            <select class="form-control" id="companyCategory" onchange="getsize()" style="width: 100%;">
+                                                <option value="SelectCategory">Select Category</option>
+                                                <option value="Category A">Category A</option>
+                                                <option value="Category B">Category B</option>
+                                                <option value="Category C">Category C</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+
+            <!--</section>-->
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+
+                        <div class="card">
+                            <!-- /.card-header -->
+                            <div class="card-body">
+                                <button type="button" class="btn btn-primary" onclick="dataitem(0)" data-toggle="modal" id="adddd" data-target="#exampleModal" data-backdrop="static">Add New Item</button>
+
+                                <div class="modal fade" id="exampleModal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header" style="background-color:darkslategrey">
+                                                <h5 style="color:white;color:white">Add New Item</h5>&nbsp;&nbsp;&nbsp;
+                                                <button style="color:white" type="button" class="close" data-dismiss="modal" tabindex="-1" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="row">
+                                                    <input type="text" style="width:40px;border:none;" hidden readonly id="itemid">
+                                                    <div class="col-md-6">
+                                                        <div class="input-group">
+                                                            <span id="namecolor">Item Name  *</span><br />
+                                                            <select tabIndex="1" class="form-control" id="txtName" onchange="getsize()" style="width: 100%;">
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="input-group">
+                                                            <span>Item Size</span>
+                                                            <select tabIndex="2" class="form-control" id="txtSize" onchange="getclass()" style="width: 100%;">
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="input-group">
+                                                            <span>Class/Thk</span>
+                                                            <select tabIndex="3" class="form-control" id="txtClass" onchange="getunit()" style="width: 100%;">
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="input-group">
+                                                            <span>Item Make</span>
+                                                            <select tabindex="4" class="form-control" id="txtMake" multiple="multiple" style="width: 100%; height:40px;">
+                                                            </select>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <div class="input-group">
+                                                            <span id="unitcolor">Item Unit *</span>
+                                                            <select tabindex="5" class="form-control" id="txtUnit" onchange="setunitType();" style="width: 100%;">
+                                                            </select>
+                                                            <select hidden tabindex="5" class="form-control" id="Unittype" style="width: 100%;">
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <span>Price</span>
+                                                            <a href="#" style="color:blue" onclick="getCurrentPrice()">Refresh Price</a>
+                                                            <span id="pricedate" style="color:blue"></span>
+                                                            <input tabindex="6" type="number" id="txtPrice" onkeyup="finalamount()" onkeypress="nextfocus(event,'txtDisc')" class="form-control" placeholder="Price" />
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <span>Discount%</span>
+                                                            <input tabindex="7" type="number" id="txtDisc" onkeyup="finalamount()" onkeypress="nextfocus(event,'txtReqdQty')" class="form-control" placeholder="Discount%" />
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <span>Required Qty.</span>
+                                                            <input tabindex="8" type="number" id="txtReqdQty" onkeyup="finalamount()" class="form-control" onkeypress="nextfocus(event,'txtRemarks')" placeholder="Required Qty." />
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <span>Remarks</span>
+                                                            <textarea tabindex="9" type="text" id="txtRemarks" class="form-control" @*onkeypress="saveed(event)"*@ placeholder="Remarks"></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <span>Discount Price</span>
+                                                            <input type="number" id="txtDiscPrice" disabled class="form-control" placeholder="Discount Price" />
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <span>Amount</span>
+                                                            <input type="number" id="txtAmount" disabled class="form-control" placeholder="Amount" />
+                                                        </div>
+                                                    </div>
+
+
+                                                </div>
+
+                                            </div>
+
+                                            <div class="modal-footer">
+                                                <button type="button" tabindex="10" class="btn btn-primary" onclick="addcompanydetails()" id="saveebutton1">Save</button>
+                                                <button id="resetitem" type="button" class="btn btn-danger" onclick="dataitem(0)">Reset</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <table id="ItemTable" class="table table-bordered table-hover ">
+                                    <thead>
+                                        <tr>
+                                            <th style="font-family: 'sans-serif'; font-weight: normal; text-align: center; "></th>
+                                            <th style="font-family: 'sans-serif'; font-weight: normal; text-align: center;  ">Item Description</th>
+                                            <th style="font-family: 'sans-serif'; font-weight: normal; text-align: center; ">Unit</th>
+                                            <th style="font-family: 'sans-serif'; font-weight: normal; text-align: center; ">Price</th>
+                                            <th style="font-family: 'sans-serif'; font-weight: normal; text-align: center; ">Disc %</th>
+                                            <th style="font-family: 'sans-serif'; font-weight: normal; text-align: center; ">Reqd. Qty</th>
+                                            <th style="font-family: 'sans-serif'; font-weight: normal; text-align: center; ">Disc. Price</th>
+                                            <th style="font-family: 'sans-serif'; font-weight: normal; text-align: center; ">Amount</th>
+                                            <th style="font-family: 'sans-serif'; font-weight: normal; text-align: center; ">Action</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                                <span style="text-align:right">Total Amount : </span><span id="Totalamount">00.0</span>
+
+                                <div class="modal fade" id="additemmodel" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog " style="max-width: 65%;" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header" style="background-color:darkslategrey">
+                                                <h5 style="color:white;color:white">Create Item</h5>&nbsp;&nbsp;&nbsp;
+
+                                                <a onclick="saveitemaster()" class="d-none d-sm-inline btn btn-sm btn-primary shadow-sm" id="" style="color:black ;background-color:white;">
+                                                    <span class="fa fa-save " style="font-size:24px"></span>
+                                                    &nbsp;&nbsp; <span id="savebutton">Save</span>
+                                                </a>
+
+                                                <button style="color:white" type="button" class="close" data-dismiss="modal" tabindex="-1" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+
+                                                <div class="row">
+                                                    <div class="column" style="width:50%">
+                                                        <section class="content">
+                                                            <div class="container-fluid">
+                                                                <div class="card card-default">
+                                                                    <div class="card-header" style="background-color: #FBFBFD">
+                                                                        <a>General Details</a>
+                                                                    </div>
+                                                                    <div class="card-body">
+                                                                        <div class="row">
+                                                                            <div class="col-md-12">
+                                                                                <input type="number" hidden id="ItemId" style="width: 100%;" />
+                                                                                <div class="form-group">
+                                                                                    <span id="namecolor">Item Name *</span>
+                                                                                    <select class="form-control select2" id="pname" style="width: 100%; height:30%"></select>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-12">
+                                                                                <div class="form-group">
+                                                                                    <span id="sizecolor">Item Size *</span>
+                                                                                    <select class="form-control select2" id="size" style="width: 100%;"></select>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-12">
+                                                                                <div class="form-group">
+                                                                                    <span id="classcolor"> Item Class *</span>
+                                                                                    <select class="form-control select2 " id="Class" style="width: 100%;"></select>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-12">
+                                                                                <div class="form-group">
+                                                                                    <span id="categorycolor">Category *</span>
+                                                                                    <select class="form-control select2" id="category" style="width: 100%;">
+                                                                                    </select>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-12">
+                                                                                <div class="form-group">
+                                                                                    <span id="categorycolor">Description</span>
+
+                                                                                    <textarea class="form-control "></textarea>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </section>
+                                                    </div>
+                                                    <div class="column " style="width:50%">
+                                                        <section class="content">
+                                                            <div class="container-fluid">
+                                                                <div class="card card-default">
+                                                                    <div class="card-header" style="background-color: #FBFBFD">
+                                                                        <a>Stock Details</a>
+                                                                    </div>
+                                                                    <div class="card-body">
+                                                                        <div class="row">
+                                                                            <div class="col-md-6">
+                                                                                <div class="form-group">
+                                                                                    <span id="unitcolor">Unit*</span>
+                                                                                    <select class="form-control select2" id="unit" style="width: 100%;" onchange="openingstock()"></select>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-md-6">
+                                                                                <div class="form-group">
+                                                                                    <span id="sizecolor"> Enable Secondary Unit</span>
+                                                                                    &nbsp;   &nbsp;   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                                                                                    <label class="switch">
+                                                                                        <input type="checkbox" id="togBtnunit" onchange="hideshowunit()" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">
+                                                                                        <span class="slider round"></span>
+                                                                                    </label>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-md-12">
+                                                                                <div class="collapse multi-collapse" id="multiCollapseExample1">
+                                                                                    <div class="row">
+                                                                                        <div class="col-md-6">
+                                                                                            <div class="form-group">
+                                                                                                <span id="altunitcolor">Secondary Unit *</span>
+                                                                                                <select class="form-control" style="width:100%" id="altunit" onchange="conversionrate()"></select>
+                                                                                            </div>
+                                                                                        </div>
+
+                                                                                        <div class="col-md-6">
+                                                                                            <div class="form-group">
+                                                                                                <span id="classcolor">Conversion Unit </span>
+                                                                                                <div class="row">
+                                                                                                    <span style="width:15%;font-size:15px"> Where</span>
+                                                                                                    <input type="number" onkeyup="if(this.value<0){this.value= this.value * -1}" min="0" class="form-control " id="where" placeholder="0" style="width:20%">
+                                                                                                    <input type="text" disabled class="form-control" style="width:20%" id="secondaryprefix">
+                                                                                                    <span style="width:5%"> =</span>
+                                                                                                    <input type="number" onkeyup="if(this.value<0){this.value= this.value * -1}" min="0" class="form-control" id="from" placeholder="0" style="width:20%">
+                                                                                                    <input type="text" disabled class="form-control " style="width: 20%" id="secondarysuffix">
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-md-6">
+                                                                                <div class="input-group">
+                                                                                    <span id="sizecolor">   Enable Weight</span>
+                                                                                    &nbsp;   &nbsp;   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                                    <label class="switch">
+                                                                                        <input type="checkbox" id="togBtnweight" onclick="hideshowweight()" href="#multiCollapseExample12" role="button" aria-expanded="false" aria-controls="multiCollapseExample12">
+                                                                                        <span class="slider round"></span>
+                                                                                    </label>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-md-12">
+                                                                                <div class="collapse multi-collapse" id="multiCollapseExample12">
+                                                                                    <div class="row">
+                                                                                        <div class="col-md-6">
+                                                                                            <div class="form-group">
+                                                                                                <span id="classcolor">Weight Unit *</span>
+                                                                                                <select class="form-control" id="weightunit" onchange="weightconversionrate()">
+                                                                                                    <option value="0"> K.G</option>
+                                                                                                    <option value="1"> TON</option>
+                                                                                                </select>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="col-md-6">
+                                                                                            <div class="form-group">
+                                                                                                <span id="classcolor">Conversion Weight </span>
+                                                                                                <div class="row">
+                                                                                                    <input type="text" disabled class="form-control" style="width:40%" id="weightprefix">
+                                                                                                    <input type="number" min="0" class="form-control" id="weight" placeholder="0" style="width:40%">
+                                                                                                    <input type="text" disabled class="form-control " style="width:20%" id="weightsuffix">
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            @*  <div class="col-md-6">
+                                                                                    <div class="form-group">
+                                                                                        <span id="classcolor">Opening Stock </span>
+                                                                                        <div class="input-group">
+                                                                                            <input type="number" class="form-control" placeholder="0" onkeyup="viewaddbutton()" id="opQty" style="width:50%">
+                                                                                            <input type="text" disabled class="form-control" style="width:25%" id="stocksuffix">
+                                                                                            <div id="addbutton" class="form-control" style="width:10%;display:none;" onmouseover="this.style.background='blue';" onmouseout="this.style.background='white';"><i class="fas fa-plus-circle" style="color:green"></i></div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>*@
+
+
+                                                                            @*  <div class="col-md-6">
+                                                                                    <div class="form-group">
+                                                                                        <span id="classcolor">As of Date </span>
+                                                                                        <input type="date" id="openningstockdate" class="form-control" />
+                                                                                    </div>
+                                                                                </div>*@
+
+
+
+                                                                            <div class="col-md-2">
+                                                                                <div class="form-group">
+                                                                                    <span id="sizecolor">Stock Warning</span>
+                                                                                    &nbsp;   &nbsp;   &nbsp;   &nbsp;   &nbsp;   &nbsp;
+                                                                                    <label class="switch">
+                                                                                        <input type="checkbox" onchange="hideshowlow()" id="togBtnLowStock" href="#multiCollapseExample13" role="button" aria-expanded="false" aria-controls="multiCollapseExample13">
+                                                                                        <span class="slider round"></span>
+                                                                                    </label>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-md-2" hidden>
+                                                                                <div class="form-group">
+                                                                                    <span>Pr.</span>
+                                                                                    <label class="switch">
+                                                                                        <input type="checkbox" onchange="WarningUnit()" id="togBtnSrUnit" role="button" aria-expanded="false" aria-controls="multiCollapseExample13">
+                                                                                        <span class="slider round"></span>
+                                                                                    </label>
+                                                                                    <span>Sr.</span>
+                                                                                </div>
+                                                                            </div>
+
+
+
+                                                                            <div class="col-md-4">
+                                                                                <div class="collapse multi-collapse" id="multiCollapseExample13">
+                                                                                    <div class="form-group">
+                                                                                        <div class="row">
+                                                                                            <span id="sizecolor">Minimum Stock</span>
+                                                                                            <input type="text" class="form-control" id="minimumStock" style="width:80%" placeholder="0">
+                                                                                            <input type="text" readonly class="form-control " style="width:20%" id="lowstocksuffix">
+                                                                                            <span id="lowstockid" hidden></span>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-4">
+                                                                                <div class="form-group">
+                                                                                    <div class="row">
+                                                                                        <span id="sizecolor">Maximum Stock</span>
+                                                                                        <input type="text" class="form-control" id="maximumStock" style="width:80%" placeholder="0">
+                                                                                        <input type="text" readonly class="form-control " style="width:20%" id="highstocksuffix">
+                                                                                        <span id="maxstockid" hidden></span>
+
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <!-- /.row -->
+                                                                <div class="card card-default">
+                                                                    <div class="card-header" style="background-color: #FBFBFD">
+                                                                        <a>Price Details</a>
+                                                                    </div>
+
+                                                                    <div class="card-body">
+                                                                        <div class="row">
+                                                                            <div class="col-md-6">
+                                                                                <div class="form-group">
+                                                                                    <span>Purchase Price</span>
+                                                                                    <input type="number" id="purchaseprice" min="0" class="form-control select2" placeholder="0" style="width: 100%;">
+                                                                                </div>
+                                                                            </div>
+
+
+                                                                            <div class="col-md-6">
+                                                                                <dicv class="form-group">
+                                                                                    <span id="hsncolor">Hsn Code*</span>
+
+                                                                                    <input type="text" id="hsncode" class="form-control select2" style="width: 100%; " placeholder="Enter HSN Code">
+                                                                                </dicv>
+                                                                            </div>
+
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <!-- /.container-fluid -->
+                                                        </section>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                        <!-- /.card -->
+                        <!-- /.card -->
+                    </div>
+                    <!-- /.col -->
+                </div>
+                <!-- /.row -->
+            </div>
+
+
+            <div>
+                <!-- Main content -->
+                <section class="content">
+                    <div class="container-fluid">
+                        <div class="card card-default">
+                            <div class="card-header">
+                                <div class="container-fluid">
+                                    <div class="col-lg-12">
+                                        <span style=" width:10px;"> Terms & Conditions</span>
+                                        <button type="button" class="btn btn-tool" data-card-widget="collapse" style="float: right; ">
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <a>1  &#160</a>
+                                            <select class="form-control" id="condition1" onchange="filldetails()" style="width: 80%;">
+                                            </select>&#160 &#160
+                                            <i style="color:green" onclick="addlist(1)" class="fa fa-plus-circle"></i>&#160
+                                            <i style="color:red" onclick="viewTermandcondition(1)" class="fa fa-eye"></i>
+                                        </div>
+                                    </div>
+                                    <br /> <br />
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <a>2  &#160</a>
+                                            <select class="form-control" id="condition2" onchange="filldetails()" style="width: 80%;">
+                                            </select>&#160 &#160
+                                            <i style="color:green" onclick="addlist(2)" class="fa fa-plus-circle"></i>&#160
+                                            <i style="color:red" onclick="viewTermandcondition(2)" class="fa fa-eye"></i>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <a>3  &#160</a>
+                                            <select class="form-control" id="condition3" onchange="filldetails()" style="width: 80%;">
+                                            </select>&#160 &#160
+                                            <i style="color:green" onclick="addlist(3)" class="fa fa-plus-circle"></i>&#160
+                                            <i style="color:red" onclick="viewTermandcondition(3)" class="fa fa-eye"></i>
+                                        </div>
+                                    </div>
+                                    <br /> <br />
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <a>4  &#160</a>
+                                            <select class="form-control" id="condition4" onchange="filldetails()" style="width: 80%;">
+                                            </select>&#160 &#160
+                                            <i style="color:green" onclick="addlist(4)" class="fa fa-plus-circle"></i>&#160
+                                            <i style="color:red" onclick="viewTermandcondition(4)" class="fa fa-eye"></i>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <a>5  &#160</a>
+                                            <select class="form-control" id="condition5" onchange="filldetails()" style="width: 80%;"></select>&#160 &#160
+                                            <i style="color:green" onclick="addlist(5)" class="fa fa-plus-circle"></i>&#160
+                                            <i style="color:red" onclick="viewTermandcondition(5)" class="fa fa-eye"></i>
+                                        </div>
+                                    </div>
+                                    <br /> <br />
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <a>6  &#160</a>
+                                            <select class="form-control" id="condition6" onchange="filldetails()" style="width: 80%;">
+                                            </select>&#160 &#160
+                                            <i style="color:green" onclick="addlist(6)" class="fa fa-plus-circle"></i>&#160
+                                            <i style="color:red" onclick="viewTermandcondition(6)" class="fa fa-eye"></i>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <a>7  &#160</a>
+                                            <select class="form-control" id="condition7" onchange="filldetails()" style="width: 80%;">
+                                            </select>&#160 &#160
+                                            <i style="color:green" onclick="addlist(7)" class="fa fa-plus-circle"></i>&#160
+                                            <i style="color:red" onclick="viewTermandcondition(7)" class="fa fa-eye"></i>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <input style="width:450px" type="text" id="remarkss" class="form-control" placeholder="Enter Remarks">
+                                        </div>
+                                    </div>
+
+
+                                    <div class="modal fade" id="exampleModal15" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" style="max-width: 65%;" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header" style="background-color:darkslategrey">
+                                                    <span style="color:white">Attachments</span>
+                                                    <button style="color:white" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="card">
+                                                        <div class="card-body">
+                                                            <div class="tab-content">
+
+                                                                <div class="active tab-pane">
+                                                                    <section class="content">
+                                                                        <div class="container-fluid">
+                                                                            <div class="row">
+                                                                                <div class="col-12">
+
+
+                                                                                    <div class="card-body">
+                                                                                        <div class="row">
+                                                                                            <div class="col-md-10">
+                                                                                                <div class="form-group">
+                                                                                                    <span>File Location:</span> &nbsp;&nbsp;
+                                                                                                    <form enctype="multipart/form-data">
+                                                                                                        <input type="file" id="document_attachment_doc" class="form-control" placeholder="File" multiple aria-label="File browser example">
+                                                                                                    </form>
+                                                                                                    @*<input id='browse' type='file' readonly class="form-control">*@
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div id="previewDiv" class="col-md-12" style="height:400px; width:100%; border-radius:10px; background-color:silver;display:none">
+                                                                                                <div class="form-group">
+                                                                                                    <button style="border-radius:10px" id="x" onclick="closemodel()">
+                                                                                                        X
+                                                                                                    </button>
+                                                                                                    <img id="blah" src="#" alt="your image" style="display: none; height: 400px; border-radius: 10px; width: 100%" />
+                                                                                                </div>
+
+                                                                                            </div>
+
+                                                                                            <div class="col-md-2">
+                                                                                                <div class="form-group">
+                                                                                                    <br />
+                                                                                                    <button type="button" class="btn btn-success" onclick="uploadFile()">Upload</button>
+                                                                                                </div>
+
+                                                                                            </div>
+
+                                                                                            <hr style="border-top: 3px solid #bbb;">
+
+                                                                                            <div class="col-md-12">
+                                                                                                <table id="attachmentsTable" class="table table-bordered table-hover ">
+                                                                                                    <thead>
+                                                                                                        <tr>
+                                                                                                            <th style="font-family: 'sans-serif'; font-weight: normal; text-align: center; width:10px">Sr. No</th>
+                                                                                                            <th style="font-family: 'sans-serif'; font-weight: normal; width:250px">File Name</th>
+                                                                                                            <th style="font-family: 'sans-serif'; font-weight: normal; text-align: center; width:20px">Action</th>
+                                                                                                        </tr>
+                                                                                                    </thead>
+                                                                                                </table>
+                                                                                            </div>
+
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </section>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <link href="https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../../plugins/select2/css/select2.min.css">
+    <link rel="stylesheet" href="~/plugins/daterangepicker/daterangepicker.css">
+    <link rel="stylesheet" href="~/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+    <link href="~/js/Plugin/jquery-customselect.css" rel="stylesheet" />
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+    <link href="~/css/loading.css" rel="stylesheet" />
+
+
+    @section Scripts{
+        <script src="../js/ItemMaster.js"></script>
+        <script src="../js/Salesquotation.js"></script>
+        <script src="~/js/Additems.js"></script>
+
+        <link href="~/css/jquery-customselect-1.9.1.css" rel="stylesheet" />
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="~/js/Plugin/jquery-customselect.js"></script>
+        <script src="../plugins/select2/js/select2.full.min.js"></script>
+
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+
+        <script src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap.min.js"></script>
+
+        <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
+
+        <script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+        <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
+        <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
+
+
+        <link href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css " rel="stylesheet" type="text/css" />
+        <link href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css" />
+        <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.colVis.min.js"></script>
+
+    }
+    <link href="~/css/elements.css" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <script type="text/javascript">
+        $('body').on('keydown', 'input, select', function (e) {
+            if (e.key === "Enter") {
+                var self = $(this), form = self.parents('form:eq(0)'), focusable, next;
+                focusable = form.find('input,a,select,button,textarea').filter(':not([disabled]):not([tabindex="-1"]):visible');
+                next = focusable.eq(focusable.index(this) + 1);
+                if (next.length) {
+                    next.focus();
+                } else {
+
+                }
+                return false;
+            }
+        });
+    </script>
+
+
+
+
+
+</body>

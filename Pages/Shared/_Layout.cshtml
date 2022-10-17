@@ -1,0 +1,781 @@
+﻿@using Microsoft.AspNetCore.Http;
+@inject IHttpContextAccessor HttpContextAccessor
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="../plugins/fontawesome-free/css/all.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Tempusdominus Bootstrap 4 -->
+    <link rel="stylesheet" href="../plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+    <!-- iCheck -->
+    <link rel="stylesheet" href="../plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+    <!-- JQVMap -->
+    <link rel="stylesheet" href="../plugins/jqvmap/jqvmap.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="../dist/css/adminlte.min.css">
+    <!-- overlayScrollbars -->
+    <link rel="stylesheet" href="../plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+    <!-- Daterange picker -->
+    <link rel="stylesheet" href="../plugins/daterangepicker/daterangepicker.css">
+    <!-- summernote -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+    <div class="wrapper">
+        <nav class="main-header navbar navbar-expand navbar-white navbar-light" style="background-color: #FBFBFD;">
+            <span id="companyid" hidden></span>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+                </li>
+            </ul>
+            <marquee behavior="scroll" direction="left">
+                <img style="height:60px; width:100px" src="~/imgs/75.png" />
+            </marquee>
+
+            <ul class="navbar-nav ml-auto" style="width :500px">
+                <li class="nav-item">
+                    <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
+                        <img src="../imgs/adduser.png" id="userPr" class="img-circle elevation-2" alt="User Image" style="height:35px;width:35px">
+                    </a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a style="border-radius:6px" onmouseover="this.style.background='#F5F5F5';" onmouseout="this.style.background='white';" class="nav-link" data-toggle="dropdown" href="#">
+                        <span class="card-title" style="color:black" id="usernam"> &nbsp</span>  &nbsp;
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                        <a href="#" class="dropdown-item">
+                            <div class="row">
+                                <img src="dist/img/user1-128x128.jpg" alt="User Avatar" id="userPr1" class="img-size-50 mr-3 img-circle">
+                                <div class="media-body">
+                                    <h3 class="dropdown-item-title">
+                                        <span class="card-title" style="color:black" id="username1"> </span>
+                                        <span class="float-right text-sm text-danger"><i class="fas fa-star"></i></span>
+                                    </h3><br />
+                                    <p style="font-size:10px" id="rolename"></p>
+                                </div>
+                            </div>
+                        </a>
+
+                        <a href="../ProfileUser" class="dropdown-item">
+                            <div class="media">
+                                <div class="media-body">
+                                    <h3 class="dropdown-item-title">Profile </h3>
+                                </div>
+                            </div>
+                        </a>
+
+                        <a href="#" class="dropdown-item">
+                            <div class="media">
+                                <div class="media-body">
+                                    <h3 class="dropdown-item-title"> Settings</h3>
+                                </div>
+                            </div>
+                        </a>
+
+                        <a href="#" class="dropdown-item">
+                            <div class="media">
+                                <div class="media-body">
+                                    <h3 class="dropdown-item-title">Switch  Company</h3>
+                                </div>
+                            </div>
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="../ProfileUser" class="dropdown-item">
+                            <div class="media">
+                                <div class="media-body">
+                                    <h3 class="dropdown-item-title">Change Password</h3>
+                                </div>
+                            </div>
+                        </a>
+
+                        <a href="" class="dropdown-item" onclick="logout()">
+                            <div class="media">
+                                <div class="media-body">
+                                    <h3 class="dropdown-item-title">Log Out</h3>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+
+        <aside class="main-sidebar sidebar-dark-primary elevation-4">
+            <div class="sidebar">
+                <div class="row">
+                    <div style="width:10%">
+                        <a href="../SelectCompany" data-toggle="tooltip" title="Switch Company" class="fa fa-sign-out " style="color:white;"></a>
+                    </div>
+                    <div class=" mt-3 d-flex" style=" display: flex; justify-content: center;width:80%">
+                        <div class="image" style="height: 60px; width: 60px;">
+                            <div id="imgdiv" class="img-circle elevation-2" style="height: 60px; width: 60px; background-color:white"></div>
+                            <img id="pnsimage" src="../imgs/pnslogo.jpg" class="img-circle elevation-2" alt="User Image" style="height: 60px; width: 60px; display:none ">
+                            <img id="sbsimage" src="../imgs/SBSLogo.png" class="img-circle elevation-2" alt="User Image" style="height: 60px; width: 60px; display :none ">
+                        </div>
+                    </div>
+                    <div id="settingbutton" style="display:none;width:10%">
+                        <a href="../Settings" class="fa fa-gear" style="color:white;"></a>
+                    </div>
+                </div>
+                <div class=" mt-3 mb-3 d-flex" style=" display: inline-block; justify-content: center;  text-align: center">
+                    <div class="info">
+                        <ul class="nav nav-pills nav-sidebar " role="menu" data-accordion="false">
+                            <li class="nav-item">
+                                <a class="nav-link">
+                                    <p style="color: white;" id="companyname1"></p>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="form-inline">
+                    <div class="input-group" data-widget="sidebar-search">
+                        <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
+                        <div class="input-group-append">
+                            <button class="btn btn-sidebar">
+                                <i class="fas fa-search fa-fw"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <nav class="mt-2">
+                    <ul class="nav nav-pills nav-sidebar " data-widget="treeview" role="menu" data-accordion="false">
+                        <li class="nav-item">
+                            <a href="../Dashboard" class="nav-link" id="ddashboard" onmouseout="this.style.background='#343A40';">
+                                <i class="nav-icon fas fa-tachometer-alt"></i>
+                                <p>
+                                    <span style="font-size:15px"> Dashboard</span>
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item" id="parties">
+                            <a href="../CustomerData" class="nav-link" onmouseover="this.style.background='blue';" onmouseout="this.style.background='#343A40';">
+                                <i class="fas fa-user-friends"></i> &nbsp;
+                                <p style="font-size:15px">Parties</p>
+                            </a>
+                        </li>
+                        <li class="nav-item" id="items">
+                            <a href="" class="nav-link" onmouseover="this.style.background='blue';" onmouseout="this.style.background='#343A40';">
+                                <i class="fa fa-cubes"></i>&nbsp;&nbsp;
+                                <p style="font-size:15px"> Product </p>
+                            </a>
+
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="../ItemList" class="nav-link" onmouseover="this.style.background='pink';" onmouseout="this.style.background='#343A40';" style="align-content:end">
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <i class="fa fa-list-alt"> </i>&nbsp;
+                                        <span style="font-size:15px">List</span>
+                                    </a>
+                                </li>
+
+                                <li class="nav-item" id="itemscreate">
+                                    <a href="" class="nav-link" onmouseover="this.style.background='blue';" onmouseout="this.style.background='#343A40';">
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <i class="fa fa-cubes"></i>&nbsp;&nbsp;
+                                        <span style="font-size:15px">Add Product Details </span>
+                                    </a>
+
+                                    <ul class="nav nav-treeview">
+
+                                        <li class="nav-item">
+
+                                            <a href="../ItemDatatable?Id=pname" class="nav-link" onmouseover="this.style.background='pink';" onmouseout="this.style.background='#343A40';" style="align-content:end">
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <i class="fas fa-plus-square"> </i>&nbsp;
+                                                <span style="font-size:15px"> Product Name</span>
+                                            </a>
+                                        </li>
+
+                                        <li class="nav-item">
+                                            <a href="../ItemDatatable?Id=size" class="nav-link" onmouseover="this.style.background='pink';" onmouseout="this.style.background='#343A40';" style="align-content:end">
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <i class="fas fa-plus-square"> </i>&nbsp;
+                                                <span style="font-size:15px">  Size</span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="../ItemDatatable?Id=class" class="nav-link" onmouseover="this.style.background='pink';" onmouseout="this.style.background='#343A40';" style="align-content:end">
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <i class="fas fa-plus-square"> </i>&nbsp;
+                                                <span style="font-size:15px">  Class</span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="../ItemDatatable?Id=make" class="nav-link" onmouseover="this.style.background='pink';" onmouseout="this.style.background='#343A40';" style="align-content:end">
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <i class="fas fa-plus-square"> </i>&nbsp;
+                                                <span style="font-size:15px">  Make</span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="../Itemcategory" class="nav-link" onmouseover="this.style.background='pink';" onmouseout="this.style.background='#343A40';" style="align-content:end">
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <i class="fas fa-plus-square"> </i>&nbsp;
+                                                <span style="font-size:15px">  Category</span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="../ItemDatatable?Id=unit" class="nav-link" onmouseover="this.style.background='pink';" onmouseout="this.style.background='#343A40';" style="align-content:end">
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <i class="fas fa-plus-square"> </i>&nbsp;
+                                                <span style="font-size:15px">  Unit</span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="../ItemDatatable?Id=godown" class="nav-link" onmouseover="this.style.background='pink';" onmouseout="this.style.background='#343A40';" style="align-content:end">
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <i class="fas fa-plus-square"> </i>&nbsp;
+                                                <span style="font-size:15px">  WhareHouse</span>
+                                            </a>
+                                        </li>
+
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item" id="salesmarketing">
+                            <a href="" class="nav-link" onmouseover="this.style.background='blue';" onmouseout="this.style.background='#343A40';">
+                                <i class="fas fa-tags"></i>
+                                <p style="font-size:15px">
+                                    Sales & Marketing
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item" id="salesquotationlay">
+                                    <a href="" class="nav-link" onmouseover="this.style.background='blue';" onmouseout="this.style.background='#343A40';">
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <i class="fas fa-angle-double-right"> </i>
+                                        <span style="font-size:15px">Sales Quotation</span>
+                                    </a>
+                                    <ul class="nav nav-treeview">
+                                        <li class="nav-item" id="ViewQuotationn">
+                                            <a href="../ViewQuotation" class="nav-link" onmouseover="this.style.background='pink';" onmouseout="this.style.background='#343A40';" style="align-content:end">
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <i class="fa fa-list-alt"> </i>&nbsp;
+                                                <span style="font-size:15px">List</span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="../Salesquotation" class="nav-link" onmouseover="this.style.background='pink';" onmouseout="this.style.background='#343A40';">
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <i class="fas fa-plus-square"></i>&nbsp;
+                                                <span style="font-size:15px"> Add New</span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" onmouseover="this.style.background='pink';" onmouseout="this.style.background='#343A40';" style="align-content:end">
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <i class="fa fa-list-alt"> </i>&nbsp;
+                                                <span style="font-size:15px"> Status</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="nav-item" id="proformainvoicelay">
+                                    <a href="" class="nav-link" onmouseover="this.style.background='blue';" onmouseout="this.style.background='#343A40';">
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                                        <i class="fas fa-angle-double-right"> </i>
+                                        <span style="font-size:15px"> Proforma Invoice</span>
+                                    </a>
+
+                                    <ul class="nav nav-treeview">
+                                        <li class="nav-item">
+                                            <a href="../ViewPI" class="nav-link" onmouseover="this.style.background='pink';" onmouseout="this.style.background='#343A40';" style="align-content:end">
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <i class="fa fa-list-alt"> </i>&nbsp;
+                                                <span style="font-size:15px">List</span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="../PerformaInvoice" class="nav-link" onmouseover="this.style.background='pink';" onmouseout="this.style.background='#343A40';">
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <i class="fas fa-plus-square"></i>&nbsp;
+                                                <span style="font-size:15px"> Add New</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+
+                                </li>
+                                <li class="nav-item" id="purchaseorderlay">
+                                    <a href="" class="nav-link" onmouseover="this.style.background='blue';" onmouseout="this.style.background='#343A40';">
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <i class="fas fa-angle-double-right"> </i>
+                                        <span style="font-size:15px">Purchased Order</span>
+                                    </a>
+                                    <ul class="nav nav-treeview">
+                                        <li class="nav-item">
+                                            <a href="../ViewPO" class="nav-link" onmouseover="this.style.background='pink';" onmouseout="this.style.background='#343A40';" style="align-content:end">
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <i class="fa fa-list-alt"> </i>&nbsp;
+                                                <span style="font-size:15px">List</span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="../PurchaseOrder" class="nav-link" onmouseover="this.style.background='pink';" onmouseout="this.style.background='#343A40';">
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <i class="fas fa-plus-square"></i>&nbsp;
+                                                <span style="font-size:15px"> Add New</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="nav-item" id="saleorder" style="display:none">
+                                    <a href="" class="nav-link" onmouseover="this.style.background='blue';" onmouseout="this.style.background='#343A40';">
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <i class="fas fa-angle-double-right"> </i>
+                                        <span style="font-size:15px"> Sale Order </span>
+                                    </a>
+                                    <ul class="nav nav-treeview">
+                                        <li class="nav-item">
+                                            <a href="../ViewSO" class="nav-link" onmouseover="this.style.background='pink';" onmouseout="this.style.background='#343A40';" style="align-content:end">
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <i class="fa fa-list-alt"> </i>&nbsp;
+                                                <span style="font-size:15px">List</span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="../SaleOrder" class="nav-link" onmouseover="this.style.background='pink';" onmouseout="this.style.background='#343A40';">
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <i class="fas fa-plus-square"></i>&nbsp;
+                                                <span style="font-size:15px"> Add New</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="nav-item" id="purchaseItem">
+                                    <a class="nav-link" href="" onmouseover="this.style.background='blue';" onmouseout="this.style.background='#343A40';">
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <i class="fas fa-angle-double-right"> </i>
+                                        <span style="font-size:15px"> Purchase Items </span>
+                                    </a>
+                                    <ul class="nav nav-treeview">
+                                        <li class="nav-item" id="createPR">
+                                            <a href="../ViewPR" class="nav-link" onmouseover="this.style.background='pink';" onmouseout="this.style.background='#343A40';" style="align-content:end">
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <i class="fas fa-angle-double-right"> </i>
+                                                <span style="font-size:15px"> Create</span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item" id="checkPR">
+                                            <a href="../PurchaseItemCheck" class="nav-link" onmouseover="this.style.background='pink';" onmouseout="this.style.background='#343A40';">
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <i class="fas fa-angle-double-right"> </i>
+                                                <span style="font-size:15px"> Check </span>
+                                            </a>
+                                        </li>
+
+                                    </ul>
+                                <li class="nav-item" id="priceList">
+
+                                    <a href="../PriceList" class="nav-link" onmouseover="this.style.background='red';" onmouseout="this.style.background='#343A40';">
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <i class="fas fa-angle-double-right" style="color:white"></i>
+                                        <p style="font-size:15px">Price List</p>
+                                    </a>
+                                </li>
+                        </li>
+                    </ul>
+                    </li>
+                    <li class="nav-item" id="accountfinance">
+                        <a href="#" class="nav-link" onmouseover="this.style.background='blue';" onmouseout="this.style.background='#343A40';">
+                            <i class="fa fa-bank"></i>
+                            <p style="font-size:15px">
+                                Account & Finance
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+
+                            <li class="nav-item" id="invoice">
+                                <a href="../ViewInvoice" class="nav-link" onmouseover="this.style.background='blue';" onmouseout="this.style.background='#343A40';">
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <i class="fas fa-angle-double-right"> </i>
+                                    <span style="font-size:15px"> Invoice </span>
+                                </a>
+                            </li>
+
+
+                            <li class="nav-item" id="Voucher">
+                                <a class="nav-link" href="" onmouseover="this.style.background='blue';" onmouseout="this.style.background='#343A40';">
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <i class="fas fa-angle-double-right"> </i>
+                                    <span style="font-size:15px"> Voucher </span>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item" id="createSale">
+                                        <a href="../ViewSale" class="nav-link" onmouseover="this.style.background='pink';" onmouseout="this.style.background='#343A40';" style="align-content:end">
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <i class="fas fa-angle-double-right"> </i>
+                                            <span style="font-size:15px"> Sale</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item" id="createPurchase">
+                                        <a href="../ViewPurchase" class="nav-link" onmouseover="this.style.background='pink';" onmouseout="this.style.background='#343A40';">
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <i class="fas fa-angle-double-right"> </i>
+                                            <span style="font-size:15px"> Purchase </span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item" id="createDebitNote">
+                                        <a href="../ViewCreditDebitNote" class="nav-link" onmouseover="this.style.background='pink';" onmouseout="this.style.background='#343A40';">
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <i class="fas fa-angle-double-right"> </i>
+                                            <span style="font-size:15px">Credit/Debit Note </span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item" id="createReceipt">
+                                        <a href="../PaymentReceipt" class="nav-link" onmouseover="this.style.background='pink';" onmouseout="this.style.background='#343A40';">
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <i class="fas fa-angle-double-right"> </i>
+                                            <span style="font-size:15px"> Payment /Receipt </span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <li class="nav-item" id="invoice">
+                                <a href="../BillWiseOustanding" class="nav-link" onmouseover="this.style.background='blue';" onmouseout="this.style.background='#343A40';">
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <i class="fas fa-angle-double-right"> </i>
+                                    <span style="font-size:15px"> Bill Wise OutStanding </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item" id="dispachtedlogistics">
+                        <a href="#" class="nav-link" onmouseover="this.style.background='blue';" onmouseout="this.style.background='#343A40';">
+                            <i class="fa fa-truck"></i>
+                            <p style="font-size:15px">
+                                Dispatched & Logistics
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item" id="dispatchedplanning">
+                                <a href="../DispachtedPlanning" class="nav-link" onmouseover="this.style.background='blue';" onmouseout="this.style.background='#343A40';">
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <i class="fas fa-angle-double-right"> </i>
+                                    <span style="font-size:15px">Dispatched Planning </span>
+                                </a>
+                            </li>
+                            <li class="nav-item" id="dispatchedorder">
+                                <a class="nav-link" href="" onmouseover="this.style.background='blue';" onmouseout="this.style.background='#343A40';">
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <i class="fas fa-angle-double-right"> </i>
+                                    <span style="font-size:15px"> Dispachted Order </span>
+                                </a>
+
+                                <ul class="nav nav-treeview">
+
+                                    <li class="nav-item" id="createDO">
+
+                                        <a href="../ViewDispachtedOrder" class="nav-link" onmouseover="this.style.background='pink';" onmouseout="this.style.background='#343A40';" style="align-content:end">
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <i class="fas fa-angle-double-right"> </i>
+                                            <span style="font-size:15px"> Create</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item" id="checkDO">
+
+                                        <a href="../DispachtedOrderCheck" class="nav-link" onmouseover="this.style.background='pink';" onmouseout="this.style.background='#343A40';">
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <i class="fas fa-angle-double-right"> </i>
+                                            <span style="font-size:15px"> Check </span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <li class="nav-item" id="viewPhysicalStock">
+                                <a href="../PhysicalStock" class="nav-link" onmouseover="this.style.background='blue';" onmouseout="this.style.background='#343A40';">
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <i class="fas fa-angle-double-right"> </i>
+                                    <span style="font-size:15px">Physical Stock </span>
+                                </a>
+                            </li>
+                            <li class="nav-item" id="">
+                                <a href="../ItemReserved" class="nav-link" onmouseover="this.style.background='blue';" onmouseout="this.style.background='#343A40';">
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <i class="fas fa-angle-double-right"> </i>
+                                    <span style="font-size:15px">Reserved Items</span>
+                                </a>
+                            </li>
+
+                            <li class="nav-item" id="">
+                                <a href="../IndentItems" class="nav-link" onmouseover="this.style.background='blue';" onmouseout="this.style.background='#343A40';">
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <i class="fas fa-angle-double-right"> </i>
+                                    <span style="font-size:15px">Indent Items</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="user-panel" style="background-color:white"></li>
+                    <li class="nav-item" id="reports">
+                        <a href="../Reports" class="nav-link" onmouseover="this.style.background='blue';" onmouseout="this.style.background='#343A40';">
+                            <i class="fa fa-file-text"></i>
+                            <p style="font-size:15px">Reports</p>
+                        </a>
+
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="../StockDashboard" class="nav-link" onmouseover="this.style.background='pink';" onmouseout="this.style.background='#343A40';" style="align-content:end">
+                                    &nbsp;&nbsp;&nbsp;
+                                    <i class="fas fa-tachometer-alt"> </i>&nbsp;
+                                    <span style="font-size:15px">Dashboard</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../StockReport" class="nav-link" onmouseover="this.style.background='pink';" onmouseout="this.style.background='#343A40';" style="align-content:end">
+                                    &nbsp;&nbsp;&nbsp;
+                                    <i class="fas fa-warehouse"> </i>&nbsp;
+                                    <span style="font-size:15px">Stock Report</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../TransportReport" class="nav-link" onmouseover="this.style.background='pink';" onmouseout="this.style.background='#343A40';" style="align-content:end">
+                                    &nbsp;&nbsp;&nbsp;
+                                    <i class="fa fa-truck"> </i>&nbsp;
+                                    <span style="font-size:15px">Transport Report</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../LoadingReport" class="nav-link" onmouseover="this.style.background='pink';" onmouseout="this.style.background='#343A40';" style="align-content:end">
+                                    &nbsp;&nbsp;&nbsp;
+                                    <i class="fas fa-truck-pickup"> </i>&nbsp;
+                                    <span style="font-size:15px">Loading /UnLoading Report</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../MaterialShifting" id="MaterialShifting" class="nav-link" onmouseover="this.style.background='pink';" onmouseout="this.style.background='#343A40';" style="align-content:end">
+                                    &nbsp;&nbsp;&nbsp;
+                                    <i class="fas fa-truck-pickup"> </i>&nbsp;
+                                    <span style="font-size:15px">Material Shifting</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../GeneralEntry" id="GeneralEntry" class="nav-link" onmouseover="this.style.background='pink';" onmouseout="this.style.background='#343A40';" style="align-content:end">
+                                    &nbsp;&nbsp;&nbsp;
+                                    <i class="fas fa-truck-pickup"> </i>&nbsp;
+                                    <span style="font-size:15px">General Entry</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="user-panel" style="background-color:white"></li>
+
+                    <li class="nav-item">
+                        <a href="../TaskDashboard" class="nav-link" onmouseover="this.style.background='red';" onmouseout="this.style.background='#343A40';">
+                            <i class="fa fa-tasks" style="color:white"></i>
+                            <p style="font-size:15px">Task Manager</p>
+                            &nbsp;&nbsp;
+                            <span class="badge badge-danger navbar-badge" id="taskcounter">0</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" onclick="logout()" onmouseover="this.style.background='red';" onmouseout="this.style.background='#343A40';">
+                            <i class="fas fa-sign-in-alt" style="color:white"></i>
+                            <p style="font-size:15px">LogOut</p>
+                        </a>
+                    </li>
+                    </ul>
+                </nav>
+            </div>
+            <center>
+                <ul style="position: absolute; bottom: 0px" class="nav nav-pills nav-sidebar ">
+
+                    <li class="nav-item">
+
+                        <div class="col" style="font-size:12px">
+                            &nbsp;&nbsp;&nbsp;
+                            <i class="fas fa-shield-alt" style="color:white"></i>
+                            <span style="color:white">  100% Secure</span>
+                            &nbsp;&nbsp;&nbsp;
+                            <span style="color:white">  ISO Certified</span>
+                            <input type="text" id="roletype" hidden />
+                        </div>
+
+                    </li>
+
+
+                    <li style="background-color:white ;width:250px;height:2px"></li>
+
+                    <li class="nav-item">
+                        &nbsp;&nbsp;&nbsp; &nbsp;
+                        <img src="../imgs/inventory.jpeg" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8; width:30px;height:30px">
+                        <span style="color:white;font-size:15px">Inventory</span>
+                        <span style="color:white;font-size:8px">by SBS Digital Infotech</span>
+                    </li>
+                </ul>
+            </center>
+        </aside>
+
+        <div class="content-wrapper">
+            <!-- /.content-header -->
+            <main role="main" class="content">
+                <div class="container-fluid">
+                    @RenderBody()
+                </div>
+            </main>
+        </div>
+        <aside class="control-sidebar control-sidebar-dark">
+        </aside>
+
+    </div>
+
+    <div class="modal fade" id="switchcompany" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog " style="max-width: 30%;" role="document">
+            <div class="modal-content">
+                <table id="companylist" class="styled-table" style=" margin: auto; width: 100%;  border-radius: 50px;">
+                    <thead>
+                        <tr style="background-color:blueviolet">
+                            <th style="font-family: 'sans-serif'; font-weight: normal; color: white; ">Company name</th>
+                            <th style="font-family: 'sans-serif'; font-weight: normal; color: white ">financial Year</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="logsDetails" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color:darkslategrey">
+                    <span style="color:white">Logs</span>
+                    <button style="color:white" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group" id="vchdisp" style="display:none">
+                                <span>Voucher No :-</span>
+                                <span id="vchno1"> </span>
+                            </div>
+                            <div class="form-group">
+                                <span>Comapny Name :-</span>
+                                <span id="logsCompanyName"> </span>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <table id="logsDatatable" class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th style="font-family: 'sans-serif'; font-weight: normal;">Username</th>
+                                        <th style="font-family: 'sans-serif'; font-weight: normal;">Date</th>
+                                        <th style="font-family: 'sans-serif'; font-weight: normal;">Status</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+    <a data-toggle="modal" id="pricelistbutton" data-target="#PriceListModel" data-backdrop="static"> deepak </a>
+
+    <div class="modal fade" id="PriceListModel" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color:darkslategrey">
+                    <span style="color:white">Price List</span>
+                    <button style="color:white" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table id="PriceListTable" class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th style="font-family: 'sans-serif'; font-weight: normal;">Date</th>
+                                        <th style="font-family: 'sans-serif'; font-weight: normal;">Make</th>
+                                        <th style="font-family: 'sans-serif'; font-weight: normal;">Price</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- jQuery -->
+    <script src="../plugins/jquery/jquery.min.js"></script>
+    <!-- jQuery UI 1.11.4 -->
+    <script src="../plugins/jquery-ui/jquery-ui.min.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Sparkline -->
+    <script src="../plugins/sparklines/sparkline.js"></script>
+    <!-- jQuery Knob Chart -->
+    <script src="../plugins/jquery-knob/jquery.knob.min.js"></script>
+    <!-- daterangepicker -->
+    <script src="../plugins/moment/moment.min.js"></script>
+    <script src="../plugins/daterangepicker/daterangepicker.js"></script>
+    <!-- Tempusdominus Bootstrap 4 -->
+    <script src="../plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+    <!-- Summernote -->
+    <script src="../plugins/summernote/summernote-bs4.min.js"></script>
+    <!-- overlayScrollbars -->
+    <script src="../plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="../dist/js/adminlte.js"></script>
+    <script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="../../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+    <script src="~/js/Common.js"></script>
+
+    <style>
+        .special {
+            cursor: pointer;
+        }
+
+        .select2-container .select2-selection--single {
+            height: 34px !important;
+        }
+
+        .select2-container--default .select2-selection--single {
+            border: 1px solid #ccc !important;
+            border-radius: 0px !important;
+        }
+
+        .activee {
+            background: gold !important;
+        }
+    </style>
+
+</body>
+</html>
+
+

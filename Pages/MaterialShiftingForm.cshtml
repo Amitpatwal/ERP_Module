@@ -1,0 +1,343 @@
+﻿@page
+@model SalesQaModel
+@{
+
+    ViewData["Title"] = "Home page";
+
+}
+<!-- Content Wrapper. Contains page content -->
+<!-- Begin Page Content -->
+
+<body class="hold-transition sidebar-mini">
+    <span id="msnodigit" hidden></span>
+    <span id="tempsave" hidden>Save</span>
+    <span id="tempmsno" hidden></span>
+  
+    <div class="container-fluid">
+        <div>
+            <nav class="navbar navbar-expand-sm  navbar-dark" style="background-color: #FBFBFD; position: sticky; top: 0; z-index: 3;">
+                <ul class="navbar-nav">
+                    <li class="nav-item active">
+                        <a href="../MaterialShifting" style="font-size:30px" class="fa fa-arrow-circle-left"></a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" style="color:black">Material Shifting</a>
+
+                    </li>
+                </ul>
+                <ul class="navbar-nav ml-auto">
+
+
+
+                    <li class="nav-item" id="printbton" style="display:none">
+                        <a onclick="printMaterialShiftingButton()" id="printbutton" class=" d-sm-inline-block btn btn-sm btn-primary shadow-sm" style="color:black ;background-color:white;">
+                            <i class="fa fa-print " style="font-size:24px"></i>
+                            &nbsp;&nbsp;
+                            Print
+                        </a>
+                    </li>
+                    &nbsp;
+                    <li class="nav-item" id="saveButton">
+                        <a onclick="permanentsave()" class=" d-sm-inline-block btn btn-sm btn-primary shadow-sm" style="color:black ;background-color:white;">
+                            <i class="fa fa-save " style="font-size:24px"></i>
+                            &nbsp;&nbsp;
+                            <span id="saveform">Save</span>
+                        </a>
+                    </li>
+                    &nbsp;
+                    <li class="nav-item" id="approved" style="display:none">
+                        &nbsp;
+                        <a onclick="Approved()" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" style="color:white ;background-color:green; ">
+                            <span class="fa fa-check " style="font-size:24px"></span>
+                            &nbsp;&nbsp;
+                            <span>Approved</span>
+                        </a>
+                    </li>
+                    <li class="nav-item" id="rejected" style="display:none">
+                        &nbsp;
+                        <a onclick="Rejected()" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" style="color:white ;background-color:red; ">
+                            <span class="fa fa-close " style="font-size:24px"></span>
+                            &nbsp;&nbsp;
+                            <span>Rejected</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+
+            <div>
+                <!-- Main content -->
+                <section class="content">
+                    <div class="container-fluid">
+                        <!-- SELECT2 EXAMPLE -->
+                        <div class="card card-default">
+                            <!-- /.card-header -->
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <span>Material Shifting No.:</span>
+                                            <input type="text" id="voucherno" readonly class="form-control">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <span> Date  :</span>
+                                            <input type="datetime-local" id="Voucherdate" class="form-control" placeholder="Remarks" />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <span id="shiftlabel">Shifting Incharge</span> &nbsp;	&nbsp;
+                                            <input type="text" id="shiftingIncharge" class="form-control" placeholder="Shifting Incharge">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <div>
+                <!-- Main content -->
+                <section class="content">
+                    <div class="container-fluid">
+                        <div class="card card-default">
+                            <div class="card-header">
+                                <div class="container-fluid">
+                                    <div class="col-md-8">
+                                        <span>Transport Details  </span>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <span>Transport Name</span>
+                                            <input type="text" id="transportName" class="form-control" placeholder="Driver Name" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <span>Driver Name</span>
+                                            <input type="text" id="driverName" class="form-control" placeholder="Driver Name" />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <span>Vechile No</span>
+                                            <input type="text" id="vechileNo" class="form-control" placeholder="Vechile No" />
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <span>Remarks</span>
+                                            <textarea type="text" id="remarks" class="form-control" placeholder="Remarks"></textarea>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+
+            <!--</section>-->
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+
+                        <div class="card">
+                            <!-- /.card-header -->
+                            <div class="card-body">
+                                <button type="button" class="btn btn-primary" onclick="filldetails()" data-toggle="modal" id="adddd" data-target="#exampleModal" data-backdrop="static">Add New Item</button>
+
+                                <div class="modal fade" id="exampleModal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header" style="background-color:darkslategrey">
+                                                <h5 style="color:white;color:white">Add New Item</h5>&nbsp;&nbsp;&nbsp;
+
+                                                <button style="color:white" type="button" class="close" data-dismiss="modal" tabindex="-1" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="row">
+                                                    <input type="text" style="width:40px;border:none;" hidden readonly id="itemid">
+                                                    <div class="col-md-6">
+                                                        <div class="input-group">
+                                                            <span id="namecolor">Item Name  *</span><br />
+                                                            <select tabIndex="1" class="form-control" id="txtName" onchange="getsize()" style="width: 100%;">
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="input-group">
+                                                            <span>Item Size</span>
+                                                            <select tabIndex="2" class="form-control" id="txtSize" onchange="getclass()" style="width: 100%;">
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="input-group">
+                                                            <span>Class/Thk</span>
+                                                            <select tabIndex="3" class="form-control" id="txtClass" onchange="checkalternateunit()" style="width: 100%;">
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="input-group">
+                                                            <span>Item Make</span>
+                                                            <select tabindex="4" class="form-control" id="txtMake" style="width: 100%; height:40px;">
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <span>From WhareHouse</span>
+                                                            <select tabindex="5" class="form-control" id="frmWarehouse" style="width: 100%; height:40px;">
+                                                            </select>
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <span> to WhareHouse</span>
+                                                            <select tabindex="6" class="form-control" id="toWarehouse" style="width: 100%; height:40px;">
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="input-group">
+                                                            <span>Qty No.</span><br />
+                                                            <div class="row">
+                                                                <input tabindex="7"  type="number" onkeyup="CurrentStock()" class="form-control" style="width:80%" id="QtyNo" />
+                                                                <input type="text" class="form-control" style="width:20%" id="QtyUnit" disabled />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6" id="AltDiv" style="display:none">
+                                                        <div class="input-group">
+                                                            <span>Alt qty No.</span><br />
+                                                            <input tabindex="8" type="number" class="form-control" style="width:80%" id="AltQtyNo" />
+                                                            <input type="text" class="form-control" style="width:20%" id="AltQtyUnit" disabled />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="modal-footer">
+                                                <span> Current Stock :</span>
+                                                <span id="currentStock"></span>
+
+
+                                                <button type="button" tabindex="10" class="btn btn-primary" onclick="adddetails()" id="saveebutton1">Save</button>
+                                                <button id="resetitem" type="button" class="btn btn-danger" onclick="cleardataitem()">Reset</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <table id="ItemTable" class="table table-bordered table-hover ">
+                                    <thead>
+                                        <tr>
+                                            <th style="font-family: 'sans-serif'; font-weight: normal; text-align: center; "></th>
+                                            <th style="font-family: 'sans-serif'; font-weight: normal; text-align: center;  ">Item Description</th>
+                                            <th style="font-family: 'sans-serif'; font-weight: normal; text-align: center; ">Make</th>
+                                            <th style="font-family: 'sans-serif'; font-weight: normal; text-align: center; ">From WhareHouse</th>
+                                            <th style="font-family: 'sans-serif'; font-weight: normal; text-align: center; ">TO WhareHouse</th>
+                                            <th style="font-family: 'sans-serif'; font-weight: normal; text-align: center; ">Req. Qty</th>
+                                            <th style="font-family: 'sans-serif'; font-weight: normal; text-align: center; ">Alt Qty</th>
+                                            <th style="font-family: 'sans-serif'; font-weight: normal; text-align: center; ">Action</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <link href="https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../../plugins/select2/css/select2.min.css">
+    <link rel="stylesheet" href="~/plugins/daterangepicker/daterangepicker.css">
+    <link rel="stylesheet" href="~/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+    <link href="~/js/Plugin/jquery-customselect.css" rel="stylesheet" />
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+    <link href="~/css/loading.css" rel="stylesheet" />
+
+
+    @section Scripts{
+
+
+        <script src="~/js/MaterialShifting.js"></script>
+
+
+        <link href="~/css/jquery-customselect-1.9.1.css" rel="stylesheet" />
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="~/js/Plugin/jquery-customselect.js"></script>
+        <script src="../plugins/select2/js/select2.full.min.js"></script>
+
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+
+        <script src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap.min.js"></script>
+
+        <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
+
+        <script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+        <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
+        <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
+
+
+        <link href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css " rel="stylesheet" type="text/css" />
+        <link href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css" />
+        <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.colVis.min.js"></script>
+
+    }
+    <link href="~/css/elements.css" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <script type="text/javascript">
+        $('body').on('keydown', 'input, select', function (e) {
+            if (e.key === "Enter") {
+                var self = $(this), form = self.parents('form:eq(0)'), focusable, next;
+                focusable = form.find('input,a,select,button,textarea').filter(':not([disabled]):not([tabindex="-1"]):visible');
+                next = focusable.eq(focusable.index(this) + 1);
+                if (next.length) {
+                    next.focus();
+                } else {
+
+                }
+                return false;
+            }
+        });
+    </script>
+
+
+
+
+
+</body>
